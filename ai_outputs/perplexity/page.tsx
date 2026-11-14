@@ -142,18 +142,21 @@ function FloatingLilies() {
 function Reveal({
   children,
   delay = 0,
-  y = 48,
+  y = 30,
+  className = "",
 }: {
   children: React.ReactNode;
   delay?: number;
   y?: number;
+  className?: string;
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y, filter: "blur(14px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-18% 0px -18% 0px" }}
-      transition={{ duration: 1.05, delay, ease: EASE }}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-8% 0px -8% 0px" }}
+      transition={{ duration: 0.85, delay, ease: EASE }}
+      className={className}
     >
       {children}
     </motion.div>
@@ -192,7 +195,9 @@ function TiltCard({
       ref={ref}
       onPointerMove={handleMove}
       onPointerLeave={reset}
-      className={`[perspective:1200px] ${className}`}
+      onPointerUp={reset}
+      onPointerCancel={reset}
+      className={`[perspective:1200px] touch-pan-y ${className}`}
     >
       <motion.div
         style={{
@@ -382,55 +387,57 @@ function EntranceGate({ onOpen }: { onOpen: () => void }) {
     <motion.div
       className="fixed inset-0 z-50 grid place-items-center bg-black px-6"
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 1.08, filter: "blur(18px)" }}
-      transition={{ duration: 0.9, ease: EASE }}
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 0.8, ease: EASE }}
     >
       <motion.div
-        className="absolute inset-0 opacity-70"
+        className="absolute inset-0 opacity-70 pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.13), transparent 55%)",
+            "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.12), transparent 60%)",
         }}
-        animate={{ scale: [1, 1.25, 1], opacity: [0.35, 0.8, 0.35] }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.7, 0.3] }}
         transition={{ duration: 4, repeat: Infinity }}
       />
-      <div className="relative text-center">
+      <div className="relative text-center max-w-sm mx-auto">
         <motion.p
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.8, ease: EASE }}
-          className="text-[10px] font-black uppercase tracking-[0.55em] text-white/45"
+          transition={{ delay: 0.2, duration: 0.7, ease: EASE }}
+          className="text-[11px] font-black uppercase tracking-[0.55em] text-white/50"
         >
           18 · 11 · 2010
         </motion.p>
         <motion.h1
-          initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ delay: 0.45, duration: 1.1, ease: EASE }}
-          className="mt-5 bg-gradient-to-b from-white via-white to-white/25 bg-clip-text text-[clamp(4.2rem,22vw,10rem)] font-black leading-none tracking-tight text-transparent"
+          initial={{ opacity: 0, scale: 0.88 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.35, duration: 0.85, ease: EASE }}
+          className="mt-5 text-[clamp(4.2rem,22vw,10rem)] font-black leading-none tracking-tight text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.35)]"
         >
           PRINCE
         </motion.h1>
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8, ease: EASE }}
-          className="mx-auto mt-4 max-w-xs text-sm text-white/55"
+          transition={{ delay: 0.5, duration: 0.7, ease: EASE }}
+          className="mx-auto mt-4 text-sm text-white/60 font-medium"
         >
           A birthday experience engineered for the main character.
         </motion.p>
         <motion.button
           onClick={onOpen}
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.05, duration: 0.8, ease: EASE }}
+          transition={{ delay: 0.65, duration: 0.7, ease: EASE }}
           whileTap={{ scale: 0.94 }}
-          className="group relative mt-9 overflow-hidden rounded-full border border-white/20 bg-white/10 px-8 py-4 backdrop-blur-xl transition hover:bg-white/15"
+          className="group relative mt-9 cursor-pointer overflow-hidden rounded-full border border-white/30 bg-white/15 px-8 py-4 backdrop-blur-xl transition hover:bg-white/25 active:bg-white/30"
         >
-          <span className="relative z-10 text-xs font-black uppercase tracking-[0.3em] text-white">Open the celebration</span>
+          <span className="relative z-10 text-xs font-black uppercase tracking-[0.3em] text-white">
+            Open the celebration →
+          </span>
           <motion.span
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
-            animate={{ x: ["-110%", "110%"] }}
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none"
+            animate={{ x: ["-100%", "100%"] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
           />
         </motion.button>
@@ -442,16 +449,12 @@ function EntranceGate({ onOpen }: { onOpen: () => void }) {
 /* --------------------------------- Page ---------------------------------- */
 export default function BirthdayPage() {
   const [entered, setEntered] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  const { scrollYProgress } = useScroll();
 
-  const heroScale = useTransform(scrollYProgress, [0, 0.22], [1, 0.82]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.22], [1, 0.88]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.22], [0, -90]);
-  const glowScale = useTransform(scrollYProgress, [0, 1], [1, 2.4]);
+  const heroY = useTransform(scrollYProgress, [0, 0.22], [0, -60]);
+  const glowScale = useTransform(scrollYProgress, [0, 1], [1, 1.8]);
   const glowOpacity = useTransform(scrollYProgress, [0, 0.7], [0.5, 0]);
 
   useEffect(() => {
@@ -460,10 +463,7 @@ export default function BirthdayPage() {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative min-h-screen overflow-x-hidden bg-black text-white antialiased selection:bg-white selection:text-black"
-    >
+    <div className="relative min-h-screen overflow-x-hidden bg-black text-white antialiased selection:bg-white selection:text-black">
       <AnimatePresence>
         {!entered && <EntranceGate onOpen={() => setEntered(true)} />}
       </AnimatePresence>
@@ -471,12 +471,12 @@ export default function BirthdayPage() {
       <FloatingLilies />
 
       <motion.div
-        className="pointer-events-none fixed left-1/2 top-[-25%] z-0 h-[85vh] w-[130vw] -translate-x-1/2 rounded-full blur-[140px]"
+        className="pointer-events-none fixed left-1/2 top-[-20%] z-0 h-[70vh] w-[120vw] -translate-x-1/2 rounded-full"
         style={{
           scale: glowScale,
           opacity: glowOpacity,
           background:
-            "radial-gradient(circle, rgba(255,255,255,0.11), transparent 62%)",
+            "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 65%)",
         }}
       />
 
@@ -488,30 +488,30 @@ export default function BirthdayPage() {
             className="relative"
           >
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={entered ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.15, duration: 0.9, ease: EASE }}
+              transition={{ delay: 0.15, duration: 0.8, ease: EASE }}
               className="mx-auto w-fit rounded-full border border-white/12 bg-white/[0.04] px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-white/60 backdrop-blur-md"
             >
               Happy Birthday
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 60, filter: "blur(22px)" }}
-              animate={entered ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-              transition={{ delay: 0.3, duration: 1.25, ease: EASE }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={entered ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ delay: 0.3, duration: 1.1, ease: EASE }}
               className="mt-6 text-center text-[clamp(4.5rem,25vw,12rem)] font-black leading-none tracking-tight"
             >
-              <span className="block bg-gradient-to-b from-white via-white to-white/20 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-b from-white via-zinc-100 to-zinc-400 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(255,255,255,0.2)]">
                 PRINCE
               </span>
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={entered ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.55, duration: 0.9, ease: EASE }}
-              className="mx-auto mt-5 max-w-xs text-center text-sm leading-relaxed text-white/55"
+              transition={{ delay: 0.45, duration: 0.8, ease: EASE }}
+              className="mx-auto mt-5 max-w-xs text-center text-sm leading-relaxed text-white/60"
             >
               Born on <span className="font-semibold text-white">18 November 2010</span>. Today, the entire universe celebrates you.
             </motion.p>
