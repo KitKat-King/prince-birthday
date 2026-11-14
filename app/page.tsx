@@ -1,1090 +1,657 @@
-/**
- * PRINCE — THE BIRTHDAY EXPERIENCE
- * ------------------------------------------------------------
- * Next.js App Router · "use client"
- * Dependencies: framer-motion, tailwindcss
- *
- * This is a single-file masterpiece. Spotlight, Sparkles,
- * TiltCard, FloatingLilies, the entrance, and all scroll
- * reveals are recreated inline with Framer Motion — no
- * Aceternity UI install required.
- *
- * Music player is a visual experience. Wire `TRACKS` to real
- * audio URLs when you have them.
- * ------------------------------------------------------------
- */
-
 "use client";
 
-import React, {
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+/* =====================================================================
+   HAPPY BIRTHDAY, PRINCE — a cinematic, scroll-driven birthday experience
+   Stack : Next.js (App Router) + TailwindCSS + Framer Motion
+   Drop into app/page.tsx, then:  npm i framer-motion lucide-react
+   ===================================================================== */
+
+import { useEffect, useRef, useState } from "react";
 import {
-  AnimatePresence,
-  motion,
-  useInView,
-  useMotionTemplate,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
+  motion, AnimatePresence, useScroll, useTransform,
+  useSpring, useMotionValue, useInView,
 } from "framer-motion";
+import { Play, Pause, Sparkles, Music, Flower2, Cake, ChevronDown, Heart, Crown } from "lucide-react";
+import { Playfair_Display, Inter } from "next/font/google";
 
-/* ------------------------------------------------------------------ */
-/*  Utilities                                                          */
-/* ------------------------------------------------------------------ */
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700", "900"], variable: "--font-playfair" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const cn = (...classes: (string | false | null | undefined)[]) =>
-  classes.filter(Boolean).join(" ");
-
-const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
-
-/** Deterministic pseudo-random — avoids hydration mismatches. */
-const seeded = (seed: number) => {
-  const x = Math.sin(seed * 999) * 10000;
-  return x - Math.floor(x);
-};
-
-/* ------------------------------------------------------------------ */
-/*  Lily                                                               */
-/* ------------------------------------------------------------------ */
-
-function Lily({
-  className,
-  style,
-}: {
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  const rawId = useId().replace(/:/g, "");
-  const strokeId = `lily-stroke-${rawId}`;
-  const fillId = `lily-fill-${rawId}`;
-
+/* ============================== LILY ================================ */
+function Lily({ size = 60, className = "" }: { size?: number; className?: string }) {
   return (
-    <svg
-      viewBox="0 0 120 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      style={style}
-    >
-      <defs>
-        <linearGradient
-          id={strokeId}
-          x1="20"
-          y1="10"
-          x2="100"
-          y2="110"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#ffffff" stopOpacity="0.9" />
-          <stop offset="0.45" stopColor="#e4e4e7" stopOpacity="0.55" />
-          <stop offset="1" stopColor="#71717a" stopOpacity="0.15" />
-        </linearGradient>
-        <linearGradient
-          id={fillId}
-          x1="60"
-          y1="8"
-          x2="60"
-          y2="112"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#ffffff" stopOpacity="0.14" />
-          <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-
-      {/* back petals */}
-      <path
-        d="M60 20C46 4 20 9 23 31c2 17 21 27 37 35"
-        stroke={`url(#${strokeId})`}
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
-      <path
-        d="M60 20c14-16 40-11 37 11-2 17-21 27-37 35"
-        stroke={`url(#${strokeId})`}
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
-
-      {/* side petals */}
-      <path
-        d="M60 66C43 54 16 51 12 70c-4 19 20 30 36 34"
-        stroke={`url(#${strokeId})`}
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
-      <path
-        d="M60 66c17-12 44-15 48 4 4 19-20 30-36 34"
-        stroke={`url(#${strokeId})`}
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
-
-      {/* front petal */}
-      <path
-        d="M60 66c-7 9-20 16-20 28 0 11 9 19 20 19s20-8 20-19c0-12-13-19-20-28Z"
-        fill={`url(#${fillId})`}
-        stroke={`url(#${strokeId})`}
-        strokeWidth="1.2"
-      />
-      <path
-        d="M60 66v46"
-        stroke={`url(#${strokeId})`}
-        strokeWidth="1"
-        strokeLinecap="round"
-      />
-      <circle cx="60" cy="60" r="2.2" fill="#ffffff" fillOpacity="0.8" />
+    <svg viewBox="0 0 100 100" width={size} height={size} className={className}>
+      {[0, 60, 120, 180, 240, 300].map((r) => (
+        <path key={r} d="M50 50 C 40 30, 42 12, 50 4 C 58 12, 60 30, 50 50 Z"
+          fill="currentColor" opacity={r % 120 === 0 ? 0.95 : 0.6} transform={`rotate(${r} 50 50)`} />
+      ))}
+      {[20, 90, 160].map((r) => (
+        <line key={r} x1="50" y1="50" x2="50" y2="14" stroke="#fbbf24" strokeWidth="1.8"
+          strokeLinecap="round" transform={`rotate(${r} 50 50)`} />
+      ))}
+      {[20, 90, 160].map((r) => (
+        <circle key={r} cx="50" cy="13" r="2.4" fill="#fde68a" transform={`rotate(${r} 50 50)`} />
+      ))}
+      <circle cx="50" cy="50" r="4.5" fill="#fbbf24" />
     </svg>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Spotlight (Aceternity-inspired)                                    */
-/* ------------------------------------------------------------------ */
-
-function Spotlight() {
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2 }}
-        className="absolute -top-[40%] left-1/2 h-[80vh] w-[120vw] -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ x: ["-10%", "10%", "-10%"], rotate: [-8, 8, -8] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-1/2 top-0 h-[70vh] w-[70vw] -translate-x-1/2 rounded-full bg-white/[0.06] blur-[120px]"
-        />
-        <motion.div
-          animate={{ x: ["8%", "-8%", "8%"], rotate: [6, -6, 6] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute right-0 top-[10%] h-[60vh] w-[50vw] rounded-full bg-zinc-400/[0.04] blur-[120px]"
-        />
-      </motion.div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Sparkles (lightweight, dependency-free)                            */
-/* ------------------------------------------------------------------ */
-
-function Sparkles({
-  count = 40,
-  className,
-}: {
-  count?: number;
-  className?: string;
-}) {
-  const sparkles = useMemo(
-    () =>
-      Array.from({ length: count }).map((_, i) => ({
-        id: i,
-        x: seeded(i + 1) * 100,
-        y: seeded(i + 2) * 100,
-        size: seeded(i + 3) * 2 + 0.8,
-        delay: seeded(i + 4) * 6,
-        duration: seeded(i + 5) * 4 + 2,
-        opacity: seeded(i + 6) * 0.5 + 0.2,
-      })),
-    [count]
-  );
-
-  return (
-    <div
-      className={cn(
-        "pointer-events-none absolute inset-0 overflow-hidden",
-        className
-      )}
-    >
-      {sparkles.map((s) => (
-        <motion.span
-          key={s.id}
-          className="absolute rounded-full bg-white"
-          style={{
-            left: `${s.x}%`,
-            top: `${s.y}%`,
-            width: s.size,
-            height: s.size,
-          }}
-          animate={{
-            opacity: [0, s.opacity, 0],
-            scale: [0.5, 1.2, 0.5],
-          }}
-          transition={{
-            duration: s.duration,
-            delay: s.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Floating Lilies                                                    */
-/* ------------------------------------------------------------------ */
+const LILIES = [
+  { left: "4%", top: "12%", size: 54, dur: 9, delay: 0, blur: 0, o: 0.55, tint: "text-amber-100/70" },
+  { left: "78%", top: "8%", size: 42, dur: 11, delay: 1.2, blur: 1, o: 0.4, tint: "text-violet-200/60" },
+  { left: "64%", top: "30%", size: 68, dur: 13, delay: 0.6, blur: 2, o: 0.25, tint: "text-amber-200/50" },
+  { left: "10%", top: "46%", size: 36, dur: 10, delay: 2, blur: 1, o: 0.35, tint: "text-white/50" },
+  { left: "84%", top: "58%", size: 58, dur: 12, delay: 0.4, blur: 0, o: 0.45, tint: "text-amber-100/60" },
+  { left: "24%", top: "72%", size: 46, dur: 14, delay: 1.6, blur: 2, o: 0.3, tint: "text-violet-200/50" },
+  { left: "58%", top: "84%", size: 62, dur: 10, delay: 2.4, blur: 1, o: 0.35, tint: "text-white/40" },
+  { left: "38%", top: "4%", size: 30, dur: 8, delay: 3, blur: 2, o: 0.4, tint: "text-amber-200/60" },
+];
 
 function FloatingLilies() {
-  const lilies = useMemo(
-    () =>
-      Array.from({ length: 14 }).map((_, i) => ({
-        id: i,
-        left: seeded(i + 11) * 100,
-        top: seeded(i + 12) * 100,
-        size: seeded(i + 13) * 46 + 24,
-        delay: seeded(i + 14) * 8,
-        duration: seeded(i + 15) * 14 + 14,
-        opacity: seeded(i + 16) * 0.18 + 0.06,
-        rotate: seeded(i + 17) * 40 - 20,
-      })),
-    []
-  );
-
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, 220]);
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {lilies.map((l) => (
-        <motion.div
-          key={l.id}
-          className="absolute"
-          style={{
-            left: `${l.left}%`,
-            top: `${l.top}%`,
-            width: l.size,
-            height: l.size,
-            opacity: l.opacity,
-            rotate: l.rotate,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            x: [0, 12, 0],
-            rotate: [l.rotate, l.rotate + 10, l.rotate],
-          }}
-          transition={{
-            duration: l.duration,
-            delay: l.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <Lily className="h-full w-full" />
+    <motion.div style={{ y }} className="pointer-events-none fixed inset-0 z-[1] overflow-hidden">
+      {LILIES.map((l, i) => (
+        <motion.div key={i} className={`absolute ${l.tint}`}
+          style={{ left: l.left, top: l.top, opacity: l.o,
+            filter: l.blur ? `blur(${l.blur}px)` : "drop-shadow(0 0 14px rgba(251,191,36,0.35))" }}
+          animate={{ y: [0, -34, 0], x: [0, 12, 0], rotate: [0, 14, -10, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: l.dur, delay: l.delay, repeat: Infinity, ease: "easeInOut" }}>
+          <Lily size={l.size} />
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Scroll Reveal                                                      */
-/* ------------------------------------------------------------------ */
-
-function ScrollReveal({
-  children,
-  className,
-  delay = 0,
-  y = 40,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  y?: number;
-}) {
+/* =========================== SPOTLIGHT ============================== */
+function Spotlight() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, {
-    once: true,
-    margin: "-10% 0px -10% 0px",
-  });
+  useEffect(() => {
+    const move = (e: PointerEvent) => {
+      const el = ref.current; if (!el) return;
+      el.style.background = `radial-gradient(560px at ${e.clientX}px ${e.clientY}px, rgba(251,191,36,0.08), transparent 80%)`;
+    };
+    window.addEventListener("pointermove", move);
+    return () => window.removeEventListener("pointermove", move);
+  }, []);
+  return <div ref={ref} className="pointer-events-none fixed inset-0 z-[4]" />;
+}
 
+/* ========================== SCROLL REVEAL =========================== */
+function Reveal({ children, delay = 0, className = "" }:
+  { children: React.ReactNode; delay?: number; className?: string }) {
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y }}
-      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
-    >
+    <motion.div initial={{ opacity: 0, y: 64, filter: "blur(8px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-70px" }}
+      transition={{ duration: 0.9, delay, ease: EASE }} className={className}>
       {children}
     </motion.div>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  3D Tilt Card                                                       */
-/* ------------------------------------------------------------------ */
-
-function TiltCard({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useSpring(
-    useTransform(mouseY, [-0.5, 0.5], [12, -12]),
-    { stiffness: 180, damping: 22 }
-  );
-  const rotateY = useSpring(
-    useTransform(mouseX, [-0.5, 0.5], [-14, 14]),
-    { stiffness: 180, damping: 22 }
-  );
-
-  const glareX = useTransform(mouseX, [-0.5, 0.5], ["20%", "80%"]);
-  const glareY = useTransform(mouseY, [-0.5, 0.5], ["20%", "80%"]);
-  const glare = useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.12), transparent 55%)`;
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
-
-  const reset = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
+/* ===================== WORD-BY-WORD TEXT REVEAL ===================== */
+function Words({ text, className = "" }: { text: string; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-15% 0px -15% 0px" });
   return (
-    <div className={cn("perspective-[1200px]", className)}>
-      <motion.div
-        ref={ref}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={reset}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative rounded-[2rem] border border-white/10 bg-white/[0.03] p-px shadow-2xl shadow-black/60"
-      >
-        <div className="relative overflow-hidden rounded-[calc(2rem-1px)] bg-zinc-950/90">
-          <motion.div
-            className="pointer-events-none absolute inset-0 z-10"
-            style={{ background: glare }}
-          />
-          {children}
-        </div>
+    <p ref={ref} className={className}>
+      {text.split(" ").map((w, i) => (
+        <span key={i} className="inline-block overflow-hidden align-bottom pb-1">
+          <motion.span className="inline-block" initial={{ y: "115%" }}
+            animate={inView ? { y: 0 } : {}} transition={{ delay: i * 0.035, duration: 0.7, ease: EASE }}>
+            {w}
+          </motion.span>
+          <span className="inline-block">&nbsp;</span>
+        </span>
+      ))}
+    </p>
+  );
+}
+
+/* ============================ 3D TILT =============================== */
+function Tilt({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const rx = useSpring(useMotionValue(0), { stiffness: 180, damping: 18 });
+  const ry = useSpring(useMotionValue(0), { stiffness: 180, damping: 18 });
+  const onMove = (e: React.PointerEvent) => {
+    const el = ref.current; if (!el) return;
+    const r = el.getBoundingClientRect();
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 18);
+    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 18);
+  };
+  return (
+    <div style={{ perspective: 1200 }} className={className}>
+      <motion.div ref={ref} onPointerMove={onMove} onPointerLeave={() => { rx.set(0); ry.set(0); }}
+        style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
+        className="relative h-full">
+        {children}
       </motion.div>
     </div>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Music Player                                                       */
-/* ------------------------------------------------------------------ */
-
-const TRACKS = [
-  {
-    title: "Bairan",
-    artist: "Prince's Favourites",
-    duration: "3:42",
-    total: 222,
-    color: "from-violet-500/40 via-fuchsia-500/20 to-transparent",
-  },
-  {
-    title: "Tere Aasa Pass Din Sara",
-    artist: "Prince's Favourites",
-    duration: "4:05",
-    total: 245,
-    color: "from-amber-400/30 via-orange-500/15 to-transparent",
-  },
-];
-
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s.toString().padStart(2, "0")}`;
-}
-
-function MusicPlayer() {
-  const [trackIndex, setTrackIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  const track = TRACKS[trackIndex];
+/* ======================== ENTRANCE TAKEOVER ========================= */
+function Entrance({ onDone }: { onDone: () => void }) {
+  const [count, setCount] = useState(0);
+  const [phase, setPhase] = useState<"count" | "name" | "exit">("count");
 
   useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setProgress((p) => {
-        if (p >= track.total) {
-          setIsPlaying(false);
-          return 0;
-        }
-        return p + 1;
+    document.body.style.overflow = "hidden";
+    const iv = setInterval(() => {
+      setCount((c) => {
+        if (c >= 16) { clearInterval(iv); setTimeout(() => setPhase("name"), 350); return c; }
+        return c + 1;
       });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [isPlaying, track.total]);
+    }, 80);
+    return () => clearInterval(iv);
+  }, []);
 
-  const selectTrack = (index: number) => {
-    setTrackIndex(index);
-    setProgress(0);
-    setIsPlaying(true);
-  };
-
-  const next = () => selectTrack((trackIndex + 1) % TRACKS.length);
-  const prev = () =>
-    selectTrack((trackIndex - 1 + TRACKS.length) % TRACKS.length);
-
-  const percentage = Math.min(100, (progress / track.total) * 100);
+  useEffect(() => {
+    if (phase === "name") { const t = setTimeout(() => setPhase("exit"), 1900); return () => clearTimeout(t); }
+    if (phase === "exit") {
+      const t = setTimeout(() => { document.body.style.overflow = ""; onDone(); }, 1100);
+      return () => clearTimeout(t);
+    }
+  }, [phase, onDone]);
 
   return (
-    <div className="relative mx-auto w-full max-w-md">
-      <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-b from-white/[0.06] to-transparent blur-2xl" />
-
-      <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950/80 p-5 backdrop-blur-2xl">
-        {/* album art */}
-        <div
-          className={cn(
-            "relative mb-5 flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br",
-            track.color
-          )}
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.18),transparent_60%)]" />
-
-          <motion.div
-            animate={isPlaying ? { rotate: 360 } : {}}
-            transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
-            className="relative h-32 w-32 rounded-full border border-white/10 bg-black/40"
-          >
-            <div className="absolute inset-4 rounded-full border border-white/10" />
-            <div className="absolute inset-8 rounded-full border border-white/10" />
-            <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 backdrop-blur" />
-            <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+    <motion.div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
+      animate={phase === "exit" ? { y: "-100%" } : { y: 0 }} transition={{ duration: 1.1, ease: EASE }}>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,rgba(251,191,36,0.12),transparent_60%)]" />
+      <AnimatePresence mode="wait">
+        {phase === "count" && (
+          <motion.div key="c" exit={{ opacity: 0, scale: 1.6, filter: "blur(12px)" }} transition={{ duration: 0.5, ease: EASE }}
+            className={`${playfair.variable} font-[family-name:var(--font-playfair)] text-center`}>
+            <motion.div key={count} initial={{ opacity: 0.4, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }}
+              className="text-[26vw] leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-amber-200 via-amber-400 to-amber-700 drop-shadow-[0_0_40px_rgba(251,191,36,0.4)]">
+              {count}
+            </motion.div>
+            <p className="tracking-[0.5em] text-amber-200/60 text-[10px] uppercase mt-2 pl-2">candles loading</p>
           </motion.div>
-
-          <div className="absolute bottom-3 left-3 flex items-end gap-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <motion.span
-                key={i}
-                className="w-1 rounded-full bg-white/70"
-                animate={
-                  isPlaying
-                    ? { height: [4, 14, 6, 18, 4] }
-                    : { height: 6 }
-                }
-                transition={{
-                  duration: 0.8 + i * 0.1,
-                  repeat: Infinity,
-                  repeatType: "mirror",
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* track info */}
-        <div className="mb-4 flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <motion.h3
-              key={track.title}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="truncate text-lg font-semibold tracking-tight text-white"
-            >
-              {track.title}
-            </motion.h3>
-            <p className="mt-0.5 text-xs text-zinc-500">{track.artist}</p>
-          </div>
-          <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-widest text-zinc-400">
-            On repeat
-          </span>
-        </div>
-
-        {/* progress */}
-        <div className="mb-1.5 h-1 w-full overflow-hidden rounded-full bg-white/10">
-          <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-white/80 to-white/30"
-            animate={{ width: `${percentage}%` }}
-            transition={{ ease: "linear", duration: 0.4 }}
-          />
-        </div>
-        <div className="mb-4 flex justify-between text-[10px] tabular-nums text-zinc-500">
-          <span>{formatTime(progress)}</span>
-          <span>{track.duration}</span>
-        </div>
-
-        {/* controls */}
-        <div className="flex items-center justify-between">
-          <button
-            onClick={prev}
-            aria-label="Previous track"
-            className="grid h-10 w-10 place-items-center rounded-full text-zinc-400 transition hover:bg-white/5 hover:text-white"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-              <path d="M6 5h2v14H6V5Zm3 7 9-7v14l-9-7Z" />
-            </svg>
-          </button>
-
-          <button
-            onClick={() => setIsPlaying((p) => !p)}
-            aria-label={isPlaying ? "Pause" : "Play"}
-            className="grid h-14 w-14 place-items-center rounded-full bg-white text-black shadow-[0_0_40px_rgba(255,255,255,0.25)] transition hover:scale-105 active:scale-95"
-          >
-            {isPlaying ? (
-              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
-                <path d="M7 5h4v14H7V5Zm6 0h4v14h-4V5Z" />
-              </svg>
-            ) : (
-              <svg
-                viewBox="0 0 24 24"
-                className="ml-0.5 h-6 w-6"
-                fill="currentColor"
-              >
-                <path d="M8 5v14l11-7L8 5Z" />
-              </svg>
-            )}
-          </button>
-
-          <button
-            onClick={next}
-            aria-label="Next track"
-            className="grid h-10 w-10 place-items-center rounded-full text-zinc-400 transition hover:bg-white/5 hover:text-white"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-              <path d="M16 5h2v14h-2V5ZM6 5l9 7-9 7V5Z" />
-            </svg>
-          </button>
-        </div>
-
-        {/* playlist */}
-        <div className="mt-5 space-y-2 border-t border-white/5 pt-4">
-          {TRACKS.map((t, i) => (
-            <button
-              key={t.title}
-              onClick={() => selectTrack(i)}
-              className={cn(
-                "flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left transition",
-                i === trackIndex ? "bg-white/[0.07]" : "hover:bg-white/[0.03]"
-              )}
-            >
-              <div className="flex items-center gap-3">
-                <span
-                  className={cn(
-                    "grid h-7 w-7 place-items-center rounded-full text-[10px]",
-                    i === trackIndex
-                      ? "bg-white text-black"
-                      : "bg-white/5 text-zinc-500"
-                  )}
-                >
-                  {i === trackIndex && isPlaying ? "♫" : i + 1}
-                </span>
-                <div>
-                  <p
-                    className={cn(
-                      "text-xs font-medium",
-                      i === trackIndex ? "text-white" : "text-zinc-400"
-                    )}
-                  >
-                    {t.title}
-                  </p>
-                  <p className="text-[10px] text-zinc-600">{t.duration}</p>
-                </div>
-              </div>
-
-              {i === trackIndex && (
-                <motion.span
-                  layoutId="playing-dot"
-                  className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]"
-                />
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Confetti                                                           */
-/* ------------------------------------------------------------------ */
-
-function Confetti({ active }: { active: boolean }) {
-  const pieces = useMemo(
-    () =>
-      Array.from({ length: 70 }).map((_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        delay: Math.random() * 0.6,
-        duration: Math.random() * 1.6 + 1.6,
-        rotate: Math.random() * 720 - 360,
-        color: ["#ffffff", "#c4b5fd", "#fcd34d", "#a1a1aa"][
-          Math.floor(Math.random() * 4)
-        ],
-        size: Math.random() * 8 + 4,
-        shape: Math.random() > 0.5 ? "circle" : "rect",
-      })),
-    []
-  );
-
-  return (
-    <AnimatePresence>
-      {active && (
-        <div
-          key="confetti"
-          className="pointer-events-none fixed inset-0 z-[90] overflow-hidden"
-        >
-          {pieces.map((p) => (
-            <motion.span
-              key={p.id}
-              className="absolute top-0"
-              style={{
-                left: `${p.x}%`,
-                width: p.size,
-                height: p.size,
-                backgroundColor: p.color,
-                borderRadius: p.shape === "circle" ? "9999px" : "2px",
-              }}
-              initial={{ y: -40, opacity: 1, rotate: 0 }}
-              animate={{
-                y: "110vh",
-                rotate: p.rotate,
-                opacity: [1, 1, 0],
-              }}
-              transition={{
-                duration: p.duration,
-                delay: p.delay,
-                ease: "easeIn",
-              }}
-            />
-          ))}
-        </div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Entrance — screen takeover                                         */
-/* ------------------------------------------------------------------ */
-
-function Entrance({ onComplete }: { onComplete: () => void }) {
-  return (
-    <motion.div
-      className="fixed inset-0 z-[100]"
-      exit={{ pointerEvents: "none" }}
-      transition={{ duration: 1 }}
-    >
-      <motion.div
-        className="absolute inset-x-0 top-0 h-1/2 bg-black"
-        exit={{ y: "-100%" }}
-        transition={{ duration: 1, ease: EASE }}
-      />
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-1/2 bg-black"
-        exit={{ y: "100%" }}
-        transition={{ duration: 1, ease: EASE }}
-      />
-
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, filter: "blur(20px)", y: 30 }}
-          animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-          exit={{ opacity: 0, filter: "blur(20px)", y: -30 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center"
-        >
-          <div className="mb-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-white/30">
-            <span className="h-px w-8 bg-white/20" />
-            18 · 11 · 2010
-            <span className="h-px w-8 bg-white/20" />
-          </div>
-
-          <p className="mb-3 text-xs uppercase tracking-[0.6em] text-white/40">
-            A celebration for
-          </p>
-
-          <h1 className="text-[clamp(3.5rem,18vw,8rem)] font-black leading-[0.85] tracking-[-0.06em] text-white">
-            PRINCE
-          </h1>
-
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.8, duration: 1.2, ease: EASE }}
-            className="my-8 h-px w-40 origin-center bg-gradient-to-r from-transparent via-white/40 to-transparent"
-          />
-
-          <motion.button
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            onClick={onComplete}
-            className="group relative overflow-hidden rounded-full border border-white/15 bg-white/[0.04] px-8 py-3.5 text-xs font-medium uppercase tracking-[0.3em] text-white/80 backdrop-blur-md transition hover:border-white/30 hover:bg-white/[0.08] active:scale-95"
-          >
-            <span className="relative z-10">Enter the celebration</span>
-            <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
-          </motion.button>
-        </motion.div>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-[9px] uppercase tracking-[0.4em] text-white/20"
-      >
-        tap to begin
-      </motion.div>
+        )}
+        {phase === "name" && (
+          <motion.div key="n" className="text-center px-6">
+            <motion.p initial={{ opacity: 0, letterSpacing: "0.2em" }} animate={{ opacity: 1, letterSpacing: "0.6em" }}
+              transition={{ duration: 1, ease: EASE }} className="text-amber-200/70 text-[10px] uppercase mb-4">
+              the one and only
+            </motion.p>
+            <div className="flex justify-center gap-1">
+              {"PRINCE".split("").map((ch, i) => (
+                <motion.span key={i}
+                  initial={{ opacity: 0, y: 90, rotateX: -90, filter: "blur(10px)" }}
+                  animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
+                  transition={{ delay: 0.25 + i * 0.09, duration: 0.8, ease: EASE }}
+                  className={`${playfair.variable} font-[family-name:var(--font-playfair)] text-[16vw] leading-none font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-amber-100 to-amber-500 drop-shadow-[0_0_30px_rgba(251,191,36,0.45)]`}>
+                  {ch}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  PAGE                                                               */
-/* ------------------------------------------------------------------ */
+/* ============================ MARQUEE =============================== */
+function Marquee() {
+  const chunk = (
+    <span className="mx-6 flex items-center gap-6">
+      HAPPY BIRTHDAY <Sparkles className="w-5 h-5 text-amber-400" /> PRINCE
+      <Flower2 className="w-5 h-5 text-violet-300" /> 18 NOVEMBER 2010
+      <Cake className="w-5 h-5 text-pink-300" /> LEVEL 16 UNLOCKED
+      <Crown className="w-5 h-5 text-amber-300" />
+    </span>
+  );
+  return (
+    <div className="relative z-10 border-y border-white/10 bg-white/[0.02] py-4 overflow-hidden">
+      <div className="flex w-max whitespace-nowrap animate-[marquee_22s_linear_infinite] text-sm tracking-[0.35em] uppercase text-white/60">
+        {Array.from({ length: 6 }).map((_, i) => <span key={i} className="flex">{chunk}</span>)}
+      </div>
+    </div>
+  );
+}
 
+/* =========================== MUSIC ENGINE =========================== */
+type Engine = { ctx: AudioContext; master: GainNode; filter: BiquadFilterNode; timer: number | null; step: number };
+
+const TRACKS = [
+  { title: "Bairan", sub: "Anthem №1 · on repeat", accent: "from-amber-500/30 to-yellow-600/10", icon: Crown,
+    dur: 270, type: "sawtooth" as OscillatorType, bass: 110,
+    notes: [220, 261.63, 329.63, 440, 329.63, 261.63, 246.94, 196] },
+  { title: "Tere Aasa Pass Din Sara", sub: "Anthem №2 · vibe check", accent: "from-violet-500/30 to-fuchsia-600/10", icon: Heart,
+    dur: 330, type: "triangle" as OscillatorType, bass: 130.81,
+    notes: [261.63, 329.63, 392, 523.25, 392, 329.63, 293.66, 392] },
+];
+
+function TrackCard({ track }: { track: (typeof TRACKS)[number]; index: number }) {
+  const engine = useRef<Engine | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    if (!playing) return;
+    const iv = setInterval(() => setElapsed((e) => e + 1), 1000);
+    return () => clearInterval(iv);
+  }, [playing]);
+
+  const stopAll = () => {
+    const e = engine.current; if (!e) return;
+    if (e.timer) window.clearInterval(e.timer);
+    e.master.gain.setTargetAtTime(0, e.ctx.currentTime, 0.08);
+    e.timer = null;
+  };
+  useEffect(() => stopAll, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const toggle = () => {
+    if (playing) { stopAll(); setPlaying(false); return; }
+    if (!engine.current) {
+      const ctx = new AudioContext();
+      const master = ctx.createGain(); master.gain.value = 0;
+      const filter = ctx.createBiquadFilter();
+      filter.type = "lowpass"; filter.frequency.value = 1600;
+      filter.connect(master); master.connect(ctx.destination);
+      engine.current = { ctx, master, filter, timer: null, step: 0 };
+    }
+    const e = engine.current;
+    if (e.ctx.state === "suspended") void e.ctx.resume();
+    e.master.gain.cancelScheduledValues(e.ctx.currentTime);
+    e.master.gain.setTargetAtTime(0.16, e.ctx.currentTime, 0.12);
+    e.step = 0;
+    const tick = () => {
+      const t = e.ctx.currentTime;
+      const osc = e.ctx.createOscillator();
+      osc.type = track.type; osc.frequency.value = track.notes[e.step % track.notes.length];
+      const g = e.ctx.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.5, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+      osc.connect(g); g.connect(e.filter); osc.start(t); osc.stop(t + 0.55);
+      if (e.step % 4 === 0) {
+        const b = e.ctx.createOscillator();
+        b.type = "sine"; b.frequency.value = track.bass;
+        const bg = e.ctx.createGain();
+        bg.gain.setValueAtTime(0, t);
+        bg.gain.linearRampToValueAtTime(0.35, t + 0.03);
+        bg.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+        b.connect(bg); bg.connect(e.filter); b.start(t); b.stop(t + 0.95);
+      }
+      e.step++;
+    };
+    tick();
+    e.timer = window.setInterval(tick, track.dur);
+    setPlaying(true);
+  };
+
+  const Icon = track.icon;
+  return (
+    <Tilt>
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-5"
+        style={{ transform: "translateZ(30px)" }}>
+        <div className={`absolute inset-0 bg-gradient-to-br ${track.accent} opacity-40 pointer-events-none`} />
+        <div className="relative flex items-center gap-4">
+          <div className={`relative w-16 h-16 shrink-0 rounded-2xl bg-gradient-to-br ${track.accent} border border-white/15 flex items-center justify-center overflow-hidden`}>
+            <motion.div animate={{ rotate: playing ? 360 : 0 }}
+              transition={{ duration: 3, repeat: playing ? Infinity : 0, ease: "linear" }}
+              className="absolute inset-2 rounded-full border border-white/20" />
+            <Icon className="w-6 h-6 text-white/90" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-white font-semibold truncate">{track.title}</p>
+            <p className="text-white/40 text-xs mt-0.5">{track.sub}</p>
+            <div className="mt-2.5 h-1 rounded-full bg-white/10 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-amber-300 to-amber-500 transition-all duration-1000"
+                style={{ width: `${Math.min((elapsed / 214) * 100, 100)}%` }} />
+            </div>
+          </div>
+          <div className="flex flex-col items-end gap-2 shrink-0">
+            <button onClick={toggle} aria-label={playing ? "Pause" : "Play"}
+              className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_24px_rgba(251,191,36,0.35)] active:scale-90 transition-transform">
+              {playing ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+            </button>
+            <div className="flex items-end gap-[3px] h-4">
+              {[0, 1, 2, 3].map((b) => (
+                <span key={b} className="w-[3px] h-full rounded-full bg-amber-400 origin-bottom"
+                  style={{ animation: `eq 0.7s ease-in-out ${b * 0.13}s infinite`,
+                    animationPlayState: playing ? "running" : "paused",
+                    transform: playing ? undefined : "scaleY(0.25)" }} />
+              ))}
+            </div>
+            <span className="text-[10px] text-white/35 tabular-nums">
+              {String(Math.floor(elapsed / 60)).padStart(2, "0")}:{String(elapsed % 60).padStart(2, "0")}
+            </span>
+          </div>
+        </div>
+      </div>
+    </Tilt>
+  );
+}
+
+/* ============================ CONFETTI ============================== */
+function Confetti({ trigger }: { trigger: number }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    if (!trigger) return;
+    const canvas = ref.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const colors = ["#fbbf24", "#ffffff", "#a78bfa", "#f472b6", "#34d399", "#fde68a"];
+    const parts = Array.from({ length: 240 }, () => ({
+      x: canvas.width / 2 + (Math.random() - 0.5) * 140,
+      y: canvas.height * 0.55,
+      vx: (Math.random() - 0.5) * 20, vy: -Math.random() * 17 - 6,
+      w: 6 + Math.random() * 8, h: 4 + Math.random() * 6,
+      r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.3,
+      c: colors[(Math.random() * colors.length) | 0], life: 1,
+    }));
+    let raf = 0, last = performance.now();
+    const loop = (t: number) => {
+      const dt = Math.min((t - last) / 16.6, 3); last = t;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let alive = false;
+      for (const p of parts) {
+        p.vy += 0.36 * dt; p.x += p.vx * dt; p.y += p.vy * dt;
+        p.r += p.vr * dt; p.life -= 0.004 * dt;
+        if (p.life <= 0 || p.y > canvas.height + 40) continue;
+        alive = true;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+        ctx.globalAlpha = Math.max(p.life, 0);
+        ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+      }
+      raf = alive ? requestAnimationFrame(loop) : 0;
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [trigger]);
+  return <canvas ref={ref} className="pointer-events-none fixed inset-0 z-[90]" />;
+}
+
+/* ============================= PAGE ================================= */
 export default function BirthdayPage() {
   const [entered, setEntered] = useState(false);
-  const [confetti, setConfetti] = useState(false);
+  const [showEntrance, setShowEntrance] = useState(true);
+  const [confetti, setConfetti] = useState(0);
+  const [blown, setBlown] = useState(false);
+  const [blowing, setBlowing] = useState(false);
 
   const { scrollYProgress } = useScroll();
-  const progressBar = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
-  });
+  const heroY = useTransform(scrollYProgress, [0, 0.22], [0, -140]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);
+  const beamRotate = useTransform(scrollYProgress, [0, 1], [0, 60]);
 
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  const heroY = useTransform(heroScroll, [0, 1], [0, -120]);
-  const heroScale = useTransform(heroScroll, [0, 1], [1, 0.92]);
-  const heroOpacity = useTransform(heroScroll, [0, 0.7], [1, 0]);
-
-  const triggerConfetti = useCallback(() => {
-    setConfetti(true);
-    setTimeout(() => setConfetti(false), 4200);
+  const nextBday = () => {
+    const now = new Date();
+    let d = new Date(now.getFullYear(), 10, 18);
+    if (d.getTime() <= now.getTime()) d = new Date(now.getFullYear() + 1, 10, 18);
+    return d;
+  };
+  const [target, setTarget] = useState(nextBday);
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const iv = setInterval(() => { setNow(new Date()); setTarget(nextBday()); }, 1000);
+    return () => clearInterval(iv);
   }, []);
+  const diff = Math.max(target.getTime() - now.getTime(), 0);
+  const cd = {
+    d: Math.floor(diff / 86400000),
+    h: Math.floor((diff / 3600000) % 24),
+    m: Math.floor((diff / 60000) % 60),
+    s: Math.floor((diff / 1000) % 60),
+  };
+  const level = target.getFullYear() - 2010;
+
+  const blowTimer = useRef<number | null>(null);
+  const startBlow = () => {
+    if (blown) return;
+    setBlowing(true);
+    blowTimer.current = window.setTimeout(() => {
+      setBlowing(false); setBlown(true); setConfetti((c) => c + 1);
+    }, 900);
+  };
+  const cancelBlow = () => {
+    setBlowing(false);
+    if (blowTimer.current) window.clearTimeout(blowTimer.current);
+  };
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-black text-white selection:bg-white/20">
-      {/* scroll progress */}
-      <motion.div
-        style={{ scaleX: progressBar }}
-        className="fixed left-0 right-0 top-0 z-[80] h-[2px] origin-left bg-gradient-to-r from-white/80 via-violet-300/60 to-amber-200/60"
-      />
+    <div className={`${playfair.variable} ${inter.variable} min-h-screen bg-black text-white overflow-x-hidden relative font-[family-name:var(--font-inter)]`}>
+      <style>{`
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes eq { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+        @keyframes flicker {
+          0%, 100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+          25% { transform: scale(1.1, 0.9) rotate(2deg); }
+          50% { transform: scale(0.92, 1.12) rotate(-3deg); }
+          75% { transform: scale(1.06, 0.94) rotate(1deg); }
+        }
+        @keyframes shine { from { background-position: 200% center; } to { background-position: -200% center; } }
+        ::selection { background: #fbbf24; color: #000; }
+      `}</style>
 
       <AnimatePresence>
-        {!entered && <Entrance onComplete={() => setEntered(true)} />}
+        {showEntrance && <Entrance onDone={() => { setEntered(true); setShowEntrance(false); }} />}
       </AnimatePresence>
 
-      <Confetti active={confetti} />
-
-      {/* fixed atmosphere */}
+      {/* atmosphere */}
+      <div className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,rgba(120,80,20,0.18),transparent_55%),radial-gradient(ellipse_at_bottom,rgba(90,50,140,0.14),transparent_55%)]" />
       <FloatingLilies />
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_50%_-20%,rgba(255,255,255,0.06),transparent_60%)]" />
-      <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.035] mix-blend-overlay"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-        }}
-      />
+      <Spotlight />
+      <div className="pointer-events-none fixed inset-0 z-[5] opacity-[0.05] mix-blend-overlay"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E")` }} />
+      <Confetti trigger={confetti} />
 
-      {/* ============================================================ */}
-      {/* HERO                                                         */}
-      {/* ============================================================ */}
-      <section
-        ref={heroRef}
-        className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 py-20"
-      >
-        <Spotlight />
-        <Sparkles count={30} />
-
-        <motion.div
-          style={{ y: heroY, scale: heroScale, opacity: heroOpacity }}
-          className="relative flex w-full max-w-3xl flex-col items-center text-center"
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={entered ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.1 }}
-            className="mb-6 flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 backdrop-blur-md"
-          >
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399]" />
-            <span className="text-[9px] uppercase tracking-[0.35em] text-zinc-400">
-              18 November 2010
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 40, filter: "blur(16px)" }}
-            animate={
-              entered
-                ? { opacity: 1, y: 0, filter: "blur(0px)" }
-                : {}
-            }
-            transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative text-[clamp(4.5rem,23vw,11rem)] font-black leading-[0.82] tracking-[-0.07em]"
-          >
-            <span className="bg-gradient-to-b from-white via-white to-white/30 bg-clip-text text-transparent">
-              PRINCE
-            </span>
-            <span className="absolute -inset-4 -z-10 bg-white/10 blur-3xl" />
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={entered ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.45 }}
-            className="mt-6 max-w-xs text-balance text-sm leading-relaxed text-zinc-400 sm:text-base"
-          >
-            A legend was born. The world has been louder, brighter, and
-            infinitely better since{" "}
-            <span className="text-white">18.11.2010</span>.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={entered ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.6 }}
-            className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
-          >
-            <a
-              href="#message"
-              className="group relative overflow-hidden rounded-full bg-white px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-black transition hover:scale-[1.03] active:scale-95"
-            >
-              <span className="relative z-10">Open your surprise</span>
-            </a>
-
-            <button
-              onClick={triggerConfetti}
-              className="rounded-full border border-white/15 bg-white/[0.03] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.2em] text-white/70 backdrop-blur-md transition hover:border-white/30 hover:text-white active:scale-95"
-            >
-              Blow the candles ✦
-            </button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={entered ? { opacity: 1 } : {}}
-            transition={{ delay: 1.2, duration: 1 }}
-            className="absolute -bottom-20 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
-          >
-            <span className="text-[8px] uppercase tracking-[0.4em] text-zinc-600">
-              scroll
-            </span>
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{
-                duration: 1.8,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="h-6 w-px bg-gradient-to-b from-zinc-500 to-transparent"
-            />
-          </motion.div>
+      {/* HERO */}
+      <motion.section style={{ y: heroY, opacity: heroOpacity }}
+        className="relative z-10 min-h-[100svh] flex flex-col items-center justify-center px-6 text-center">
+        <motion.div style={{ rotate: beamRotate }} className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          {[-60, -40, -20, 0, 20, 40, 60].map((a) => (
+            <div key={a} className="absolute top-1/2 left-1/2 h-[140vmax] w-px origin-top"
+              style={{ transform: `rotate(${a}deg)`,
+                background: "linear-gradient(to bottom, transparent, rgba(251,191,36,0.28), transparent)" }} />
+          ))}
         </motion.div>
-      </section>
 
-      {/* ============================================================ */}
-      {/* QUOTE / VERSE                                                */}
-      {/* ============================================================ */}
-      <section className="relative z-10 px-6 py-28 sm:py-36">
-        <div className="mx-auto max-w-2xl text-center">
-          <ScrollReveal>
-            <span className="text-[9px] uppercase tracking-[0.5em] text-zinc-600">
-              The birthday verse
+        <motion.div initial={{ opacity: 0, scale: 0 }}
+          animate={entered ? { opacity: 1, scale: 1 } : {}}
+          transition={{ delay: 0.3, type: "spring", stiffness: 120, damping: 14 }} className="mb-6 relative">
+          <div className="absolute inset-0 blur-2xl bg-amber-400/30 rounded-full" />
+          <Crown className="w-12 h-12 text-amber-300 relative" />
+        </motion.div>
+
+        <div className="overflow-hidden">
+          <motion.p initial={{ y: "110%" }} animate={entered ? { y: 0 } : {}}
+            transition={{ delay: 0.45, duration: 0.8, ease: EASE }}
+            className="tracking-[0.55em] text-amber-200/70 text-[10px] uppercase mb-4 pl-2">
+            18 · 11 · 2010 — the legend begins
+          </motion.p>
+        </div>
+
+        <h1 className={`${playfair.variable} font-[family-name:var(--font-playfair)] font-black leading-[0.95]`}>
+          {["HAPPY", "BIRTHDAY"].map((word, wi) => (
+            <span key={word} className="block text-[11vw] sm:text-5xl text-white/90">
+              {word.split("").map((ch, i) => (
+                <motion.span key={i} className="inline-block"
+                  initial={{ opacity: 0, y: 70, rotateX: -80, filter: "blur(8px)" }}
+                  animate={entered ? { opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" } : {}}
+                  transition={{ delay: 0.55 + wi * 0.35 + i * 0.06, duration: 0.7, ease: EASE }}>
+                  {ch}
+                </motion.span>
+              ))}
             </span>
-          </ScrollReveal>
+          ))}
+          <span className="block mt-2 text-[19vw] sm:text-8xl text-transparent bg-clip-text bg-gradient-to-b from-white via-amber-100 to-amber-500 drop-shadow-[0_0_35px_rgba(251,191,36,0.4)]">
+            {"PRINCE".split("").map((ch, i) => (
+              <motion.span key={i} className="inline-block"
+                initial={{ opacity: 0, y: 110, scale: 0.6, filter: "blur(14px)" }}
+                animate={entered ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : {}}
+                transition={{ delay: 1.25 + i * 0.08, duration: 0.9, ease: EASE }}>
+                {ch}
+              </motion.span>
+            ))}
+          </span>
+        </h1>
 
-          <ScrollReveal delay={0.1}>
-            <h2 className="mt-6 text-balance text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl">
-              Some people just exist.
-              <br />
-              <span className="bg-gradient-to-r from-violet-300 via-white to-amber-200 bg-clip-text text-transparent">
-                You happen to the room.
-              </span>
-            </h2>
-          </ScrollReveal>
+        <motion.div initial={{ opacity: 0 }} animate={entered ? { opacity: 1 } : {}} transition={{ delay: 2, duration: 1 }}
+          className="mt-8 flex items-center gap-3 text-white/50 text-xs tracking-widest uppercase">
+          <Flower2 className="w-4 h-4 text-violet-300" /> lilies, beats &amp; black tie energy <Flower2 className="w-4 h-4 text-violet-300" />
+        </motion.div>
 
-          <ScrollReveal delay={0.2}>
-            <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-zinc-500">
-              Sixteen years of chaotic brilliance, unforgettable laughs, and a
-              heart that somehow keeps getting bigger. This one’s for you,
-              Prince.
-            </p>
-          </ScrollReveal>
+        <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+          className="absolute bottom-8 flex flex-col items-center gap-1 text-amber-200/60">
+          <span className="text-[10px] tracking-[0.4em] uppercase">scroll</span>
+          <ChevronDown className="w-5 h-5" />
+        </motion.div>
+      </motion.section>
 
-          <ScrollReveal delay={0.3}>
-            <div className="mx-auto mt-10 flex items-center justify-center gap-2">
-              <span className="h-px w-10 bg-white/10" />
-              <Lily className="h-6 w-6 opacity-60" />
-              <span className="h-px w-10 bg-white/10" />
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
+      <Marquee />
 
-      {/* ============================================================ */}
-      {/* 3D TILT CARD                                                 */}
-      {/* ============================================================ */}
-      <section id="message" className="relative z-10 px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-md">
-          <ScrollReveal>
-            <span className="text-[9px] uppercase tracking-[0.5em] text-zinc-600">
-              A note for you
-            </span>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
-            <TiltCard className="mt-6">
-              <div className="relative p-7 sm:p-9">
-                <div className="absolute right-5 top-5 h-16 w-16 opacity-30">
-                  <Lily className="h-full w-full" />
+      {/* PRINCE FILES */}
+      <section className="relative z-10 px-6 py-24 max-w-md mx-auto">
+        <Reveal>
+          <p className="text-center tracking-[0.5em] text-amber-200/60 text-[10px] uppercase mb-3">classified</p>
+          <h2 className={`${playfair.variable} font-[family-name:var(--font-playfair)] text-center text-4xl font-black mb-10`}>
+            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 animate-[shine_4s_linear_infinite] bg-[length:200%_auto]">Prince</span> Files
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <Tilt>
+            <div className="relative rounded-[2rem] border border-amber-200/20 bg-gradient-to-b from-white/[0.06] to-transparent backdrop-blur-xl p-7 overflow-hidden">
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-amber-500/20 blur-3xl" />
+              <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-violet-600/20 blur-3xl" />
+              <div className="relative" style={{ transform: "translateZ(40px)" }}>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] tracking-[0.35em] uppercase text-white/40">Dossier №16</span>
+                  <Flower2 className="w-5 h-5 text-violet-300" />
                 </div>
-
-                <div className="mb-8 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
-                  <span className="text-lg">✦</span>
-                </div>
-
-                <h3 className="text-2xl font-semibold leading-tight tracking-tight">
-                  Happy Birthday,
-                  <br />
-                  <span className="bg-gradient-to-r from-violet-300 to-amber-200 bg-clip-text text-transparent">
-                    Prince.
-                  </span>
-                </h3>
-
-                <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-                  You make ordinary days feel like main-character moments.
-                  Here’s to more late-night playlists, unreasonably good fits,
-                  and a year that finally matches your energy.
-                </p>
-
-                <div className="mt-8 grid grid-cols-3 gap-3 border-t border-white/5 pt-6">
-                  {[
-                    { label: "Born", value: "18.11" },
-                    { label: "Aura", value: "∞" },
-                    { label: "Color", value: "Black" },
-                  ].map((stat) => (
-                    <div key={stat.label}>
-                      <p className="text-[9px] uppercase tracking-[0.25em] text-zinc-600">
-                        {stat.label}
-                      </p>
-                      <p className="mt-1 text-sm font-medium text-white">
-                        {stat.value}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-6 flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-                  <span className="h-px w-6 bg-white/10" />
-                  always in your corner
-                </div>
-              </div>
-            </TiltCard>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* MUSIC                                                        */}
-      {/* ============================================================ */}
-      <section className="relative z-10 px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-md">
-          <ScrollReveal>
-            <div className="mb-10 text-center">
-              <span className="text-[9px] uppercase tracking-[0.5em] text-zinc-600">
-                The soundtrack
-              </span>
-              <h2 className="mt-4 text-2xl font-semibold tracking-tight sm:text-3xl">
-                Songs that scream{" "}
-                <span className="bg-gradient-to-r from-violet-300 to-amber-200 bg-clip-text text-transparent">
-                  you
-                </span>
-              </h2>
-              <p className="mx-auto mt-3 max-w-xs text-xs leading-relaxed text-zinc-500">
-                Press play. Let the night slow down for a minute.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.15}>
-            <MusicPlayer />
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* LILY GARDEN / FINAL                                          */}
-      {/* ============================================================ */}
-      <section className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 py-28 text-center">
-        <Spotlight />
-        <Sparkles count={24} />
-
-        <div className="relative mx-auto max-w-lg">
-          <ScrollReveal>
-            <div className="mx-auto mb-8 flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] backdrop-blur">
-              <Lily className="h-7 w-7" />
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
-            <h2 className="text-balance text-4xl font-black leading-[0.95] tracking-tighter sm:text-5xl">
-              Stay rare.
-              <br />
-              <span className="bg-gradient-to-b from-white via-white to-white/30 bg-clip-text text-transparent">
-                Stay you.
-              </span>
-            </h2>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.2}>
-            <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-zinc-400">
-              Like a lily in a field of noise — impossible to miss, impossible
-              to replace. Have the bestest birthday ever, Prince.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.3}>
-            <button
-              onClick={triggerConfetti}
-              className="group relative mt-10 overflow-hidden rounded-full bg-white px-9 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-black transition hover:scale-105 active:scale-95"
-            >
-              <span className="relative z-10">Make a wish</span>
-              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-black/10 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
-            </button>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.4}>
-            <div className="mt-16 flex flex-col items-center gap-2">
-              <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-600">
-                18 · 11 · 2010 — forever iconic
-              </p>
-              <div className="flex items-center gap-1.5">
-                <span className="h-1 w-1 rounded-full bg-zinc-700" />
-                <span className="h-1 w-1 rounded-full bg-zinc-600" />
-                <span className="h-1 w-1 rounded-full bg-zinc-700" />
+                {[
+                  { k: "Name", v: "Prince" },
+                  { k: "Born", v: "18 November 2010" },
+                  { k: "Aura", v: "Pitch black, 24 karat" },
+                  { k: "Flower", v: "Lily — obviously" },
+                  { k: "Level", v: `${level} / ∞` },
+                ].map((row) => (
+                  <div key={row.k} className="flex justify-between items-baseline border-b border-white/10 py-3 last:border-0">
+                    <span className="text-white/40 text-sm">{row.k}</span>
+                    <span className={`${playfair.variable} font-[family-name:var(--font-playfair)] text-amber-100`}>{row.v}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          </ScrollReveal>
-        </div>
+          </Tilt>
+        </Reveal>
+        <Reveal delay={0.15} className="mt-10">
+          <p className="text-center text-white/40 text-xs tracking-[0.3em] uppercase mb-4">countdown to the next celebration</p>
+          <div className="grid grid-cols-4 gap-3">
+            {[{ v: cd.d, l: "days" }, { v: cd.h, l: "hrs" }, { v: cd.m, l: "min" }, { v: cd.s, l: "sec" }].map((u) => (
+              <div key={u.l} className="rounded-2xl border border-white/10 bg-white/[0.04] py-4 text-center">
+                <motion.div key={u.v} initial={{ scale: 1.25, opacity: 0.4 }} animate={{ scale: 1, opacity: 1 }}
+                  className="text-2xl font-black text-amber-300 tabular-nums">
+                  {String(u.v).padStart(2, "0")}
+                </motion.div>
+                <div className="text-[9px] tracking-[0.25em] uppercase text-white/35 mt-1">{u.l}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
-      {/* footer */}
-      <footer className="relative z-10 border-t border-white/5 px-6 py-8 text-center">
-        <p className="text-[9px] uppercase tracking-[0.3em] text-zinc-700">
-          Made with black coffee, lilies & an unreasonable amount of love
-        </p>
+      {/* PLAYLIST */}
+      <section className="relative z-10 px-6 py-20 max-w-md mx-auto">
+        <Reveal>
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <Music className="w-5 h-5 text-amber-300" />
+            <p className="tracking-[0.5em] text-amber-200/60 text-[10px] uppercase">on repeat since 2010</p>
+          </div>
+          <h2 className={`${playfair.variable} font-[family-name:var(--font-playfair)] text-center text-4xl font-black mb-10`}>
+            Prince&apos;s Playlist
+          </h2>
+        </Reveal>
+        <div className="space-y-5">
+          {TRACKS.map((t, i) => (
+            <Reveal key={t.title} delay={i * 0.12}><TrackCard track={t} index={i} /></Reveal>
+          ))}
+        </div>
+        <Reveal delay={0.2}>
+          <p className="text-center text-white/30 text-xs mt-6">tap play — a little synth tribute, made with love</p>
+        </Reveal>
+      </section>
+
+      {/* THE WISH */}
+      <section className="relative z-10 px-6 py-28 max-w-xl mx-auto text-center">
+        <Reveal><Flower2 className="w-8 h-8 text-violet-300 mx-auto mb-8" /></Reveal>
+        <Words
+          text="Happy birthday, Prince. Sixteen years of you being the realest one in every room. May your year hit harder than your playlist, shine brighter than gold on black, and bloom like lilies in full glory. This one's for you, king."
+          className={`${playfair.variable} font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl leading-relaxed text-white/90`}
+        />
+        <Reveal delay={0.2} className="mt-10">
+          <p className="text-amber-200/60 text-xs tracking-[0.35em] uppercase">— your partner in everything</p>
+        </Reveal>
+      </section>
+
+      {/* FINALE */}
+      <section className="relative z-10 px-6 pb-32 pt-16 max-w-md mx-auto text-center">
+        <Reveal>
+          <h2 className={`${playfair.variable} font-[family-name:var(--font-playfair)] text-4xl font-black mb-2`}>Make a wish.</h2>
+          <p className="text-white/40 text-sm mb-12">hold the flame to blow it out</p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="relative mx-auto w-56 h-64 select-none touch-none cursor-pointer"
+            onPointerDown={startBlow} onPointerUp={cancelBlow} onPointerLeave={cancelBlow}>
+            <AnimatePresence>
+              {!blown && (
+                <motion.div exit={{ scale: 0, opacity: 0, filter: "blur(10px)" }} transition={{ duration: 0.5 }}
+                  className="absolute left-1/2 -translate-x-1/2 -top-12 z-10">
+                  <motion.div animate={blowing ? { scale: 0.3, y: -14, opacity: 0.5 } : { scale: 1, y: 0, opacity: 1 }}
+                    transition={{ duration: 0.8, ease: EASE }}>
+                    <div className="absolute -inset-8 rounded-full bg-amber-400/40 blur-2xl animate-pulse" />
+                    <div className="relative w-7 h-12 bg-gradient-to-t from-amber-500 via-yellow-300 to-white rounded-[50%/60%_60%_40%_40%] origin-bottom"
+                      style={{ animation: "flicker 0.35s ease-in-out infinite" }} />
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 w-2.5 h-10 bg-gradient-to-b from-amber-200 to-amber-500 rounded-full" />
+            <div className="absolute bottom-0 w-full">
+              <div className="mx-auto w-44 h-16 rounded-t-2xl bg-gradient-to-b from-zinc-800 to-zinc-950 border border-white/10 relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-b from-amber-300/80 to-transparent" />
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="absolute top-2 w-1.5 h-4 bg-gradient-to-b from-amber-200 to-amber-500 rounded-full"
+                    style={{ left: `${12 + i * 19}%` }} />
+                ))}
+              </div>
+              <div className="mx-auto w-56 h-14 rounded-t-xl bg-gradient-to-b from-zinc-700 to-zinc-900 border-x border-b border-white/10 relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-2.5 bg-gradient-to-b from-violet-300/70 to-transparent" />
+              </div>
+              <div className="mx-auto w-64 h-3 rounded-full bg-gradient-to-b from-zinc-600 to-zinc-800 border border-white/10" />
+            </div>
+          </div>
+        </Reveal>
+        <AnimatePresence>
+          {blown && (
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8, ease: EASE }} className="mt-12">
+              <p className={`${playfair.variable} font-[family-name:var(--font-playfair)] text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-white to-amber-400`}>
+                Wish locked in.
+              </p>
+              <p className="text-white/50 mt-2 text-sm">Happy 16th, Prince. The best is literally next.</p>
+              <button onClick={() => setConfetti((c) => c + 1)}
+                className="mt-6 px-8 py-3 rounded-full bg-amber-400 text-black font-bold text-sm tracking-widest uppercase shadow-[0_0_30px_rgba(251,191,36,0.4)] active:scale-95 transition-transform">
+                Celebrate again
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </section>
+
+      <footer className="relative z-10 border-t border-white/10 py-8 text-center">
+        <p className="text-white/30 text-[10px] tracking-[0.4em] uppercase">made in black &amp; gold — for the one and only Prince</p>
       </footer>
-    </main>
+    </div>
   );
 }
