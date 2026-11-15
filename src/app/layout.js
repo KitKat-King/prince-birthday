@@ -22,7 +22,7 @@ export const viewport = {
 };
 
 export const metadata = {
-  title: "Happy Birthday, Prince! 👑",
+  title: "Prince — The Birthday Experience 👑",
   description: "A celebration of Prince · 18 November 2010",
 };
 
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark" data-theme="dark">
       <body
-        className={`${shantell.className} antialiased bg-background text-foreground select-none min-h-screen`}
+        className={`${shantell.className} antialiased bg-black text-white selection:bg-white/20 min-h-screen`}
       >
         {children}
       </body>
