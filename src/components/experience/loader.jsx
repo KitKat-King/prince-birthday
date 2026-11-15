@@ -16,27 +16,31 @@ const BOOT_LINES = [
 ];
 
 function useCountdown() {
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState(0);
   const target = useMemo(() => new Date(PRINCE.birthdayISO).getTime(), []);
   useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), 1000);
+    const tick = () => setNow(Date.now());
+    tick();
+    const timer = setInterval(tick, 1000);
     return () => clearInterval(timer);
   }, []);
-  const diff = Math.max(0, target - now);
+  const ready = now > 0;
+  const diff = ready ? Math.max(0, target - now) : 0;
   const days = Math.floor(diff / 86400000);
   const hours = Math.floor((diff % 86400000) / 3600000);
   const mins = Math.floor((diff % 3600000) / 60000);
   const secs = Math.floor((diff % 60000) / 1000);
-  const open = now >= target;
-  return { days, hours, mins, secs, open };
+  const open = ready && now >= target;
+  return { days, hours, mins, secs, open, ready };
 }
 
 const pad = (value) => String(value).padStart(2, "0");
+const stamp = (value, ready) => (ready ? pad(value) : "--");
 
 export default function Loader({ onDone }) {
   const [progress, setProgress] = useState(0);
   const [line, setLine] = useState(0);
-  const { days, hours, mins, secs, open } = useCountdown();
+  const { days, hours, mins, secs, open, ready } = useCountdown();
 
   useEffect(() => {
     const tick = setInterval(() => {
@@ -160,7 +164,7 @@ export default function Loader({ onDone }) {
             [secs, "SEC"],
           ].map(([value, unit]) => (
             <div className="count-cell" key={unit}>
-              <span className="count-value">{pad(value)}</span>
+              <span className="count-value">{stamp(value, ready)}</span>
               <span className="mono count-unit">{unit}</span>
             </div>
           ))}
