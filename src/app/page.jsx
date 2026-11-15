@@ -15,7 +15,6 @@ import {
   useState,
   useMemo,
   useCallback,
-  type CSSProperties,
 } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
@@ -133,7 +132,7 @@ function fireGrandConfetti() {
     zIndex: 9999,
   };
 
-  function fire(particleRatio: number, opts: confetti.Options) {
+  function fire(particleRatio, opts) {
     confetti({
       ...defaults,
       ...opts,
@@ -176,10 +175,6 @@ function RoyalLily({
   className = "",
   style,
   glow = false,
-}: {
-  className?: string;
-  style?: CSSProperties;
-  glow?: boolean;
 }) {
   return (
     <svg
@@ -301,11 +296,6 @@ function MobileDynamicIsland({
   isPlaying,
   onTogglePlay,
   onNextTrack,
-}: {
-  activeTrack: (typeof TRACKS)[0];
-  isPlaying: boolean;
-  onTogglePlay: () => void;
-  onNextTrack: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -418,18 +408,18 @@ function MobileDynamicIsland({
 /* ============================================================
    GRAND SCREEN-TAKEOVER ENTRANCE ("PRINCE PROTOCOL")
    ============================================================ */
-function GrandEntranceGate({ onUnlocked }: { onUnlocked: () => void }) {
+function GrandEntranceGate({ onUnlocked }) {
   const [holding, setHolding] = useState(false);
   const [progress, setProgress] = useState(0);
   const [exploded, setExploded] = useState(false);
 
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval> | null = null;
+    let interval = null;
     if (holding) {
       interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
-            clearInterval(interval!);
+            clearInterval(interval);
             setExploded(true);
             fireGrandConfetti();
             setTimeout(onUnlocked, 1000);
@@ -856,13 +846,6 @@ function SkiperSoundstageSection({
   onSelectTrack,
   onNext,
   onPrev,
-}: {
-  activeTrack: (typeof TRACKS)[0];
-  isPlaying: boolean;
-  onTogglePlay: () => void;
-  onSelectTrack: (track: (typeof TRACKS)[0]) => void;
-  onNext: () => void;
-  onPrev: () => void;
 }) {
   const [scrub, setScrub] = useState(38);
 
