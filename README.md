@@ -1,23 +1,19 @@
-# Only UI No UX Max Pro Ultra - Frontend Workspace
+# Prince — Chapter 16
 
-High-fidelity frontend UI workspace with zero backend overhead.
+A mobile-first, cinematic birthday experience built for Prince.
 
-### Tech Stack
-- **HTML5 & CSS3**
-- **TailwindCSS v4**
-- **JavaScript & JSX**
-- **React 19 & Next.js 16**
-- **Bootstrap 5**
-- **Framer Motion 14**
-- **Deployment**: Vercel ready
+## Included
 
-### Installed Skills (`.agents/skills/`)
-- `ui-ux-pro-max`: Design intelligence for 79 styles, 192 palettes, 74 font pairings, 17 GSAP/motion presets
-- `ui-styling`: Tailwind CSS & shadcn component styling
-- `design-system`: Color palettes, design tokens, typography scales
-- `banner-design`, `brand`, `design`, `slides`
+- Screen-takeover birthday unlock sequence
+- Framer Motion scroll reveals and 3D tilt dossier cards
+- Floating lily atmosphere and music-led visualizer
+- Photo/GIF memory reel, candle-wish confetti finale, and best-friend tribute
+- Static Next.js export ready for Vercel
 
-### Commands
-- Dev Server: `pnpm dev`
-- Production Build: `pnpm build`
-- Skill Search: `python3 .agents/skills/ui-ux-pro-max/scripts/search.py "<query>" --domain <style|color|chart|react|icon>`
+## Stack
+
+HTML5, CSS3, JavaScript/JSX, React 19, Next.js 16, Tailwind CSS 4, Bootstrap 5, Framer Motion, Lucide React, and Canvas Confetti.
+
+## Deployment
+
+This repository is configured for Vercel. Pushes to `main` are built in Vercel's cloud; no local development server or local build is required for deployment.

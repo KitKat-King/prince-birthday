@@ -1,36 +1,27 @@
 {
-  "name": "ui-frontend",
+  "name": "prince-birthday",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "bootstrap": "^5.3.9",
     "canvas-confetti": "^1.9.4",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "framer-motion": "^14.13.0",
-    "gsap": "^3.15.1",
     "lucide-react": "^1.72.0",
     "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "swiper": "^12.0.2",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.5",
-    "@types/canvas-confetti": "^1.9.0",
-    "@types/node": "^26.6.6",
-    "@types/react": "^19.3.0",
     "autoprefixer": "^10.6.2",
     "postcss": "^8.5.32",
-    "shadcn": "^4.23.0",
-    "tailwindcss": "^4.3.5",
-    "typescript": "^5.9.3"
+    "tailwindcss": "^4.3.5"
   }
 }
