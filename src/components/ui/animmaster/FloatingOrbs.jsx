@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export function FloatingOrbs({ className }) {
+export function FloatingOrbs({
+  className = "",
+}) {
   return (
     <div
       className={cn(

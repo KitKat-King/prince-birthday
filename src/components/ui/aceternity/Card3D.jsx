@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 
 const MouseEnterContext = createContext([false, () => {}]);
 
-export function CardContainer({ children, className, containerClassName }) {
+export function CardContainer({
+  children,
+  className = "",
+  containerClassName = "",
+}) {
   const containerRef = useRef(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
 
@@ -22,6 +26,17 @@ export function CardContainer({ children, className, containerClassName }) {
       containerRef.current.getBoundingClientRect();
     const x = (e.clientX - left - width / 2) / 25;
     const y = (e.clientY - top - height / 2) / 25;
+    rotateX.set(-y);
+    rotateY.set(x);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!containerRef.current || !e.touches[0]) return;
+    const { left, top, width, height } =
+      containerRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = (touch.clientX - left - width / 2) / 18;
+    const y = (touch.clientY - top - height / 2) / 18;
     rotateX.set(-y);
     rotateY.set(x);
   };
@@ -47,6 +62,9 @@ export function CardContainer({ children, className, containerClassName }) {
           onMouseEnter={handleMouseEnter}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
+          onTouchStart={handleMouseEnter}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleMouseLeave}
           onPointerCancel={handleMouseLeave}
           style={{
             rotateX: springX,
@@ -54,7 +72,7 @@ export function CardContainer({ children, className, containerClassName }) {
             transformStyle: "preserve-3d",
           }}
           className={cn(
-            "relative flex items-center justify-center transition-all duration-200 ease-linear",
+            "relative flex items-center justify-center transition-all duration-200 ease-linear touch-pan-y",
             className
           )}
         >
@@ -65,7 +83,10 @@ export function CardContainer({ children, className, containerClassName }) {
   );
 }
 
-export function CardBody({ children, className }) {
+export function CardBody({
+  children,
+  className = "",
+}) {
   return (
     <div
       className={cn(
@@ -81,7 +102,7 @@ export function CardBody({ children, className }) {
 export function CardItem({
   as: Tag = "div",
   children,
-  className,
+  className = "",
   translateX = 0,
   translateY = 0,
   translateZ = 0,

@@ -17,177 +17,276 @@ import {
   useCallback,
   type CSSProperties,
 } from "react";
+import Image from "next/image";
+import confetti from "canvas-confetti";
+import {
+  CardContainer,
+  CardBody,
+  CardItem,
+} from "@/components/ui/aceternity/Card3D";
+import { Spotlight } from "@/components/ui/aceternity/Spotlight";
+import { GlowCard } from "@/components/ui/skiper/GlowCard";
+import { TextReveal } from "@/components/ui/animmaster/TextReveal";
+import { FloatingOrbs } from "@/components/ui/animmaster/FloatingOrbs";
+import {
+  Sparkles,
+  Crown,
+  Flame,
+  Volume2,
+  VolumeX,
+  Play,
+  Pause,
+  SkipForward,
+  SkipBack,
+  Heart,
+  Music,
+  Share2,
+  CheckCircle2,
+  ChevronDown,
+  Gift,
+  Disc3,
+  PartyPopper,
+} from "lucide-react";
 
 /* ============================================================
-   DATA
+   DATA & CONSTANTS
    ============================================================ */
 const PRINCE = {
   name: "Prince",
   birthDate: "18 November 2010",
+  dateFormatted: "18 · 11 · 2010",
   age: 16,
-  flower: "Lily",
+  flower: "White Lily",
+  tagline: "16 Years of Unfiltered Royalty & Legacy",
 };
 
 const TRACKS = [
   {
     id: 0,
     title: "Bairan",
-    artist: "Prince's Birthday Anthem",
+    artist: "Prince’s Prime Anthem",
     duration: "3:42",
+    vibe: "High Energy · Bass Loaded · Certified Hype",
     color: "#a855f7",
-    glow: "rgba(168,85,247,0.4)",
+    glow: "rgba(168, 85, 247, 0.45)",
+    lyrics: "The energy speaks before you even enter the room.",
   },
   {
     id: 1,
     title: "Tere Aasa Pass Din Sara",
-    artist: "Prince's Soul Song",
+    artist: "Prince’s Timeless Loop",
     duration: "4:08",
+    vibe: "Soulful · Magnetic · Always On Repeat",
     color: "#ec4899",
-    glow: "rgba(236,72,153,0.4)",
+    glow: "rgba(236, 72, 153, 0.45)",
+    lyrics: "Unforgettable aura that stays timeless forever.",
   },
 ];
 
-const FACTS = [
-  { label: "Name", value: "Prince", icon: "👑" },
-  { label: "Born", value: "18 Nov 2010", icon: "🎂" },
-  { label: "Age", value: "16 Today", icon: "🔥" },
-  { label: "Flower", value: "Lily", icon: "🌸" },
+const MEMORIES = [
+  {
+    id: 1,
+    title: "The King's Smile",
+    caption: "Confidence isn't taught. You were born with it.",
+    src: "/images/1.jpg",
+    tag: "AURA 100%",
+  },
+  {
+    id: 2,
+    title: "Unstoppable Drive",
+    caption: "Every single room you walk into, you own the energy.",
+    src: "/images/2.jpg",
+    tag: "LEGEND",
+  },
+  {
+    id: 3,
+    title: "The Brother We Trust",
+    caption: "Loyalty over everything. True brothers stand timeless.",
+    src: "/images/3.jpg",
+    tag: "BROTHERHOOD",
+  },
+  {
+    id: 4,
+    title: "Chapter 16 Begins",
+    caption: "Level 16 unlocked. The whole universe is yours to conquer.",
+    src: "/images/4.jpg",
+    tag: "LEVEL 16",
+  },
 ];
 
-const MESSAGES = [
-  {
-    heading: "A Legend Was Born",
-    body: "On 18 November 2010, the universe quietly placed its rarest gift into the world — you, Prince. That day, everything changed.",
-    icon: "✨",
-  },
-  {
-    heading: "Built Different",
-    body: "Your confidence is magnetic. Your presence is rare. You don't follow energy — you create it. That's not luck. That's Prince.",
-    icon: "⚡",
-  },
-  {
-    heading: "Your Kingdom Awaits",
-    body: "This year is yours to conquer. May every door swing wide open, every dream turn real, and every moment carry your signature.",
-    icon: "🏆",
-  },
+const STATS = [
+  { label: "Years of Greatness", val: "16", suffix: "" },
+  { label: "Days of Royalty", val: "5,844", suffix: "+" },
+  { label: "Loyalty Score", val: "100", suffix: "%" },
+  { label: "Swagger Aura", val: "∞", suffix: "" },
 ];
 
 /* ============================================================
-   CONSTANTS
+   CONFETTI UTILITY
    ============================================================ */
-const EASE = [0.22, 1, 0.36, 1] as const;
+function fireGrandConfetti() {
+  if (typeof window === "undefined") return;
+
+  const count = 200;
+  const defaults = {
+    origin: { y: 0.7 },
+    zIndex: 9999,
+  };
+
+  function fire(particleRatio: number, opts: confetti.Options) {
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(count * particleRatio),
+    });
+  }
+
+  fire(0.25, {
+    spread: 26,
+    startVelocity: 55,
+    colors: ["#a855f7", "#ec4899", "#ffd700"],
+  });
+  fire(0.2, {
+    spread: 60,
+    colors: ["#ffffff", "#c084fc", "#f43f5e"],
+  });
+  fire(0.35, {
+    spread: 100,
+    decay: 0.91,
+    scalar: 0.8,
+    colors: ["#ffd700", "#a855f7", "#38bdf8"],
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 25,
+    decay: 0.92,
+    colors: ["#ffffff", "#f472b6"],
+  });
+  fire(0.1, {
+    spread: 120,
+    startVelocity: 45,
+    colors: ["#ffd700", "#c084fc"],
+  });
+}
 
 /* ============================================================
-   LILY SVG
+   LILY SVG VECTOR
    ============================================================ */
-function LilySVG({
+function RoyalLily({
   className = "",
   style,
-  opacity = 1,
+  glow = false,
 }: {
   className?: string;
   style?: CSSProperties;
-  opacity?: number;
+  glow?: boolean;
 }) {
   return (
     <svg
       viewBox="0 0 64 64"
       className={className}
-      style={{ opacity, ...style }}
+      style={style}
       aria-hidden="true"
       fill="none"
     >
       <defs>
-        <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="rgba(255,255,255,0.9)" />
-          <stop offset="100%" stopColor="rgba(200,150,255,0.2)" />
+        <linearGradient id="lilyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+          <stop offset="40%" stopColor="#f3e8ff" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#c084fc" stopOpacity="0.3" />
         </linearGradient>
-        <linearGradient id="lg2" x1="1" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="rgba(255,200,255,0.8)" />
-          <stop offset="100%" stopColor="rgba(150,100,255,0.1)" />
+        <linearGradient id="lilyAccent" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#f472b6" stopOpacity="0.75" />
+          <stop offset="100%" stopColor="#9333ea" stopOpacity="0.2" />
         </linearGradient>
+        {glow && (
+          <filter id="lilyGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        )}
       </defs>
-      {/* Center petal */}
-      <path
-        d="M32 58c-6-8-10-17-10-26 0-10 4-20 10-28 6 8 10 18 10 28 0 9-4 18-10 26z"
-        fill="url(#lg1)"
-        stroke="rgba(255,255,255,0.3)"
-        strokeWidth="0.8"
-      />
-      {/* Left petal */}
-      <path
-        d="M32 32c-9-5-16-12-18-20 4-2 9-2 13 0 5 2 9 7 10 14-1 3-3 5-5 6z"
-        fill="url(#lg2)"
-        stroke="rgba(255,255,255,0.2)"
-        strokeWidth="0.8"
-      />
-      {/* Right petal */}
-      <path
-        d="M32 32c9-5 16-12 18-20-4-2-9-2-13 0-5 2-9 7-10 14 1 3 3 5 5 6z"
-        fill="url(#lg2)"
-        stroke="rgba(255,255,255,0.2)"
-        strokeWidth="0.8"
-      />
-      {/* Stem */}
-      <path
-        d="M32 58v-26"
-        stroke="rgba(255,255,255,0.3)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      {/* Center dot */}
-      <circle cx="32" cy="30" r="2.5" fill="rgba(255,255,255,0.9)" />
+      <g filter={glow ? "url(#lilyGlow)" : undefined}>
+        {/* Center Main Petal */}
+        <path
+          d="M32 58C25 48 20 37 20 26C20 14 26 5 32 2C38 5 44 14 44 26C44 37 39 48 32 58Z"
+          fill="url(#lilyGrad)"
+          stroke="rgba(255,255,255,0.4)"
+          strokeWidth="0.75"
+        />
+        {/* Left Side Petal */}
+        <path
+          d="M32 34C20 28 11 19 9 10C15 9 22 10 27 15C31 19 33 25 32 34Z"
+          fill="url(#lilyAccent)"
+          stroke="rgba(255,255,255,0.3)"
+          strokeWidth="0.7"
+        />
+        {/* Right Side Petal */}
+        <path
+          d="M32 34C44 28 53 19 55 10C49 9 42 10 37 15C33 19 31 25 32 34Z"
+          fill="url(#lilyAccent)"
+          stroke="rgba(255,255,255,0.3)"
+          strokeWidth="0.7"
+        />
+        {/* Center Golden Stem & Stamens */}
+        <path
+          d="M32 58V32"
+          stroke="rgba(255,215,0,0.6)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <circle cx="32" cy="28" r="2.2" fill="#ffd700" />
+        <circle cx="28" cy="25" r="1.5" fill="#fbcfe8" />
+        <circle cx="36" cy="25" r="1.5" fill="#fbcfe8" />
+      </g>
     </svg>
   );
 }
 
 /* ============================================================
-   FLOATING LILIES BACKGROUND
+   FLOATING LILIES AMBIENT BACKGROUND
    ============================================================ */
-function FloatingLilies() {
-  const items = useMemo(
+function AmbientFloatingLilies() {
+  const lilies = useMemo(
     () =>
-      Array.from({ length: 18 }, (_, i) => ({
+      Array.from({ length: 14 }, (_, i) => ({
         id: i,
-        left: `${((i * 7.3 + (i % 4) * 11) % 90) + 2}%`,
-        top: `${((i * 13.7 + (i % 5) * 8) % 90) + 2}%`,
-        size: 20 + (i % 5) * 10,
-        delay: i * 0.4,
-        dur: 5 + (i % 4) * 2,
-        rotate: i * 23,
-        opacity: 0.04 + (i % 4) * 0.025,
+        left: `${(i * 7.5 + (i % 3) * 11) % 92 + 4}%`,
+        top: `${(i * 13.2 + (i % 4) * 8) % 92 + 4}%`,
+        size: 24 + (i % 4) * 12,
+        duration: 8 + (i % 5) * 2.5,
+        delay: i * 0.45,
+        rotation: (i * 37) % 360,
       })),
     []
   );
 
   return (
-    <div
-      className="pointer-events-none fixed inset-0 overflow-hidden"
-      aria-hidden="true"
-    >
-      {items.map((lily) => (
+    <div className="pointer-events-none fixed inset-0 overflow-hidden z-[1]">
+      {lilies.map((l) => (
         <motion.div
-          key={lily.id}
+          key={l.id}
           className="absolute"
           style={{
-            left: lily.left,
-            top: lily.top,
-            width: lily.size,
-            height: lily.size,
+            left: l.left,
+            top: l.top,
+            width: l.size,
+            height: l.size,
           }}
           animate={{
-            y: [-12, 12, -12],
-            rotate: [lily.rotate, lily.rotate + 15, lily.rotate],
-            opacity: [lily.opacity, lily.opacity * 1.6, lily.opacity],
+            y: [-15, 15, -15],
+            x: [-8, 8, -8],
+            rotate: [l.rotation, l.rotation + 20, l.rotation],
+            opacity: [0.08, 0.22, 0.08],
           }}
           transition={{
-            duration: lily.dur,
-            delay: lily.delay,
+            duration: l.duration,
             repeat: Infinity,
+            delay: l.delay,
             ease: "easeInOut",
           }}
         >
-          <LilySVG className="h-full w-full" />
+          <RoyalLily className="h-full w-full" glow />
         </motion.div>
       ))}
     </div>
@@ -195,605 +294,289 @@ function FloatingLilies() {
 }
 
 /* ============================================================
-   SCROLL PROGRESS BAR
+   SKIPER UI DYNAMIC ISLAND (Sticky Mobile Island)
    ============================================================ */
-function ProgressBar() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-
-  return (
-    <motion.div
-      style={{ scaleX, transformOrigin: "0% 50%" }}
-      className="fixed top-0 left-0 right-0 z-[100] h-[2px] bg-gradient-to-r from-purple-500 via-pink-500 to-violet-500"
-    />
-  );
-}
-
-/* ============================================================
-   REVEAL WRAPPER (Scroll-based)
-   ============================================================ */
-function Reveal({
-  children,
-  delay = 0,
-  className = "",
-  direction = "up",
+function MobileDynamicIsland({
+  activeTrack,
+  isPlaying,
+  onTogglePlay,
+  onNextTrack,
 }: {
-  children: React.ReactNode;
-  delay?: number;
-  className?: string;
-  direction?: "up" | "left" | "right" | "scale";
+  activeTrack: (typeof TRACKS)[0];
+  isPlaying: boolean;
+  onTogglePlay: () => void;
+  onNextTrack: () => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
-  const variants = {
-    up: { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0 } },
-    left: { hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0 } },
-    right: { hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0 } },
-    scale: {
-      hidden: { opacity: 0, scale: 0.8 },
-      visible: { opacity: 1, scale: 1 },
-    },
-  };
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <motion.div
-      ref={ref}
-      className={className}
-      variants={variants[direction]}
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"}
-      transition={{ duration: 0.8, delay, ease: EASE }}
-    >
-      {children}
-    </motion.div>
+    <aside aria-label="Quick Controls" className="fixed top-3 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+      <motion.div
+        layout
+        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        onClick={() => setExpanded(!expanded)}
+        className="pointer-events-auto cursor-pointer rounded-full bg-zinc-950/90 text-white backdrop-blur-2xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.6)] px-4 py-2 transition-all hover:border-purple-500/50"
+      >
+        <AnimatePresence mode="wait">
+          {!expanded ? (
+            <motion.div
+              key="compact"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-3"
+            >
+              <div className="flex items-center gap-1.5">
+                <Crown className="h-3.5 w-3.5 text-amber-400" />
+                <span className="text-[10px] font-black tracking-widest text-white uppercase">
+                  PRINCE · 16
+                </span>
+              </div>
+              <div className="h-2 w-px bg-white/20" />
+              <div className="flex items-center gap-1">
+                {[1, 2, 3].map((bar) => (
+                  <motion.div
+                    key={bar}
+                    className="w-[2px] rounded-full bg-pink-500"
+                    animate={{
+                      height: isPlaying ? [4, 14, 6] : 4,
+                    }}
+                    transition={{
+                      duration: 0.5 + bar * 0.15,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: bar * 0.1,
+                    }}
+                  />
+                ))}
+              </div>
+              <span className="text-[9px] font-bold text-white/60 truncate max-w-[90px]">
+                {activeTrack.title}
+              </span>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="expanded"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-[280px] p-2 flex flex-col gap-3"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="h-7 w-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                    <RoyalLily className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black text-white">
+                      {activeTrack.title}
+                    </p>
+                    <p className="text-[9px] text-white/50">{activeTrack.artist}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    fireGrandConfetti();
+                  }}
+                  className="rounded-full bg-purple-500/20 border border-purple-500/40 p-1.5 text-purple-300 hover:bg-purple-500/30"
+                >
+                  <PartyPopper className="h-3.5 w-3.5" />
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between px-2">
+                <button
+                  onClick={onTogglePlay}
+                  className="flex items-center gap-2 rounded-full bg-white text-black font-black text-[11px] px-3 py-1 hover:scale-105 active:scale-95 transition-transform"
+                >
+                  {isPlaying ? (
+                    <>
+                      <Pause className="h-3 w-3 fill-black" /> Pause
+                    </>
+                  ) : (
+                    <>
+                      <Play className="h-3 w-3 fill-black" /> Play Anthem
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={onNextTrack}
+                  className="flex items-center gap-1 text-[10px] text-white/70 hover:text-white"
+                >
+                  Next Track <SkipForward className="h-3 w-3" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </aside>
   );
 }
 
 /* ============================================================
-   3D TILT CARD (Aceternity-style)
+   GRAND SCREEN-TAKEOVER ENTRANCE ("PRINCE PROTOCOL")
    ============================================================ */
-function TiltCard({
-  children,
-  className = "",
-  glowColor = "rgba(168,85,247,0.15)",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  glowColor?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-0.5, 0.5], [8, -8]);
-  const rotateY = useTransform(x, [-0.5, 0.5], [-8, 8]);
-  const [hovered, setHovered] = useState(false);
-
-  const handleMove = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      let clientX: number, clientY: number;
-      if ("touches" in e) {
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-      } else {
-        clientX = e.clientX;
-        clientY = e.clientY;
-      }
-      const nx = (clientX - rect.left) / rect.width - 0.5;
-      const ny = (clientY - rect.top) / rect.height - 0.5;
-      x.set(nx);
-      y.set(ny);
-    },
-    [x, y]
-  );
-
-  const handleLeave = useCallback(() => {
-    x.set(0);
-    y.set(0);
-    setHovered(false);
-  }, [x, y]);
-
-  return (
-    <motion.div
-      ref={ref}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        perspective: "1000px",
-      }}
-      onMouseMove={handleMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={handleLeave}
-      onTouchMove={handleMove}
-      onTouchEnd={handleLeave}
-      className={`relative cursor-pointer ${className}`}
-      whileHover={{ scale: 1.02 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-    >
-      {hovered && (
-        <div
-          className="pointer-events-none absolute inset-0 rounded-3xl"
-          style={{
-            background: `radial-gradient(circle at center, ${glowColor} 0%, transparent 70%)`,
-          }}
-        />
-      )}
-      {children}
-    </motion.div>
-  );
-}
-
-/* ============================================================
-   GLOW CARD (Skiper-style)
-   ============================================================ */
-function GlowCard({
-  children,
-  className = "",
-  color = "#a855f7",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  color?: string;
-}) {
-  const [pos, setPos] = useState({ x: 50, y: 50 });
-  const [hovering, setHovering] = useState(false);
-
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setPos({
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100,
-    });
-  };
-
-  return (
-    <div
-      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl ${className}`}
-      onMouseMove={handleMove}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-      style={{
-        background: hovering
-          ? `radial-gradient(circle at ${pos.x}% ${pos.y}%, ${color}22 0%, transparent 50%), rgba(255,255,255,0.03)`
-          : undefined,
-        transition: "background 0.3s ease",
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-/* ============================================================
-   TEXT REVEAL (Animmaster-style word reveal)
-   ============================================================ */
-function TextReveal({
-  text,
-  className = "",
-  delay = 0,
-}: {
-  text: string;
-  className?: string;
-  delay?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const words = text.split(" ");
-
-  return (
-    <div ref={ref} className={`flex flex-wrap gap-x-[0.3em] ${className}`}>
-      {words.map((word, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0, y: 30, rotateX: -40 }}
-          animate={inView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-          transition={{
-            duration: 0.65,
-            delay: delay + i * 0.07,
-            ease: EASE,
-          }}
-          style={{ display: "inline-block", transformOrigin: "bottom" }}
-        >
-          {word}
-        </motion.span>
-      ))}
-    </div>
-  );
-}
-
-/* ============================================================
-   MUSIC PLAYER
-   ============================================================ */
-function MusicPlayer() {
-  const [active, setActive] = useState(0);
-  const [playing, setPlaying] = useState(false);
+function GrandEntranceGate({ onUnlocked }: { onUnlocked: () => void }) {
+  const [holding, setHolding] = useState(false);
   const [progress, setProgress] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const track = TRACKS[active];
-
-  const togglePlay = useCallback(() => {
-    setPlaying((p) => !p);
-  }, []);
+  const [exploded, setExploded] = useState(false);
 
   useEffect(() => {
-    if (playing) {
-      intervalRef.current = setInterval(() => {
-        setProgress((p) => {
-          if (p >= 100) {
-            setPlaying(false);
-            return 0;
+    let interval: ReturnType<typeof setInterval> | null = null;
+    if (holding) {
+      interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval!);
+            setExploded(true);
+            fireGrandConfetti();
+            setTimeout(onUnlocked, 1000);
+            return 100;
           }
-          return p + 0.5;
+          return prev + 4;
         });
-      }, 100);
+      }, 35);
     } else {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      setProgress(0);
     }
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (interval) clearInterval(interval);
     };
-  }, [playing]);
+  }, [holding, onUnlocked]);
 
-  const switchTrack = (id: number) => {
-    setActive(id);
-    setProgress(0);
-    setPlaying(false);
+  const handleInstantOpen = () => {
+    setProgress(100);
+    setExploded(true);
+    fireGrandConfetti();
+    setTimeout(onUnlocked, 900);
   };
-
-  return (
-    <GlowCard color={track.color} className="p-6">
-      {/* Track selector */}
-      <div className="mb-5 flex gap-2">
-        {TRACKS.map((t) => (
-          <button
-            key={t.id}
-            onClick={() => switchTrack(t.id)}
-            className={`flex-1 rounded-2xl border px-3 py-2 text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
-              active === t.id
-                ? "border-white/30 bg-white/10 text-white"
-                : "border-white/[0.07] text-white/40 hover:border-white/20 hover:text-white/70"
-            }`}
-          >
-            {t.title}
-          </button>
-        ))}
-      </div>
-
-      {/* Album art / visualizer */}
-      <div className="relative mx-auto mb-5 flex h-32 w-32 items-center justify-center rounded-full border border-white/10 bg-white/5">
-        <motion.div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: `conic-gradient(${track.color} ${progress * 3.6}deg, transparent 0deg)`,
-            opacity: 0.3,
-          }}
-        />
-        <motion.div
-          animate={playing ? { rotate: 360 } : { rotate: 0 }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        >
-          <LilySVG className="h-14 w-14" />
-        </motion.div>
-        {/* Sound waves */}
-        {playing && (
-          <div className="absolute -right-1 -top-1 flex items-end gap-[2px] h-5">
-            {[1, 1.5, 0.8, 1.2, 0.6].map((h, i) => (
-              <motion.div
-                key={i}
-                className="w-[3px] rounded-full"
-                style={{ backgroundColor: track.color }}
-                animate={{ scaleY: [1, h * 1.5, 1] }}
-                transition={{
-                  duration: 0.5 + i * 0.1,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.08,
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Track info */}
-      <div className="mb-4 text-center">
-        <p className="text-base font-black tracking-tight text-white">
-          {track.title}
-        </p>
-        <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/40">
-          {track.artist}
-        </p>
-      </div>
-
-      {/* Progress bar */}
-      <div className="mb-4 h-1 w-full overflow-hidden rounded-full bg-white/10">
-        <motion.div
-          className="h-full rounded-full"
-          style={{ width: `${progress}%`, backgroundColor: track.color }}
-          transition={{ duration: 0.1 }}
-        />
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center justify-center gap-6">
-        <button
-          onClick={() =>
-            switchTrack(active === 0 ? TRACKS.length - 1 : active - 1)
-          }
-          className="text-white/50 hover:text-white transition-colors"
-        >
-          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" />
-          </svg>
-        </button>
-
-        <motion.button
-          onClick={togglePlay}
-          whileTap={{ scale: 0.9 }}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-white/10"
-          style={{ boxShadow: playing ? `0 0 20px ${track.glow}` : "none" }}
-        >
-          <AnimatePresence mode="wait">
-            {playing ? (
-              <motion.svg
-                key="pause"
-                className="h-6 w-6 text-white"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.5 }}
-              >
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-              </motion.svg>
-            ) : (
-              <motion.svg
-                key="play"
-                className="h-6 w-6 text-white"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.5 }}
-              >
-                <path d="M8 5v14l11-7z" />
-              </motion.svg>
-            )}
-          </AnimatePresence>
-        </motion.button>
-
-        <button
-          onClick={() => switchTrack((active + 1) % TRACKS.length)}
-          className="text-white/50 hover:text-white transition-colors"
-        >
-          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 3.9V8.1L8.5 12zM16 6h2v12h-2z" />
-          </svg>
-        </button>
-      </div>
-    </GlowCard>
-  );
-}
-
-/* ============================================================
-   CONFETTI BURST
-   ============================================================ */
-function ConfettiBurst({ trigger }: { trigger: boolean }) {
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 30 }, (_, i) => ({
-        id: i,
-        angle: (i / 30) * 360,
-        distance: 60 + Math.random() * 100,
-        color: ["#a855f7", "#ec4899", "#f59e0b", "#10b981", "#3b82f6"][i % 5],
-        size: 4 + Math.random() * 6,
-        delay: Math.random() * 0.3,
-      })),
-    []
-  );
-
-  if (!trigger) return null;
-
-  return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
-      {particles.map((p) => {
-        const rad = (p.angle * Math.PI) / 180;
-        return (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full"
-            style={{ backgroundColor: p.color, width: p.size, height: p.size }}
-            initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-            animate={{
-              x: Math.cos(rad) * p.distance,
-              y: Math.sin(rad) * p.distance,
-              opacity: 0,
-              scale: 0,
-            }}
-            transition={{
-              duration: 1.2,
-              delay: p.delay,
-              ease: "easeOut",
-            }}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-/* ============================================================
-   ENTRANCE GATE (Full-screen takeover)
-   ============================================================ */
-function EntranceGate({ onEnter }: { onEnter: () => void }) {
-  const [phase, setPhase] = useState<"idle" | "burst" | "exit">("idle");
-  const [showBurst, setShowBurst] = useState(false);
-  const [count, setCount] = useState(3);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const interval = setInterval(() => {
-        setCount((c) => {
-          if (c <= 1) {
-            clearInterval(interval);
-            setPhase("burst");
-            setShowBurst(true);
-            setTimeout(() => {
-              setPhase("exit");
-              setTimeout(onEnter, 900);
-            }, 1200);
-            return 0;
-          }
-          return c - 1;
-        });
-      }, 700);
-    }, 800);
-    return () => clearTimeout(t);
-  }, [onEnter]);
 
   return (
     <AnimatePresence>
-      {phase !== "exit" && (
+      {!exploded && (
         <motion.div
           key="gate"
-          className="fixed inset-0 z-[200] flex flex-col items-center justify-center overflow-hidden bg-black"
-          exit={{ opacity: 0, scale: 1.05 }}
-          transition={{ duration: 0.9, ease: EASE }}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-between bg-black px-6 py-12 text-white overflow-hidden select-none"
+          exit={{
+            opacity: 0,
+            scale: 1.15,
+            filter: "blur(20px)",
+            transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+          }}
         >
-          {/* Background mesh */}
-          <div className="absolute inset-0 overflow-hidden">
-            {[
-              { color: "#7c3aed", left: "20%", top: "20%" },
-              { color: "#db2777", left: "70%", top: "60%" },
-              { color: "#2563eb", left: "50%", top: "80%" },
-            ].map((orb, i) => (
-              <motion.div
-                key={i}
-                className="absolute h-64 w-64 rounded-full"
-                style={{
-                  left: orb.left,
-                  top: orb.top,
-                  background: `radial-gradient(circle, ${orb.color}30 0%, transparent 70%)`,
-                  transform: "translate(-50%, -50%)",
-                }}
-                animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
-                transition={{
-                  duration: 3 + i,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
+          {/* Ambient Cosmic Lights */}
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-purple-600/20 blur-[100px]" />
+            <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 h-72 w-72 rounded-full bg-pink-600/20 blur-[90px]" />
           </div>
 
-          {/* Starburst lines */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute h-px w-[180vw] origin-center"
-                style={{
-                  rotate: `${i * 15}deg`,
-                  background:
-                    "linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)",
-                }}
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, delay: i * 0.1, repeat: Infinity }}
-              />
-            ))}
-          </div>
+          {/* Top Classification Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center gap-1.5 z-10"
+          >
+            <div className="rounded-full border border-purple-500/40 bg-purple-950/30 px-3.5 py-1 text-[9px] font-black tracking-[0.4em] text-purple-300 uppercase backdrop-blur-md">
+              ROYAL PROTOCOL · CONFIDENTIAL
+            </div>
+            <p className="text-[10px] font-mono text-white/40 tracking-widest">
+              RESTRICTED FOR: PRINCE
+            </p>
+          </motion.div>
 
-          {/* Center content */}
-          <div className="relative flex flex-col items-center gap-6">
-            <ConfettiBurst trigger={showBurst} />
-
-            {/* Lily bloom */}
+          {/* Center Crown & Royal Shield */}
+          <div className="relative flex flex-col items-center gap-6 z-10">
             <motion.div
               animate={{
-                rotate: [0, 10, -10, 0],
-                scale: phase === "burst" ? [1, 1.4, 1] : 1,
+                rotate: [0, 5, -5, 0],
+                scale: holding ? 1.08 : 1,
               }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               className="relative"
             >
-              <LilySVG className="h-20 w-20" />
-              <motion.div
-                className="absolute inset-0 rounded-full"
-                animate={{
-                  boxShadow: [
-                    "0 0 30px rgba(168,85,247,0.4)",
-                    "0 0 60px rgba(236,72,153,0.5)",
-                    "0 0 30px rgba(168,85,247,0.4)",
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
+              <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-purple-500/30 to-pink-500/30 blur-2xl animate-pulse" />
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-3xl border border-white/20 bg-gradient-to-b from-white/10 to-white/[0.02] backdrop-blur-xl shadow-[0_0_50px_rgba(168,85,247,0.3)]">
+                <Crown className="h-14 w-14 text-amber-300 drop-shadow-[0_0_20px_rgba(251,191,36,0.6)]" />
+              </div>
             </motion.div>
 
-            {/* Countdown */}
-            {count > 0 && (
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={count}
-                  className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  Preparing your surprise…
-                </motion.div>
-              </AnimatePresence>
-            )}
-
-            {/* Name */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8, ease: EASE }}
-              className="text-center"
-            >
-              <p className="text-[9px] font-black uppercase tracking-[0.6em] text-white/40">
-                A birthday for
-              </p>
+            <div className="text-center">
               <motion.h1
-                className="mt-2 text-[clamp(4rem,22vw,9rem)] font-black leading-none tracking-tighter"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="text-[clamp(3.2rem,16vw,6rem)] font-black tracking-tighter leading-none"
                 style={{
                   background:
-                    "linear-gradient(135deg, #fff 0%, #d8b4fe 50%, #f9a8d4 100%)",
+                    "linear-gradient(135deg, #ffffff 0%, #e9d5ff 40%, #f472b6 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
                 }}
-                animate={
-                  phase === "burst"
-                    ? { scale: [1, 1.08, 1] }
-                    : {}
-                }
-                transition={{ duration: 0.5 }}
               >
                 PRINCE
               </motion.h1>
-              <p className="mt-3 text-sm font-semibold text-white/50">
-                18 · 11 · 2010
+              <p className="mt-2 text-xs font-black uppercase tracking-[0.45em] text-white/60">
+                18 NOVEMBER 2010
               </p>
-            </motion.div>
+              <p className="mt-1 text-[11px] text-purple-300/80 font-mono">
+                TURNING 16 TODAY · GODSPEED
+              </p>
+            </div>
+          </div>
 
-            {/* Animated ring */}
-            <motion.div
-              className="absolute -inset-24 rounded-full border border-white/[0.06]"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.div
-              className="absolute -inset-16 rounded-full border border-white/[0.04]"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            />
+          {/* Bottom Interactive Hold-to-Unlock / Tap button */}
+          <div className="flex flex-col items-center gap-4 z-10 w-full max-w-xs">
+            <div className="relative flex items-center justify-center">
+              {/* Radial Progress Ring */}
+              <svg className="h-28 w-28 -rotate-90">
+                <circle
+                  cx="56"
+                  cy="56"
+                  r="50"
+                  stroke="rgba(255,255,255,0.1)"
+                  strokeWidth="4"
+                  fill="none"
+                />
+                <circle
+                  cx="56"
+                  cy="56"
+                  r="50"
+                  stroke="url(#gateGrad)"
+                  strokeWidth="5"
+                  fill="none"
+                  strokeDasharray="314"
+                  strokeDashoffset={314 - (314 * progress) / 100}
+                  strokeLinecap="round"
+                />
+                <defs>
+                  <linearGradient id="gateGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#a855f7" />
+                    <stop offset="100%" stopColor="#ec4899" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              <button
+                onMouseDown={() => setHolding(true)}
+                onMouseUp={() => setHolding(false)}
+                onTouchStart={() => setHolding(true)}
+                onTouchEnd={() => setHolding(false)}
+                onClick={handleInstantOpen}
+                className="absolute flex h-20 w-20 flex-col items-center justify-center rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 font-black text-white shadow-[0_0_30px_rgba(168,85,247,0.5)] active:scale-95 transition-all"
+              >
+                <Sparkles className="h-6 w-6" />
+                <span className="text-[8px] font-black tracking-widest mt-0.5">
+                  ENTER
+                </span>
+              </button>
+            </div>
+
+            <p className="text-[10px] font-mono text-white/50 tracking-wider text-center">
+              HOLD OR TAP TO UNLOCK EXPERIENCE
+            </p>
           </div>
         </motion.div>
       )}
@@ -802,380 +585,867 @@ function EntranceGate({ onEnter }: { onEnter: () => void }) {
 }
 
 /* ============================================================
-   SECTION: HERO
+   HERO SECTION (Mobile-First Masterpiece)
    ============================================================ */
-function HeroSection({ entered }: { entered: boolean }) {
+function MasterHeroSection() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 600], [0, -100]);
-  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const y = useTransform(scrollY, [0, 500], [0, 80]);
+  const opacity = useTransform(scrollY, [0, 350], [1, 0.2]);
 
   return (
-    <section className="relative flex min-h-[100svh] flex-col items-center justify-between overflow-hidden px-6 py-14">
-      {/* Background gradient orb */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(120,40,200,0.15) 0%, transparent 70%)",
-        }}
-      />
+    <section className="relative min-h-[95svh] flex flex-col justify-between items-center px-5 pt-20 pb-8 text-center overflow-hidden">
+      <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" />
 
-      {/* Top badge */}
+      {/* Floating Badge */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
-        animate={entered ? { opacity: 1, y: 0 } : {}}
-        transition={{ delay: 0.1, duration: 0.7, ease: EASE }}
-        className="rounded-full border border-white/[0.12] bg-white/[0.04] px-4 py-1.5 text-[9px] font-black uppercase tracking-[0.5em] text-white/50 backdrop-blur-md"
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.8 }}
+        className="inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-950/30 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-purple-200 backdrop-blur-xl shadow-lg"
       >
-        🎂 &nbsp;Happy Birthday &nbsp;🎂
+        <Sparkles className="h-3 w-3 text-amber-300" />
+        CELEBRATING PRINCE · CHAPTER 16
+        <Sparkles className="h-3 w-3 text-amber-300" />
       </motion.div>
 
-      {/* Main heading */}
-      <motion.div style={{ y, opacity }} className="mt-auto flex flex-col items-center text-center">
+      {/* Hero Typography */}
+      <motion.div style={{ y, opacity }} className="my-auto flex flex-col items-center">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={entered ? { opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.25, duration: 1, ease: EASE }}
+          initial={{ opacity: 0, scale: 0.88 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.35, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative"
         >
-          <p className="mb-4 text-[9px] font-black uppercase tracking-[0.6em] text-white/40">
-            The Legend · 18 November 2010
+          <div className="absolute -inset-10 bg-gradient-to-r from-purple-600/30 via-pink-600/20 to-amber-500/10 blur-3xl opacity-75 pointer-events-none" />
+
+          <p className="text-[11px] font-mono font-bold tracking-[0.5em] text-white/40 uppercase mb-2">
+            THE CHOSEN MONARCH
           </p>
+
           <h1
-            className="text-[clamp(5.5rem,28vw,13rem)] font-black leading-[0.88] tracking-tighter"
+            className="text-[clamp(5.5rem,28vw,12rem)] font-black leading-[0.85] tracking-tighter"
             style={{
               background:
-                "linear-gradient(180deg, #ffffff 0%, #d8b4fe 60%, rgba(255,255,255,0.15) 100%)",
+                "linear-gradient(180deg, #ffffff 0%, #f3e8ff 45%, #c084fc 80%, rgba(255,255,255,0.2) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
             }}
           >
             PRINCE
           </h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={entered ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.8, ease: EASE }}
-            className="mx-auto mt-6 max-w-[260px] text-sm leading-relaxed text-white/55"
-          >
-            Today the universe pauses to celebrate you. Sixteen and
-            unstoppable.
-          </motion.p>
+
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <span className="h-px w-8 bg-gradient-to-r from-transparent to-purple-400" />
+            <p className="text-xs font-black uppercase tracking-[0.4em] text-purple-300">
+              18 · 11 · 2010
+            </p>
+            <span className="h-px w-8 bg-gradient-to-l from-transparent to-purple-400" />
+          </div>
         </motion.div>
-      </motion.div>
-
-      {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={entered ? { opacity: 1 } : {}}
-        transition={{ delay: 1.2, duration: 1 }}
-        className="mt-auto flex flex-col items-center gap-2 pb-4"
-      >
-        <motion.span
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-          className="text-[8px] font-black uppercase tracking-[0.5em] text-white/30"
-        >
-          Scroll
-        </motion.span>
-        <div className="h-10 w-px bg-gradient-to-b from-white/60 to-transparent" />
-      </motion.div>
-    </section>
-  );
-}
-
-/* ============================================================
-   SECTION: BIRTHDAY FILE (3D Tilt Cards)
-   ============================================================ */
-function BirthdayFileSection() {
-  return (
-    <section className="relative px-5 py-24">
-      {/* Section label */}
-      <Reveal className="text-center">
-        <p className="text-[9px] font-black uppercase tracking-[0.6em] text-purple-400">
-          ✦ &nbsp;Birthday File
-        </p>
-        <TextReveal
-          text="SIXTEEN AND UNSTOPPABLE"
-          className="mt-4 justify-center text-[clamp(2.5rem,13vw,6rem)] font-black leading-[0.9] tracking-tight text-white"
-        />
-      </Reveal>
-
-      {/* Fact cards grid */}
-      <div className="mt-10 grid grid-cols-2 gap-3 max-w-sm mx-auto">
-        {FACTS.map((fact, i) => (
-          <Reveal key={fact.label} delay={i * 0.1}>
-            <TiltCard glowColor="rgba(168,85,247,0.2)">
-              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl">
-                <span className="text-2xl">{fact.icon}</span>
-                <p className="mt-3 text-[9px] font-black uppercase tracking-[0.3em] text-white/40">
-                  {fact.label}
-                </p>
-                <p className="mt-2 text-base font-black tracking-tight text-white">
-                  {fact.value}
-                </p>
-              </div>
-            </TiltCard>
-          </Reveal>
-        ))}
-      </div>
-
-      {/* Full-width highlight card */}
-      <Reveal delay={0.3} className="mt-4 max-w-sm mx-auto">
-        <TiltCard glowColor="rgba(236,72,153,0.2)">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-purple-900/20 to-pink-900/20 p-6 backdrop-blur-xl">
-            <div
-              className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 opacity-15"
-            >
-              <LilySVG className="h-full w-full" />
-            </div>
-            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-purple-400">
-              🌸 &nbsp;Favorite Flower
-            </p>
-            <p className="mt-3 text-3xl font-black tracking-tight text-white">
-              The White Lily
-            </p>
-            <p className="mt-2 text-xs text-white/40 leading-relaxed">
-              Pure. Elegant. Powerful. Just like you.
-            </p>
-          </div>
-        </TiltCard>
-      </Reveal>
-    </section>
-  );
-}
-
-/* ============================================================
-   SECTION: SOUNDTRACK
-   ============================================================ */
-function SoundtrackSection() {
-  return (
-    <section className="relative px-5 py-20 max-w-md mx-auto">
-      <Reveal className="text-center">
-        <p className="text-[9px] font-black uppercase tracking-[0.6em] text-pink-400">
-          ♪ &nbsp;Soundtrack of Prince
-        </p>
-        <TextReveal
-          text="PRESS PLAY. FEEL THE MOMENT."
-          className="mt-4 justify-center text-[clamp(2.2rem,11vw,5rem)] font-black leading-[0.9] tracking-tight text-white"
-        />
-      </Reveal>
-      <Reveal delay={0.15} className="mt-9">
-        <MusicPlayer />
-      </Reveal>
-    </section>
-  );
-}
-
-/* ============================================================
-   SECTION: MESSAGES (Birthday Letter)
-   ============================================================ */
-function LetterSection() {
-  return (
-    <section className="relative px-5 py-24 max-w-md mx-auto">
-      <Reveal>
-        <div className="relative overflow-hidden rounded-[2.5rem] border border-white/[0.08] bg-white/[0.025] p-7 backdrop-blur-2xl">
-          {/* Decorative corner lily */}
-          <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 opacity-10">
-            <LilySVG className="h-full w-full" />
-          </div>
-          <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 opacity-[0.07]">
-            <LilySVG className="h-full w-full" />
-          </div>
-
-          {/* Header */}
-          <p className="text-[9px] font-black uppercase tracking-[0.5em] text-purple-400">
-            ✉ &nbsp;A Letter For You
-          </p>
-          <div className="mt-5">
-            <TextReveal
-              text="DEAR PRINCE,"
-              className="text-[clamp(2rem,10vw,4rem)] font-black leading-none tracking-tight text-white"
-            />
-          </div>
-
-          {/* Messages */}
-          <div className="mt-8 space-y-7">
-            {MESSAGES.map((msg, i) => (
-              <Reveal key={msg.heading} delay={i * 0.12} direction="left">
-                <div className="flex gap-4">
-                  <span className="mt-0.5 text-xl flex-shrink-0">{msg.icon}</span>
-                  <div className="border-l border-white/10 pl-4">
-                    <h3 className="text-sm font-black tracking-tight text-white">
-                      {msg.heading}
-                    </h3>
-                    <p className="mt-1.5 text-xs leading-relaxed text-white/50">
-                      {msg.body}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* Sign-off */}
-          <Reveal delay={0.4} className="mt-8 border-t border-white/[0.07] pt-6">
-            <p className="text-xs text-white/35 leading-relaxed">
-              With all the love in the world. Happy 16th Birthday, Prince. 🎂
-            </p>
-            <p className="mt-3 text-xs font-black uppercase tracking-[0.3em] text-white/50">
-              — Your Best Friend
-            </p>
-          </Reveal>
-        </div>
-      </Reveal>
-    </section>
-  );
-}
-
-/* ============================================================
-   SECTION: FINALE
-   ============================================================ */
-function FinaleSection() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [burst, setBurst] = useState(false);
-
-  useEffect(() => {
-    if (inView) {
-      const t = setTimeout(() => setBurst(true), 400);
-      return () => clearTimeout(t);
-    }
-  }, [inView]);
-
-  return (
-    <section
-      ref={ref}
-      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 py-28 text-center"
-    >
-      {/* Rotating lily bg */}
-      <motion.div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[75vw] w-[75vw] -translate-x-1/2 -translate-y-1/2 opacity-[0.07]"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-      >
-        <LilySVG className="h-full w-full" />
-      </motion.div>
-
-      {/* Confetti */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <ConfettiBurst trigger={burst} />
-      </div>
-
-      {/* Background gradient pulse */}
-      <motion.div
-        className="pointer-events-none absolute inset-0"
-        animate={{
-          background: [
-            "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(120,40,200,0.1) 0%, transparent 70%)",
-            "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(220,40,120,0.1) 0%, transparent 70%)",
-            "radial-gradient(ellipse 60% 60% at 50% 50%, rgba(120,40,200,0.1) 0%, transparent 70%)",
-          ],
-        }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <Reveal>
-        <p className="text-[9px] font-black uppercase tracking-[0.6em] text-white/40">
-          Happy Birthday
-        </p>
-
-        <div className="mt-6">
-          <TextReveal
-            text="STAY LEGENDARY"
-            className="justify-center text-[clamp(3.5rem,18vw,9rem)] font-black leading-[0.88] tracking-tighter"
-            delay={0.1}
-          />
-        </div>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-          className="mx-auto mt-7 max-w-[270px] text-sm leading-relaxed text-white/50"
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.8 }}
+          className="mt-6 max-w-[320px] text-xs sm:text-sm font-medium leading-relaxed text-white/65"
         >
-          May your 16th year be as bold, brilliant, and unforgettable as you
-          are. The world is yours, Prince.
+          Today isn’t just your birthday. Today is a celebration of your
+          loyalty, your swagger, and the undeniable aura you carry everywhere.
         </motion.p>
+      </motion.div>
 
-        {/* Lily row */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.5, ease: EASE }}
-          className="mt-10 flex items-center justify-center gap-4"
-        >
-          {[-1, 0, 1].map((offset) => (
-            <motion.div
-              key={offset}
-              animate={{ y: [0, -6, 0] }}
-              transition={{
-                duration: 2,
-                delay: (offset + 1) * 0.2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <LilySVG
-                className="h-7 w-7"
-                opacity={offset === 0 ? 0.9 : 0.5}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+      {/* Live Stats Bar */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.75, duration: 0.8 }}
+        className="grid grid-cols-4 gap-2 w-full max-w-sm rounded-2xl border border-white/10 bg-white/[0.03] p-3 backdrop-blur-xl"
+      >
+        {STATS.map((s, i) => (
+          <div key={i} className="flex flex-col items-center text-center">
+            <span className="text-sm font-black text-white">
+              {s.val}
+              <span className="text-[10px] text-purple-400">{s.suffix}</span>
+            </span>
+            <span className="text-[8px] font-semibold text-white/40 uppercase tracking-tight mt-0.5">
+              {s.label}
+            </span>
+          </div>
+        ))}
+      </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.7 }}
-          className="mt-6 text-[9px] font-black uppercase tracking-[0.5em] text-white/30"
-        >
-          18 · 11 · 2010
-        </motion.p>
-      </Reveal>
+      {/* Scroll Down Cue */}
+      <div className="mt-6 flex flex-col items-center gap-1.5 opacity-60">
+        <span className="text-[8px] font-black uppercase tracking-[0.4em] text-white/40">
+          EXPLORE THE ARCHIVE
+        </span>
+        <ChevronDown className="h-3.5 w-3.5 animate-bounce text-purple-400" />
+      </div>
     </section>
   );
 }
 
 /* ============================================================
-   ROOT PAGE
+   ACETERNITY 3D TILT MATRIX ("THE ROYAL DOSSIER")
    ============================================================ */
-export default function BirthdayPage() {
-  const [entered, setEntered] = useState(false);
-  const handleEnter = useCallback(() => setEntered(true), []);
+function RoyalDossierSection() {
+  return (
+    <section className="relative px-5 py-20">
+      <div className="text-center mb-10">
+        <span className="rounded-full bg-pink-500/10 border border-pink-500/20 px-3 py-1 text-[9px] font-black uppercase tracking-[0.3em] text-pink-300">
+          ACETERNITY 3D MATRIX
+        </span>
+        <TextReveal
+          text="THE ROYAL DOSSIER"
+          className="mt-3 text-[clamp(2.4rem,12vw,5rem)] font-black text-white tracking-tight justify-center"
+        />
+        <p className="mt-2 text-xs text-white/50 max-w-xs mx-auto">
+          Touch & tilt each card to interact with Prince’s legendary profile.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-md mx-auto">
+        {/* Card 1: Identity */}
+        <CardContainer className="w-full">
+          <CardBody className="relative group/card border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] border rounded-3xl p-6 backdrop-blur-2xl">
+            <CardItem
+              translateZ={50}
+              className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-400"
+            >
+              FILE #001 · IDENTITY
+            </CardItem>
+            <CardItem
+              translateZ={60}
+              className="text-2xl font-black text-white mt-2"
+            >
+              PRINCE
+            </CardItem>
+            <CardItem
+              as="p"
+              translateZ={40}
+              className="text-xs text-white/60 mt-2 leading-relaxed"
+            >
+              Not just a title, but a lifestyle. Natural command, fierce loyalty,
+              and a presence that commands respect effortlessly.
+            </CardItem>
+            <CardItem translateZ={80} className="mt-4 flex items-center gap-2">
+              <span className="rounded-full bg-purple-500/20 px-2.5 py-0.5 text-[9px] font-black text-purple-300">
+                18 NOV 2010
+              </span>
+              <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[9px] font-black text-white/70">
+                LEVEL 16
+              </span>
+            </CardItem>
+          </CardBody>
+        </CardContainer>
+
+        {/* Card 2: Royal Emblem (Lily) */}
+        <CardContainer className="w-full">
+          <CardBody className="relative group/card border-white/10 bg-gradient-to-b from-purple-900/20 to-black border rounded-3xl p-6 backdrop-blur-2xl overflow-hidden">
+            <div className="absolute -right-6 -bottom-6 opacity-20 pointer-events-none">
+              <RoyalLily className="h-36 w-36" glow />
+            </div>
+            <CardItem
+              translateZ={50}
+              className="text-[10px] font-black uppercase tracking-[0.3em] text-pink-400"
+            >
+              FILE #002 · EMBLEM
+            </CardItem>
+            <CardItem
+              translateZ={60}
+              className="text-2xl font-black text-white mt-2 flex items-center gap-2"
+            >
+              THE WHITE LILY
+            </CardItem>
+            <CardItem
+              as="p"
+              translateZ={40}
+              className="text-xs text-white/60 mt-2 leading-relaxed"
+            >
+              Prince’s signature flower. Representing unmatched elegance, pure
+              intentions, and unbreakable resilience under pressure.
+            </CardItem>
+            <CardItem translateZ={70} className="mt-4">
+              <div className="flex items-center gap-2 text-pink-300 text-xs font-bold">
+                <Sparkles className="h-4 w-4" /> Always Blooming in Adversity
+              </div>
+            </CardItem>
+          </CardBody>
+        </CardContainer>
+
+        {/* Card 3: Swagger Index */}
+        <CardContainer className="w-full">
+          <CardBody className="relative group/card border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] border rounded-3xl p-6 backdrop-blur-2xl">
+            <CardItem
+              translateZ={50}
+              className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-400"
+            >
+              FILE #003 · VIBE MATRIX
+            </CardItem>
+            <CardItem
+              translateZ={60}
+              className="text-2xl font-black text-white mt-2"
+            >
+              INFINITE AURA
+            </CardItem>
+            <CardItem
+              as="p"
+              translateZ={40}
+              className="text-xs text-white/60 mt-2 leading-relaxed"
+            >
+              When Prince enters, the frequency shifts. Authenticity that cannot
+              be bought, duplicated, or imitated.
+            </CardItem>
+            <CardItem translateZ={80} className="mt-4 space-y-1.5 w-full">
+              <div className="flex justify-between text-[10px] font-mono text-white/70">
+                <span>Loyalty</span>
+                <span className="text-amber-400">100%</span>
+              </div>
+              <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full bg-amber-400 rounded-full w-full" />
+              </div>
+            </CardItem>
+          </CardBody>
+        </CardContainer>
+
+        {/* Card 4: Chapter 16 */}
+        <CardContainer className="w-full">
+          <CardBody className="relative group/card border-white/10 bg-gradient-to-b from-blue-900/20 to-black border rounded-3xl p-6 backdrop-blur-2xl">
+            <CardItem
+              translateZ={50}
+              className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400"
+            >
+              FILE #004 · MILESTONE
+            </CardItem>
+            <CardItem
+              translateZ={60}
+              className="text-2xl font-black text-white mt-2"
+            >
+              TURNING SIXTEEN
+            </CardItem>
+            <CardItem
+              as="p"
+              translateZ={40}
+              className="text-xs text-white/60 mt-2 leading-relaxed"
+            >
+              Year 16 is your domain. Every ambition, every target, and every
+              dream is yours to conquer with fearless momentum.
+            </CardItem>
+            <CardItem translateZ={80} className="mt-4">
+              <button
+                onClick={fireGrandConfetti}
+                className="rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-1.5 text-[10px] font-black text-white uppercase tracking-wider hover:scale-105 active:scale-95 transition-transform"
+              >
+                SALUTE THE KING 👑
+              </button>
+            </CardItem>
+          </CardBody>
+        </CardContainer>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   SKIPER UI SOUNDSTAGE ("PRINCE'S JUKEBOX")
+   ============================================================ */
+function SkiperSoundstageSection({
+  activeTrack,
+  isPlaying,
+  onTogglePlay,
+  onSelectTrack,
+  onNext,
+  onPrev,
+}: {
+  activeTrack: (typeof TRACKS)[0];
+  isPlaying: boolean;
+  onTogglePlay: () => void;
+  onSelectTrack: (track: (typeof TRACKS)[0]) => void;
+  onNext: () => void;
+  onPrev: () => void;
+}) {
+  const [scrub, setScrub] = useState(38);
 
   return (
-    <>
-      {/* Entrance Gate */}
-      <EntranceGate onEnter={handleEnter} />
+    <section className="relative px-5 py-20 max-w-md mx-auto">
+      <div className="text-center mb-8">
+        <span className="rounded-full bg-purple-500/10 border border-purple-500/20 px-3 py-1 text-[9px] font-black uppercase tracking-[0.3em] text-purple-300">
+          SKIPER UI AUDIO ENGINE
+        </span>
+        <TextReveal
+          text="THE SOUNDTRACK OF PRINCE"
+          className="mt-3 text-[clamp(2.2rem,11vw,4.5rem)] font-black text-white tracking-tight justify-center"
+        />
+        <p className="mt-1 text-xs text-white/50">
+          His top favorite anthems on infinite loop.
+        </p>
+      </div>
 
-      {/* Scroll progress */}
-      {entered && <ProgressBar />}
+      <GlowCard
+        glowColor={activeTrack.glow}
+        className="p-6 border border-white/15 bg-zinc-950/90 rounded-[2.5rem]"
+      >
+        {/* Track Pills */}
+        <div className="flex gap-2 mb-6">
+          {TRACKS.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => onSelectTrack(t)}
+              className={`flex-1 py-2.5 px-3 rounded-2xl text-[10px] font-black tracking-wider uppercase transition-all duration-300 border ${
+                activeTrack.id === t.id
+                  ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                  : "bg-white/[0.04] text-white/50 border-white/10 hover:border-white/20"
+              }`}
+            >
+              {t.title}
+            </button>
+          ))}
+        </div>
 
-      {/* Background */}
-      <FloatingLilies />
-
-      {/* Page */}
-      <AnimatePresence>
-        {entered && (
-          <motion.main
-            key="main"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: EASE }}
-            className="relative min-h-screen overflow-x-hidden"
+        {/* Rotating Vinyl Disc Component */}
+        <div className="relative mx-auto my-4 flex h-48 w-48 items-center justify-center">
+          {/* Vinyl Grooves */}
+          <motion.div
+            animate={{ rotate: isPlaying ? 360 : 0 }}
+            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0 rounded-full bg-gradient-to-tr from-zinc-900 via-zinc-800 to-black p-2 shadow-[0_0_40px_rgba(0,0,0,0.8)] border border-white/10 flex items-center justify-center"
           >
-            <HeroSection entered={entered} />
-            <BirthdayFileSection />
-            <SoundtrackSection />
-            <LetterSection />
-            <FinaleSection />
-          </motion.main>
+            <div className="h-full w-full rounded-full border border-white/[0.08] flex items-center justify-center">
+              <div className="h-3/4 w-3/4 rounded-full border border-white/[0.06] flex items-center justify-center">
+                <div className="h-1/2 w-1/2 rounded-full border border-white/[0.05]" />
+              </div>
+            </div>
+            {/* Center Label */}
+            <div
+              className="absolute h-20 w-20 rounded-full flex flex-col items-center justify-center text-center p-1"
+              style={{
+                backgroundColor: activeTrack.color,
+                boxShadow: `0 0 25px ${activeTrack.glow}`,
+              }}
+            >
+              <RoyalLily className="h-8 w-8 text-white" />
+              <span className="text-[7px] font-black uppercase text-white tracking-widest mt-0.5">
+                PRINCE FM
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Equalizer Frequency Bars Overlay */}
+          <div className="absolute -bottom-2 flex items-end gap-1 h-8 z-10">
+            {[4, 10, 16, 22, 14, 8, 18, 12, 6].map((h, i) => (
+              <motion.div
+                key={i}
+                className="w-1 rounded-full"
+                style={{ backgroundColor: activeTrack.color }}
+                animate={{
+                  height: isPlaying ? [4, h * 1.5, 4] : 4,
+                }}
+                transition={{
+                  duration: 0.4 + i * 0.08,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.05,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Track Title & Vibe Description */}
+        <div className="text-center mt-6">
+          <h3 className="text-xl font-black text-white tracking-tight">
+            {activeTrack.title}
+          </h3>
+          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/50 mt-0.5">
+            {activeTrack.artist}
+          </p>
+          <div className="mt-3 rounded-2xl bg-white/[0.03] border border-white/[0.06] p-2.5 text-xs text-white/60 italic font-medium">
+            "{activeTrack.lyrics}"
+          </div>
+        </div>
+
+        {/* Scrubber Timeline */}
+        <div className="mt-6">
+          <div
+            onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const pct = ((e.clientX - rect.left) / rect.width) * 100;
+              setScrub(Math.max(0, Math.min(100, pct)));
+            }}
+            className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden cursor-pointer relative"
+          >
+            <motion.div
+              className="h-full rounded-full"
+              style={{
+                width: `${scrub}%`,
+                backgroundColor: activeTrack.color,
+              }}
+            />
+          </div>
+          <div className="flex justify-between text-[9px] font-mono text-white/40 mt-1.5">
+            <span>1:24</span>
+            <span>{activeTrack.duration}</span>
+          </div>
+        </div>
+
+        {/* Player Controls */}
+        <div className="flex items-center justify-center gap-6 mt-6">
+          <button
+            onClick={onPrev}
+            className="text-white/60 hover:text-white transition-colors active:scale-90"
+          >
+            <SkipBack className="h-5 w-5" />
+          </button>
+
+          <button
+            onClick={onTogglePlay}
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95 transition-transform"
+          >
+            {isPlaying ? (
+              <Pause className="h-6 w-6 fill-black" />
+            ) : (
+              <Play className="h-6 w-6 fill-black ml-0.5" />
+            )}
+          </button>
+
+          <button
+            onClick={onNext}
+            className="text-white/60 hover:text-white transition-colors active:scale-90"
+          >
+            <SkipForward className="h-5 w-5" />
+          </button>
+        </div>
+      </GlowCard>
+    </section>
+  );
+}
+
+/* ============================================================
+   INTERACTIVE POLAROID MEMORY VAULT
+   ============================================================ */
+function MemoryVaultSection() {
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const nextMemory = () => {
+    setActiveIdx((prev) => (prev + 1) % MEMORIES.length);
+  };
+
+  const prevMemory = () => {
+    setActiveIdx((prev) => (prev - 1 + MEMORIES.length) % MEMORIES.length);
+  };
+
+  const current = MEMORIES[activeIdx];
+
+  return (
+    <section className="relative px-5 py-20 max-w-md mx-auto">
+      <div className="text-center mb-8">
+        <span className="rounded-full bg-amber-500/10 border border-amber-500/20 px-3 py-1 text-[9px] font-black uppercase tracking-[0.3em] text-amber-300">
+          PHOTO ARCHIVE
+        </span>
+        <TextReveal
+          text="MOMENTS OF THE KING"
+          className="mt-3 text-[clamp(2.2rem,11vw,4.5rem)] font-black text-white tracking-tight justify-center"
+        />
+        <p className="mt-1 text-xs text-white/50">
+          Swipe through timeless snapshots of Prince.
+        </p>
+      </div>
+
+      <div className="relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.id}
+            initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0.9, rotate: 2 }}
+            transition={{ duration: 0.4 }}
+            className="rounded-[2.5rem] border border-white/15 bg-zinc-950 p-4 shadow-2xl backdrop-blur-2xl"
+          >
+            <div className="relative h-80 w-full rounded-3xl overflow-hidden bg-zinc-900 border border-white/10">
+              <Image
+                src={current.src}
+                alt={current.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 600px) 100vw, 400px"
+                priority
+              />
+              <div className="absolute top-3 left-3 rounded-full bg-black/70 backdrop-blur-md px-3 py-1 text-[9px] font-black uppercase text-amber-300 border border-white/10">
+                {current.tag}
+              </div>
+            </div>
+
+            <div className="p-4 text-center">
+              <h4 className="text-lg font-black text-white tracking-tight">
+                {current.title}
+              </h4>
+              <p className="mt-1 text-xs text-white/60 leading-relaxed">
+                {current.caption}
+              </p>
+
+              <div className="flex items-center justify-center gap-2 mt-4">
+                {MEMORIES.map((m, i) => (
+                  <button
+                    key={m.id}
+                    onClick={() => setActiveIdx(i)}
+                    className={`h-1.5 rounded-full transition-all ${
+                      activeIdx === i
+                        ? "w-6 bg-purple-500"
+                        : "w-1.5 bg-white/20 hover:bg-white/40"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Carousel buttons */}
+        <div className="flex items-center justify-between mt-4 px-2">
+          <button
+            onClick={prevMemory}
+            className="rounded-full border border-white/10 bg-white/[0.05] p-2.5 text-white/70 hover:text-white"
+          >
+            <SkipBack className="h-4 w-4" />
+          </button>
+          <span className="text-[10px] font-mono text-white/40">
+            {activeIdx + 1} OF {MEMORIES.length}
+          </span>
+          <button
+            onClick={nextMemory}
+            className="rounded-full border border-white/10 bg-white/[0.05] p-2.5 text-white/70 hover:text-white"
+          >
+            <SkipForward className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   INTERACTIVE CANDLE BLOWOUT EXPERIENCE
+   ============================================================ */
+function InteractiveCandleSection() {
+  const [blown, setBlown] = useState(false);
+
+  const handleBlowCandle = () => {
+    if (blown) return;
+    setBlown(true);
+    fireGrandConfetti();
+  };
+
+  return (
+    <section className="relative px-5 py-24 text-center max-w-md mx-auto">
+      <div className="rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-purple-950/30 to-black p-8 backdrop-blur-2xl">
+        <span className="rounded-full bg-amber-400/10 border border-amber-400/20 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.3em] text-amber-300">
+          BIRTHDAY WISH CEREMONY
+        </span>
+
+        <h3 className="mt-4 text-2xl font-black text-white">
+          Make a Wish, Prince!
+        </h3>
+        <p className="mt-1 text-xs text-white/60">
+          Tap the flame to blow out your 16th birthday candle.
+        </p>
+
+        {/* Candle Visual */}
+        <div className="my-10 flex flex-col items-center justify-center">
+          <div
+            onClick={handleBlowCandle}
+            className="relative cursor-pointer group select-none flex flex-col items-center"
+          >
+            {/* Flame */}
+            <AnimatePresence>
+              {!blown ? (
+                <motion.div
+                  key="flame"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{
+                    scale: [1, 1.15, 0.95, 1],
+                    y: [0, -2, 1, 0],
+                  }}
+                  exit={{
+                    scale: 0,
+                    opacity: 0,
+                    y: -10,
+                    transition: { duration: 0.3 },
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="h-8 w-5 rounded-full bg-gradient-to-t from-amber-500 via-orange-400 to-yellow-200 shadow-[0_0_30px_rgba(251,191,36,0.8)]"
+                />
+              ) : (
+                <motion.div
+                  key="smoke"
+                  initial={{ opacity: 0, y: 0, scale: 0.5 }}
+                  animate={{ opacity: [0, 0.7, 0], y: -25, scale: 1.8 }}
+                  transition={{ duration: 1.2 }}
+                  className="text-xs font-mono text-white/40"
+                >
+                  💨 Wish Released!
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Candle Body */}
+            <div className="h-16 w-4 rounded-t-sm bg-gradient-to-r from-pink-400 to-purple-400 shadow-md border-t border-white/30" />
+            {/* Cake Base Top */}
+            <div className="h-6 w-24 rounded-full bg-amber-100/90 shadow-lg -mt-1 border border-amber-200" />
+            {/* Cake Layer */}
+            <div className="h-12 w-28 rounded-b-2xl bg-gradient-to-b from-purple-800 to-pink-900 shadow-xl border border-white/10 flex items-center justify-center">
+              <span className="text-[10px] font-black text-amber-300">
+                16 YEARS
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Secret Wish Unlock Message */}
+        <AnimatePresence>
+          {blown && (
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="rounded-2xl border border-amber-400/30 bg-amber-400/10 p-4 text-center"
+            >
+              <Crown className="h-6 w-6 text-amber-300 mx-auto mb-1.5" />
+              <p className="text-sm font-black text-amber-200">
+                WISH GRANTED FOR PRINCE! 👑
+              </p>
+              <p className="mt-1 text-xs text-white/70 leading-relaxed">
+                "May your 16th year be overflowing with royal victories, health,
+                peace, and endless reasons to celebrate."
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {!blown && (
+          <p className="text-[10px] font-mono text-white/40 tracking-wider">
+            TAP CANDLE TO BLOW FLAME
+          </p>
         )}
-      </AnimatePresence>
-    </>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   ANIMMASTER SCROLL-DRIVEN TRIBUTE LETTER
+   ============================================================ */
+function TributeLetterSection() {
+  return (
+    <section className="relative px-5 py-24 max-w-md mx-auto">
+      <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-8 backdrop-blur-2xl">
+        <div className="pointer-events-none absolute -right-12 -top-12 opacity-10">
+          <RoyalLily className="h-44 w-44" glow />
+        </div>
+
+        <span className="rounded-full bg-purple-500/10 border border-purple-500/20 px-3 py-1 text-[9px] font-black uppercase tracking-[0.3em] text-purple-300">
+          A BROTHER'S LETTER
+        </span>
+
+        <h3 className="mt-4 text-3xl font-black text-white tracking-tight">
+          DEAR PRINCE,
+        </h3>
+
+        <div className="mt-6 space-y-6 text-xs sm:text-sm text-white/70 leading-relaxed">
+          <p>
+            On <strong className="text-white">18 November 2010</strong>, the
+            world was gifted someone who doesn’t conform to ordinary molds. You
+            bring an unapologetic authenticity and confidence to everything you
+            touch.
+          </p>
+          <p>
+            Sixteen years of carving your own lane. Whether it’s having your
+            favorite anthems like <em className="text-purple-300">Bairan</em> on
+            full blast or just holding down the fort with quiet loyalty, your
+            presence is always felt.
+          </p>
+          <p>
+            May this 16th milestone year bring you ruthless focus, boundless
+            joy, true brothers by your side, and all the success in the world.
+          </p>
+        </div>
+
+        <div className="mt-8 border-t border-white/10 pt-5 flex items-center justify-between">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+              SIGNED WITH BROTHERHOOD
+            </p>
+            <p className="text-xs font-bold text-white mt-0.5">
+              Your Best Friend & Brother
+            </p>
+          </div>
+          <Heart className="h-5 w-5 text-pink-500 fill-pink-500/40" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   GRAND FINALE & VIP DIGITAL PASS
+   ============================================================ */
+function GrandFinaleSection() {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+    fireGrandConfetti();
+  };
+
+  return (
+    <section className="relative px-5 py-24 text-center overflow-hidden flex flex-col items-center">
+      {/* Background Crown Watermark */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.04]">
+        <Crown className="h-[90vw] w-[90vw]" />
+      </div>
+
+      <span className="rounded-full bg-purple-500/10 border border-purple-500/20 px-3.5 py-1 text-[9px] font-black uppercase tracking-[0.4em] text-purple-300">
+        THE GRAND CORONATION
+      </span>
+
+      <h2
+        className="mt-6 text-[clamp(3.5rem,18vw,8rem)] font-black leading-[0.88] tracking-tighter"
+        style={{
+          background:
+            "linear-gradient(180deg, #ffffff 0%, #e9d5ff 50%, #c084fc 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        STAY
+        <span className="block text-white">LEGENDARY</span>
+      </h2>
+
+      <p className="mt-4 max-w-xs text-xs text-white/60 leading-relaxed">
+        16 years strong. Long live the King. Happy Birthday, Prince! 🎂👑
+      </p>
+
+      {/* VIP Access Pass Card */}
+      <div className="mt-10 w-full max-w-xs rounded-3xl border border-white/20 bg-gradient-to-b from-white/[0.08] to-white/[0.02] p-6 backdrop-blur-2xl shadow-2xl text-left">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="flex items-center gap-2">
+            <Crown className="h-5 w-5 text-amber-300" />
+            <span className="text-xs font-black text-white tracking-widest">
+              VIP ROYAL PASS
+            </span>
+          </div>
+          <span className="text-[9px] font-mono text-purple-400">#PRINCE-16</span>
+        </div>
+
+        <div className="py-4 space-y-2 text-xs">
+          <div className="flex justify-between">
+            <span className="text-white/40">Holder</span>
+            <span className="font-bold text-white">Prince</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-white/40">Date of Birth</span>
+            <span className="font-bold text-white">18 Nov 2010</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-white/40">Status</span>
+            <span className="font-bold text-emerald-400 flex items-center gap-1">
+              <CheckCircle2 className="h-3 w-3" /> Crowned King
+            </span>
+          </div>
+        </div>
+
+        <button
+          onClick={handleShare}
+          className="w-full mt-2 rounded-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 py-3 text-center text-xs font-black uppercase tracking-wider text-white shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2"
+        >
+          <Share2 className="h-4 w-4" />
+          {copied ? "Link Copied to Share! 🎉" : "Share Birthday Pass"}
+        </button>
+      </div>
+
+      {/* Persistent Confetti Blast Button */}
+      <button
+        onClick={fireGrandConfetti}
+        className="mt-8 rounded-full border border-white/20 bg-white/10 px-6 py-2.5 text-xs font-black uppercase tracking-[0.25em] text-white hover:bg-white/20 active:scale-95 transition-all flex items-center gap-2 shadow-lg"
+      >
+        <Sparkles className="h-4 w-4 text-amber-300" />
+        BLAST CONFETTI 🎊
+      </button>
+
+      <div className="mt-14 flex items-center gap-2 text-white/30 text-[9px] font-mono">
+        <RoyalLily className="h-4 w-4" />
+        <span>CRAFTED WITH BROTHERHOOD FOR PRINCE · 2026</span>
+        <RoyalLily className="h-4 w-4" />
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   MAIN PAGE CONTROLLER
+   ============================================================ */
+export default function MasterBirthdayPage() {
+  const [unlocked, setUnlocked] = useState(false);
+  const [activeTrack, setActiveTrack] = useState(TRACKS[0]);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlay = () => setIsPlaying(!isPlaying);
+
+  const nextTrack = () => {
+    setActiveTrack((prev) =>
+      prev.id === TRACKS.length - 1 ? TRACKS[0] : TRACKS[prev.id + 1]
+    );
+  };
+
+  const prevTrack = () => {
+    setActiveTrack((prev) =>
+      prev.id === 0 ? TRACKS[TRACKS.length - 1] : TRACKS[prev.id - 1]
+    );
+  };
+
+  return (
+    <main className="relative min-h-screen bg-black text-white overflow-x-hidden selection:bg-purple-500/30 selection:text-white">
+      {/* Grand Entrance Lock */}
+      {!unlocked && <GrandEntranceGate onUnlocked={() => setUnlocked(true)} />}
+
+      {/* Floating Lilies Background & Liquid Orbs */}
+      <AmbientFloatingLilies />
+      <FloatingOrbs />
+
+      {/* Sticky Top Mobile Dynamic Island */}
+      {unlocked && (
+        <MobileDynamicIsland
+          activeTrack={activeTrack}
+          isPlaying={isPlaying}
+          onTogglePlay={togglePlay}
+          onNextTrack={nextTrack}
+        />
+      )}
+
+      {/* Scrollable Story Content */}
+      <div className="relative z-10">
+        <MasterHeroSection />
+        <RoyalDossierSection />
+        <SkiperSoundstageSection
+          activeTrack={activeTrack}
+          isPlaying={isPlaying}
+          onTogglePlay={togglePlay}
+          onSelectTrack={setActiveTrack}
+          onNext={nextTrack}
+          onPrev={prevTrack}
+        />
+        <MemoryVaultSection />
+        <InteractiveCandleSection />
+        <TributeLetterSection />
+        <GrandFinaleSection />
+      </div>
+    </main>
   );
 }
