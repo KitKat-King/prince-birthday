@@ -21,7 +21,7 @@ export function Lily({ className = "", width = 24, height = 24, ...props }) {
   );
 }
 
-export function KineticLetters({ text = "", delay = 0, ...props }: any) {
+export function KineticLetters({ text = "", delay = 0, ...props }) {
   return (
     <motion.span
       className="kinetic"

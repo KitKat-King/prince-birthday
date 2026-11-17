@@ -87,7 +87,7 @@ export default function LegendPage() {
                   </div>
                   <div className="pass-meta flex flex-col gap-[2px] min-w-0">
                     <span className="pass-meta mono text-[4.5px] text-[#1d1429]/42 tracking-widest leading-[1.5]">BOARDING TIME</span>
-                    <span className="script font-[Playfair_Display] font-italic text-[12px] text-[#4b3570"]>NOW</span>
+                    <span className="script font-[Playfair_Display] font-italic text-[12px] text-[#4b3570]">NOW</span>
                   </div>
                   <div className="pass-qr-icon ml-auto text-[#1d1429]/40 shrink-0"><Share2 size={16} strokeWidth={2} /></div>
                 </div>

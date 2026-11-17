@@ -75,7 +75,7 @@ export default function MemoriesPage() {
                 ))}
                 <div className="stack-finished absolute inset-[22%_6%_auto] z-10 bg-[#fffdf9] rounded-[4px] p-[22px]_[18px] text-center shadow-[0_18px_34px_rgba(52,28,84,0.24)]">
                   <span className="stack-finished mono text-[6px] text-[#33234c]/50 tracking-widest">REEL COMPLETE</span>
-                  <strong className="block mt-[6px] font-[Anton] text-[30px] text-[#2b1c40"]>MEMORIES SAVED</strong>
+                  <strong className="block mt-[6px] font-[Anton] text-[30px] text-[#2b1c40]">MEMORIES SAVED</strong>
                   <p className="mt-[2px] mb-[14px] text-[11.5px] leading-[1.55] text-[#2b1c40]/60">Drag back through the stack to relive each moment.</p>
                   <button className="mini-action inline-flex items-center gap-2 border border-[#2b1c40]/20 rounded-full px-[10px] py-[2] text-[6px] tracking-widest text-[#4b3570] hover:bg-[#241a33] hover:text-white transition mx-auto">
                     <Sparkles size={14} strokeWidth={2} /> REPLAY
