@@ -1,36 +1,64 @@
-# Prince — Chapter 16
+# Prince — Chapter 16 (Masterpiece Build)
 
-A mobile-first, cinematic birthday film built for Prince. **THE ERA CUT**: loader → wax-seal unlock → six scenes → end credits.
+A mobile-first, cinematic birthday film built for Prince. **THE ERA CUT**: PIN unlock → wax-seal loader → six scenes → end credits.
 
-## The film
+Built as a **masterpiece** combining UI research from four birthday demo sites (V3, V3-Light, V4, V5 demos) into one cohesive experience:
 
-- **SC.00 — The Seal.** Cinematic boot sequence with a live T‑minus countdown, then a press‑and‑hold wax seal that heats, cracks and takes over the screen.
-- **SC.01 — Hero.** Kinetic `PRINCE / CHAPTER 16 / IT'S YOUR ERA` with scroll parallax, orbiting lilies and a velocity-reactive marquee.
-- **SC.02 — The Dossier.** Pointer-tracked 3D ID card with a flip side of live "hours lived" data, holographic stamps and a line-drawn lily.
-- **SC.03 — Anthems.** A visual mixtape for *Bairan* and *Tere Aasa Pass Din Sara*: cassette side flip, vinyl player, dynamic-island now-playing bar and a word-lit lyric card. Original mood lines only — no borrowed lyrics or audio.
-- **SC.04 — The Reel.** Draggable polaroid stack, scratch-off gift card, contact-sheet film strip and two GIF projectors.
-- **SC.05 — The Wish.** A sixteen-candle CSS cake with a hold-to-blow interaction, confetti/petal celebration and a wish ticket.
-- **SC.06 — Legend.** `STAY LEGENDARY` end credits, a boarding-pass birthday pass with share/copy, a three-tap verified stamp and a post-credits deleted scene.
+| Scene | What it is | Inspired by |
+|-------|-----------|-------------|
+| **SC.00 — PIN Gate** | 6-digit secret-code keypad on a glass card with floating bear, bunting flags, and looping audio | V5 demo |
+| **SC.00 — Loader** | Cinematic boot sequence with T‑minus countdown, vault dial, and scan lines | Existing |
+| **SC.00b — Unlock** | Press-and-hold wax seal that heats, cracks, and bursts open | Existing |
+| **SC.01 — Hero** | Kinetic `PRINCE / CHAPTER 16 / IT'S YOUR ERA` with gold ring, V4 gold balloons, floating bear, orbiting lilies, velocity marquee | V3 + V4 |
+| **SC.02 — Dossier** | Pointer-tracked 3D ID card with flip side, holographic stamps, line-drawn lily | Existing |
+| **SC.03 — Anthems** | Visual mixtape: cassette side flip, vinyl player, dynamic-island now-playing bar, word-lit lyric card | Existing |
+| **SC.04 — The Reel** | Draggable polaroid stack, scratch-off gift card, contact-sheet film strip, two GIF projectors | Existing |
+| **SC.05 — The Wish** | Sixteen-candle CSS cake with hold-to-blow, confetti, wish ticket | Existing |
+| **SC.06 — Legend** | `STAY LEGENDARY` end credits, boarding-pass birthday pass, three-tap verified stamp, post-credits deleted scene | Existing |
+
+## New in this build
+
+- **PIN lock screen** (`src/components/experience/pin-lock.jsx`) — 6-digit code entry (`123456` / `1234567`), heart-shaped PIN dots, delete key, wrong-code shake, confetti celebration on success
+- **V4 gold accents** — gold ring, gold gradient balloons, navy + gold color tokens
+- **V5 elements** — floating bear mascot, glass-morphism card, bunting flags, `Dancing Script` + `Shantell Sans` display fonts
+- **Component registries** — `components.json` with shadcn/ui, Magic UI, Aceternity UI, Skiper UI registries
+- **MCP config** — `.cursor/mcp.json` for shadcn + Aceternity MCP servers
+- **GSAP** added to the stack for advanced motion
 
 ## Stack
 
-HTML5, CSS3, JavaScript/JSX, React 19, Next.js 16, Tailwind CSS 4, Bootstrap grid, Framer Motion, anime.js, Lenis, Lucide React, Canvas Confetti.
+Next.js 16 (App Router, static export), React 19, Tailwind CSS 4, Framer Motion, GSAP, Lenis, Lucide React, Canvas Confetti, Bootstrap grid.
 
-## Interactions at a glance
+## Registries (`components.json`)
 
-- Press and hold the seal (~1.4s) or tap "instead"
-- Flip the dossier card; drag the polaroid stack
-- Scratch the silver card with a finger
-- Play/pause the mixtape, flip sides, tap lyric lines to cue them
-- Hold the wish button to blow out the candles
-- Tap the boarding pass three times; tap the post-credits reel three times
-- Sound toggle is interface-only Web Audio, off by default
+```json
+"registries": {
+  "@magicui": "https://magicui.design/r/{name}.json",
+  "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
+  "@skiper-ui": "https://skiper-ui.com/r/{name}.json"
+}
+```
 
-## Local notes
+Install via shadcn CLI when needed:
+```
+npx shadcn@latest add @magicui/blur-fade
+npx shadcn@latest add @skiper-ui/skiper40
+```
 
-- All motion respects `prefers-reduced-motion`.
-- The build is a static export (`output: "export"`); no server runtime is required.
+## MCP (`.cursor/mcp.json`)
+
+Configures shadcn and Aceternity UI MCP servers so AI agents can search and install animated components (Spotlight, Sparkles, BlurFade, 3D Card Stack, Image Trail/Reveal) directly.
 
 ## Deployment
 
-This repository is configured for Vercel. Pushes to `main` are built in Vercel's cloud; no local development server or local build is required for deployment.
+This repository is configured for Vercel. Pushes to `main` are built and deployed automatically — no local dev server or local build required.
+
+```
+git add -A
+git commit -m "feat: masterpiece build — PIN gate, V4 gold accents, V5 bear, registries + MCP"
+git push origin main
+```
+
+## Assets
+
+`public/images/` and `public/gifs/` are preserved. The PIN screen reuses `public/gifs/gift.gif` for the floating bear.

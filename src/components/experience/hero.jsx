@@ -14,7 +14,6 @@ export default function Hero() {
   const numRotate = useTransform(scrollYProgress, [0, 1], [-8, 12]);
   const copyY = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const copyOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-
   function petalBurst(event) {
     const box = event.currentTarget.getBoundingClientRect();
     confetti({
@@ -39,6 +38,14 @@ export default function Hero() {
       <div className="hero-grid" aria-hidden="true" />
       <div className="hero-spot" aria-hidden="true" />
 
+      {/* V4 gold ring accent */}
+      <div className="hero-gold-ring" aria-hidden="true" />
+
+      {/* V5 floating bear */}
+      <div className="floating-bear" style={{ right: "6%", top: "26%" }} aria-hidden="true">
+        <img src="/gifs/gift.gif" alt="Bear" />
+      </div>
+
       <motion.div className="hero-ghost-num" style={{ y: numY, rotate: numRotate }} aria-hidden="true">
         <span onClick={petalBurst}>16</span>
       </motion.div>
@@ -49,6 +56,38 @@ export default function Hero() {
         <Lily className="orbit-lily" />
         <Star className="orbit-star s1" size={12} />
         <Star className="orbit-star s2" size={9} />
+      </div>
+
+      {/* V4 gold balloons at bottom */}
+      <div className="hero-gold-balloon" aria-hidden="true">
+        <svg viewBox="0 0 100 140" className="drop-shadow-2xl" style={{ transformOrigin: "50% 100% 0" }}>
+          <defs>
+            <radialGradient id="goldBalloon" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#F3D5B0" />
+              <stop offset="50%" stopColor="#A4743E" />
+              <stop offset="100%" stopColor="#7D5129" />
+            </radialGradient>
+          </defs>
+          <ellipse cx="50" cy="60" rx="45" ry="55" fill="url(#goldBalloon)" />
+          <path d="M45 115 L55 115 L50 125 Z" fill="#ca8a04" />
+          <path d="M50 125 Q40 140 50 150" stroke="#fde047" strokeWidth={1} fill="none" opacity={0.7} />
+          <ellipse cx="30" cy="35" rx="14" ry="10" fill="rgba(255,255,255,0.3)" transform="rotate(-30 30 35)" filter="blur(2px)" />
+          <ellipse cx="35" cy="45" rx="6" ry="6" fill="rgba(255,255,255,0.2)" filter="blur(3px)" />
+        </svg>
+        <svg viewBox="0 0 100 140" className="drop-shadow-2xl -mr-4" style={{ transformOrigin: "50% 100% 0" }}>
+          <defs>
+            <radialGradient id="goldBalloon2" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#F3D5B0" />
+              <stop offset="50%" stopColor="#A4743E" />
+              <stop offset="100%" stopColor="#7D5129" />
+            </radialGradient>
+          </defs>
+          <ellipse cx="50" cy="60" rx="45" ry="55" fill="url(#goldBalloon2)" />
+          <path d="M45 115 L55 115 L50 125 Z" fill="#ca8a04" />
+          <path d="M50 125 Q40 140 50 150" stroke="#fde047" strokeWidth={1} fill="none" opacity={0.7} />
+          <ellipse cx="30" cy="35" rx="14" ry="10" fill="rgba(255,255,255,0.3)" transform="rotate(-30 30 35)" filter="blur(2px)" />
+          <ellipse cx="35" cy="45" rx="6" ry="6" fill="rgba(255,255,255,0.2)" filter="blur(3px)" />
+        </svg>
       </div>
 
       <motion.div className="hero-copy" style={{ y: copyY, opacity: copyOpacity }}>
