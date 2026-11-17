@@ -1,7 +1,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 
-export function Lily({ className = "", width = 24, height = 24, ...props }: any) {
+export function Lily({ className = "", width = 24, height = 24, ...props }) {
   return (
     <motion.svg
       className={className}

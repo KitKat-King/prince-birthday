@@ -50,9 +50,7 @@ export default function MemoriesPage() {
                 {PHOTOS.map((src, i) => (
                   <motion.div
                     key={i}
-                    className={`polaroid absolute inset-0_0_auto_0 w-full max-w-[320px] mx-auto rounded-[4px] bg-[#fffdf9] p-[11px]_p_[11px]_0 shadow-[0_18px_34px_rgba(52,28,84,0.22)] cursor-grab ${dragging ? "cursor-grabbing" : ""} will-change-transform touch-none ${
-                      i === PHOTOS.length - 1 ? "is-top" : ""
-                    }`}
+                    className={`polaroid absolute inset-0_0_auto_0 w-full max-w-[320px] mx-auto rounded-[4px] bg-[#fffdf9] p-[11px]_p_[11px]_0 shadow-[0_18px_34px_rgba(52,28,84,0.22)] cursor-grab ${dragging ? "cursor-grabbing" : ""} will-change-transform touch-none ${i === PHOTOS.length - 1 ? "is-top" : ""}`}
                     style={{
                       zIndex: PHOTOS.length - i,
                       transform: `rotate(${(i - (PHOTOS.length - 1)) * 2}deg) translateY(${i * 8}px)`,

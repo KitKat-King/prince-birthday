@@ -68,9 +68,9 @@ export default function AnthemsPage() {
                     <span className={`mono text-[5.5px] ${side === "A" && playing ? "text-pink-400" : "text-white/40"} ${playing ? "animate-pulse" : ""}`}>{side === "A" ? "▶ PLAYING" : "⏹ STOPPED"}</span>
                   </div>
                   <div className="cassette-window relative mt-[14px] h-[74px] rounded-[8px] bg-gradient-to-b from-[#0a0810] to-[#161020] border border-white/10 flex items-center justify-center px-[22px] overflow-hidden">
-                    <div className="reel relative w-[46px] h-[46px] rounded-full bg-[radial-gradient(circle,_#2c2440_0_24%,#0e0b16_25%_100%)] border border-white/28 block ${playing ? "animate-[spin_3.2s_linear_infinite]" : ""}" />
+                    <div className={`reel relative w-[46px] h-[46px] rounded-full bg-[radial-gradient(circle,_#2c2440_0_24%,#0e0b16_25%_100%)] border border-white/28 block ${playing ? "animate-[spin_3.2s_linear_infinite]" : ""}`} />
                     <div className="tape-line flex-1 h-[2px] mx-[8px] bg-gradient-to-r from-white/50 via-pink-400_50% opacity-60" />
-                    <div className="reel relative w-[46px] h-[46px] rounded-full bg-[radial-gradient(circle,_#2c2440_0_24%,#0e0b16_25%_100%)] border border-white/28 block ${playing ? "animate-[spin_3.2s_linear_infinite_reverse]" : ""}" />
+                    <div className={`reel relative w-[46px] h-[46px] rounded-full bg-[radial-gradient(circle,_#2c2440_0_24%,#0e0b16_25%_100%)] border border-white/28 block ${playing ? "animate-[spin_3.2s_linear_infinite_reverse]" : ""}`} />
                   </div>
                   <div className="cassette-label border border-white/14 rounded-[6px] px-[10px] py-[10px] bg-white/10 text-[#1a1428] flex flex-col gap-[3px] mt-[10px]">
                     <span className="mono text-[5.5px] text-[#1a1428]/55 tracking-widest">NOW PLAYING</span>
@@ -97,7 +97,7 @@ export default function AnthemsPage() {
                     <b className="text-[10px] font-black tracking-widest">{track.title.slice(0, 1)}</b>
                     <em className="text-[5px] tracking-widest">{track.artist}</em>
                   </div>
-                  <div className="tonearm absolute top-[4%] right-[2%] w-[3px] h-[44%] bg-gradient-to-b from-white/85 to-white/25 rounded-[99px] origin-top rotate-[-24deg] transition-transform duration-700 cubic-bezier(0.34,1.4,0.64,1) shadow-[0_0_10px_rgba(255,255,255,0.22)] ${playing ? "rotate-[-6deg]" : ""}">
+                  <div className={`tonearm absolute top-[4%] right-[2%] w-[3px] h-[44%] bg-gradient-to-b from-white/85 to-white/25 rounded-[99px] origin-top rotate-[-24deg] transition-transform duration-700 cubic-bezier(0.34,1.4,0.64,1) shadow-[0_0_10px_rgba(255,255,255,0.22)] ${playing ? "rotate-[-6deg]" : ""}`}>
                     <div className="absolute bottom-[-5px] left-[-3px] w-[9px] h-[9px] rounded-[2px] bg-lilac" />
                   </div>
                 </div>

@@ -43,7 +43,7 @@ export default function LegendPage() {
                 Prince — you've turned every ordinary moment into something extraordinary. Chapter 16 isn't just another year; it's proof that you keep getting better, brighter, and more unforgettable. Stay legendary.
               </p>
               <p className="tribute-close mt-[12px] font-[Playfair_Display] font-italic text-[17px] text-lilac">— Your Best Friend</p>
-              <div className="tribute-sign mt-[20px] mb-[4px] font-[Playfair_Display] font-italic text-[22px] text-white">With all my love,</p>
+              <div className="tribute-sign mt-[20px] mb-[4px] font-[Playfair_Display] font-italic text-[22px] text-white">With all my love,</div>
               <span className="tribute-date text-[5.5px] text-white/40 tracking-widest">18.11.2026</span>
             </div>
 
