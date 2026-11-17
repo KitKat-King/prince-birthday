@@ -1744,9 +1744,52 @@ img { display: block; max-width: 100%; }
 }
 
 /* ══════════════════════════════════════════════════════════════
-   V4/V5 — GOLD ACCENTS & PIN LOCK (masterpiece layer)
+   6-THEME SYSTEM (masterpiece layer)
    ══════════════════════════════════════════════════════════════ */
 :root {
+  --theme-a-bg: linear-gradient(to top right, #1a0b1e 0%, #000000 50%, #1a0b1e 100%);
+  --theme-a-primary: #f472b6;
+  --theme-a-secondary: #a78bfa;
+  --theme-a-accent: #fa85ff;
+  --theme-a-confetti: #FF3CAC #F687B3 #D8B4FE #C084FC #F472B6;
+  --theme-a-font: "Shantell Sans", "Dancing Script", cursive;
+
+  --theme-b-bg: #fefaff;
+  --theme-b-primary: #973b88;
+  --theme-b-secondary: #9b3c49;
+  --theme-b-accent: #594ba0;
+  --theme-b-blur1: #f9f2d8;
+  --theme-b-blur2: #f7d7cf;
+  --theme-b-blur3: #e2deea;
+  --theme-b-font: "Shantell Sans", "Comfortaa", cursive;
+
+  --theme-c-bg: #05093d;
+  --theme-c-primary: #e7cfa1;
+  --theme-c-secondary: #c28e54;
+  --theme-c-accent: #f3d5b0;
+  --theme-c-dark: #7d5129;
+  --theme-c-noise: rgba(206, 177, 100, 0.04);
+  --theme-c-font: "Quicksand", system-ui, sans-serif;
+
+  --theme-d-bg: linear-gradient(135deg, #fff0f5 0%, #fdf3f4 50%, #fff5f8 100%);
+  --theme-d-primary: #ff2357;
+  --theme-d-secondary: #f6339a;
+  --theme-d-accent: #fb64b6;
+  --theme-d-pink-50: #fff1f2;
+  --theme-d-font: "Dancing Script", "Shantell Sans", cursive;
+
+  --theme-e-bg: #0a0a0a;
+  --theme-e-primary: #00f2ff;
+  --theme-e-secondary: #bc13fe;
+  --theme-e-accent: #ff0055;
+  --theme-e-font: "Anton", system-ui, sans-serif;
+
+  --theme-f-bg: linear-gradient(180deg, #ffeef8 0%, #fceff9 50%, #ffebe9 100%);
+  --theme-f-primary: #ff9a9e;
+  --theme-f-secondary: #fecfef;
+  --theme-f-accent: #ffecd2;
+  --theme-f-font: "Dancing Script", "Shantell Sans", cursive;
+
   --v4-gold: #e7cfa1;
   --v4-gold-deep: #c28e54;
   --v4-gold-light: #f3d5b0;
@@ -1763,8 +1806,146 @@ img { display: block; max-width: 100%; }
   --v5-shantell: "Shantell Sans", cursive;
 }
 
-.font-shantell { font-family: var(--v5-shantell); }
-.font-script { font-family: var(--v5-font); }
+/* Theme attribute selectors */
+[data-theme="a"] { --bg: var(--theme-a-bg); --primary: var(--theme-a-primary); --secondary: var(--theme-a-secondary); --accent: var(--theme-a-accent); --confetti: var(--theme-a-confetti); --font: var(--theme-a-font); }
+[data-theme="b"] { --bg: var(--theme-b-bg); --primary: var(--theme-b-primary); --secondary: var(--theme-b-secondary); --accent: var(--theme-b-accent); --confetti: #973b88 #9b3c49 #594ba0 #f7c1cf #f5ead8; --font: var(--theme-b-font); }
+[data-theme="c"] { --bg: var(--theme-c-bg); --primary: var(--theme-c-primary); --secondary: var(--theme-c-secondary); --accent: var(--theme-c-accent); --confetti: #E5C195 #A4743E #7D5129 #F3D5B0 #C28E54; --font: var(--theme-c-font); }
+[data-theme="d"] { --bg: var(--theme-d-bg); --primary: var(--theme-d-primary); --secondary: var(--theme-d-secondary); --accent: var(--theme-d-accent); --confetti: #ff2357 #f6339a #fb64b6 #fda5d5 #ff667f; --font: var(--theme-d-font); }
+[data-theme="e"] { --bg: var(--theme-e-bg); --primary: var(--theme-e-primary); --secondary: var(--theme-e-secondary); --accent: var(--theme-e-accent); --confetti: #00f2ff #bc13fe #ff0055 #00ff88 #ffffff; --font: var(--theme-e-font); }
+[data-theme="f"] { --bg: var(--theme-f-bg); --primary: var(--theme-f-primary); --secondary: var(--theme-f-secondary); --accent: var(--theme-f-accent); --confetti: #ff9a9e #fecfef #ffecd2 #ffb3ba #baffc9; --font: var(--theme-f-font); }
+
+.font-theme { font-family: var(--font); }
+
+/* ── Fallback color variables (used by legacy components) ── */
+:root {
+  --c-pink-500: var(--primary, #f472b6);
+  --c-rose-500: var(--secondary, #f43f5e);
+  --c-fuchsia-400: var(--accent, #fa85ff);
+  --c-mint: var(--secondary, #a78bfa);
+  --c-lilac: var(--primary, #f472b6);
+  --c-pink-400: var(--primary, #f472b6);
+  --c-purple-400: var(--secondary, #a78bfa);
+  --c-rose-400: var(--secondary, #f43f5e);
+  --c-pink-200: var(--secondary, #fda4df);
+}
+
+/* ── Shared shell ── */
+.page-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+.page-shell > * { pointer-events: auto; }
+
+.nav-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 60;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-top .theme-label { font-family: var(--font, var(--v5-shantell)); font-size: 10px; letter-spacing: 0.14em; opacity: 0.7; }
+
+.nav-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 60;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+}
+.page-indicator { font-family: var(--font, var(--v5-shantell)); font-size: 11px; letter-spacing: 0.1em; opacity: 0.6; }
+
+.nav-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: #fff; font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: 0.2s;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.18); transform: translateY(-1px); }
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.page-wrap {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: #fff;
+}
+
+.page-content {
+  position: relative;
+  z-index: 10;
+  padding: 20px 16px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.confetti-canvas {
+  position: fixed; inset: 0; z-index: 20; pointer-events: none;
+}
+
+.floating-bear {
+  position: absolute;
+  z-index: 40;
+  animation: pinFloat 6s ease-in-out infinite;
+}
+.floating-bear img {
+  width: 88px; height: 88px; border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.9);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+}
+
+@keyframes pinFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+.glass-card {
+  position: relative;
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+}
+
+.sparkle {
+  position: absolute;
+  color: #fff;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+  animation: pinFloat 4s ease-in-out infinite;
+}
+
+/* ── Page transition ── */
+.page-fade {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+  opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+}
+.page-fade.active { opacity: 1; pointer-events: auto; }
+
+/* ── Confetti canvas ── */
+.confetti-canvas { position: fixed; inset: 0; z-index: 20; pointer-events: none; }
 
 /* ── PIN lock screen (V5) ── */
 .pin-lock {
@@ -2057,4 +2238,41 @@ img { display: block; max-width: 100%; }
   filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
   animation: pinFloat 4s ease-in-out infinite;
 }
+
+/* ── CTA button (shadcn-inspired) ── */
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 16px 40px;
+  background: linear-gradient(to right, var(--primary, #f472b6), var(--secondary, #f43f5e), var(--accent, #fa85ff));
+  color: #fff; font-weight: 600; font-size: var(--text-lg);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 28px rgba(244, 114, 182, 0.35);
+  transition: transform 0.2s ease;
+  border: none; cursor: pointer;
+}
+.cta-btn:active { transform: scale(0.95); }
+
+/* ── Animation utilities ── */
+.animate-in { animation: animateIn 0.4s ease-out both; }
+.fade-in { animation-name: fadeIn; }
+.slide-in-from-top-2 { animation-name: slideInFromTop2; }
+.zoom-in { animation-name: zoomIn; }
+.animate-shake { animation: pinShake 0.4s ease-in-out; }
+@keyframes animateIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInFromTop2 {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes pulseDot { 50% { opacity: 0.35; } }
 

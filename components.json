@@ -15,10 +15,5 @@
     "ui": "@/components/ui",
     "lib": "@/lib",
     "hooks": "@/lib/hooks"
-  },
-  "registries": {
-    "@magicui": "https://magicui.design/r/{name}.json",
-    "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
-    "@skiper-ui": "https://skiper-ui.com/r/{name}.json"
   }
 }
