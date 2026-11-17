@@ -4,17 +4,18 @@ A mobile-first, cinematic birthday film built for Prince. **THE ERA CUT**: PIN u
 
 Built as a **masterpiece** combining UI research from four birthday demo sites (V3, V3-Light, V4, V5 demos) into one cohesive experience:
 
-| Scene | What it is | Inspired by |
-|-------|-----------|-------------|
-| **SC.00 — PIN Gate** | 6-digit secret-code keypad on a glass card with floating bear, bunting flags, and looping audio | V5 demo |
-| **SC.00 — Loader** | Cinematic boot sequence with T‑minus countdown, vault dial, and scan lines | Existing |
-| **SC.00b — Unlock** | Press-and-hold wax seal that heats, cracks, and bursts open | Existing |
-| **SC.01 — Hero** | Kinetic `PRINCE / CHAPTER 16 / IT'S YOUR ERA` with gold ring, V4 gold balloons, floating bear, orbiting lilies, velocity marquee | V3 + V4 |
-| **SC.02 — Dossier** | Pointer-tracked 3D ID card with flip side, holographic stamps, line-drawn lily | Existing |
-| **SC.03 — Anthems** | Visual mixtape: cassette side flip, vinyl player, dynamic-island now-playing bar, word-lit lyric card | Existing |
-| **SC.04 — The Reel** | Draggable polaroid stack, scratch-off gift card, contact-sheet film strip, two GIF projectors | Existing |
-| **SC.05 — The Wish** | Sixteen-candle CSS cake with hold-to-blow, confetti, wish ticket | Existing |
-| **SC.06 — Legend** | `STAY LEGENDARY` end credits, boarding-pass birthday pass, three-tap verified stamp, post-credits deleted scene | Existing |
+| Route | Scene | Inspired by |
+|-------|-------|-------------|
+| `/` | **PIN Lock** — 6-digit secret-code keypad on glass card with bear mascot | V5 demo |
+| `/loader` | **Countdown Boot** — vault dial, scan lines, T-minus countdown | V3 demo |
+| `/seal` | **Wax Seal** — press-and-hold (~1.4s), heats, cracks, bursts | V3 demo |
+| `/hero` | **Kinetic Title** — `PRINCE / CHAPTER 16 / IT'S YOUR ERA` with gold ring, gold balloons, floating bear | V3 + V4 demos |
+| `/dossier` | **3D Flip ID Card** — pointer-tracked flip, holographic stamps, hours-lived counter | V3 demo |
+| `/anthems` | **Music Mixtape** — cassette side flip, vinyl player, dynamic-island now-playing bar | V3 demo |
+| `/memories` | **Photo Reel** — draggable polaroid stack, scratch-off card, film strip, GIF projectors | V3 demo |
+| `/wish` | **16-Candle Cake** — hold-to-blow, confetti burst, wish ticket | V3 demo |
+| `/legend` | **End Credits** — `STAY LEGENDARY`, boarding-pass pass, 3-tap verified stamp | V3 demo |
+| `/surprise` | **Gift Finale** — gift tap → surprise modal, replay | V3 SC.07 |
 
 ## New in this build
 
@@ -24,6 +25,7 @@ Built as a **masterpiece** combining UI research from four birthday demo sites (
 - **Component registries** — `components.json` with shadcn/ui, Magic UI, Aceternity UI, Skiper UI registries
 - **MCP config** — `.cursor/mcp.json` for shadcn + Aceternity MCP servers
 - **GSAP** added to the stack for advanced motion
+- **shadcn/ui components** — button, card, dialog, sheet built manually (registry fetch restricted on Termux)
 
 ## Stack
 
@@ -53,9 +55,15 @@ Configures shadcn and Aceternity UI MCP servers so AI agents can search and inst
 
 This repository is configured for Vercel. Pushes to `main` are built and deployed automatically — no local dev server or local build required.
 
+Vercel project settings:
+- **Framework Preset**: Next.js
+- **Build Command**: `npm run build`
+- **Output Directory**: `out`
+- **Install Command**: `npm install`
+
 ```
 git add -A
-git commit -m "feat: masterpiece build — PIN gate, V4 gold accents, V5 bear, registries + MCP"
+git commit -m "feat: masterpiece birthday build"
 git push origin main
 ```
 

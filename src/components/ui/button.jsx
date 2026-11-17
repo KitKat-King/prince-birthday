@@ -3,7 +3,6 @@
 import * as React from "react";
 import { variance } from "clsx";
 import { twMerge } from "tailwind-merge";
-
 import { cn } from "@/lib/utils";
 
 const buttonVariants = variance(
@@ -33,9 +32,8 @@ const buttonVariants = variance(
 );
 
 export function Button({ className, variant, size, asChild = false, ...props }) {
-  const Comp = asChild ? "button" : "button";
   return (
-    <Comp
+    <button
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />

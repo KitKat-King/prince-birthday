@@ -7,7 +7,6 @@ import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 import { Lily } from "@/components/ui/motion-kit";
-import { EASE } from "@/lib/motion";
 
 export default function SealPage() {
   const [progress, setProgress] = useState(0);

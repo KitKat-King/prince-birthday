@@ -9,12 +9,10 @@ import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 
 export default function SurprisePage() {
   const [opened, setOpened] = useState(false);
-  const [replay, setReplay] = useState(false);
-  const giftRef = useRef<HTMLDivElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current = document.getElementById("surprise-audio") as HTMLAudioElement | null;
+    audioRef.current = document.getElementById("surprise-audio");
   }, []);
 
   const openGift = () => {
@@ -25,7 +23,6 @@ export default function SurprisePage() {
   };
 
   const replayAll = () => {
-    setReplay(true);
     setOpened(false);
     setTimeout(() => { window.location.href = "/pin"; }, 900);
   };
@@ -41,7 +38,7 @@ export default function SurprisePage() {
           </audio>
 
           <div className="relative z-10 flex flex-col items-center max-w-[560px] w-full px-4 md:px-6">
-            <h2 className="text-[32px] md:text-5xl font-[Anton] font-normal text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-fuchsia-400 drop-shadow-[0_0_30px_rgba(236,72,153,0.25)] mb-6 tracking-[0.02em]">
+            <h2 className="text-[32px] md:text-5xl font-[Anton] font-normal text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-fuchsia-400 drop-shadow-[0_0_30px_rgba(236,72,153,0.25)] mb-6 letter-spacing-[0.02em]">
               One Last Thing…
             </h2>
 
@@ -67,7 +64,6 @@ export default function SurprisePage() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
                 className="fixed inset-0 z-40 grid place-items-center bg-black/65 backdrop-blur-lg"
               >
                 <motion.div

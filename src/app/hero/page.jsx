@@ -17,7 +17,7 @@ export default function HeroPage() {
   const copyY = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const copyOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
 
-  function petalBurst(e: React.MouseEvent) {
+  function petalBurst(e) {
     const box = e.currentTarget.getBoundingClientRect();
     confetti({
       particleCount: 26,
@@ -41,10 +41,8 @@ export default function HeroPage() {
           <div className="hero-grid absolute inset-0 z-[-2] opacity-6" />
           <div className="hero-spot absolute z-[-1] w-[90vmax] h-[90vmax] left-[-20vmax] top-[-30vmax] bg-[radial-gradient(circle,_rgba(203,183,255,0.16),transparent_62%)] blur-[18px] animate-[breathe_8s_ease-in-out_infinite]" />
 
-          {/* V4 gold ring accent */}
           <div className="hero-gold-ring absolute inset-0 z-0" />
 
-          {/* V5 floating bear */}
           <div className="floating-bear" style={{ right: "6%", top: "26%" }} aria-hidden="true">
             <img src="/gifs/gift.gif" alt="Bear" />
           </div>
@@ -61,7 +59,6 @@ export default function HeroPage() {
             <Star className="orbit-star s2" size={9} />
           </div>
 
-          {/* V4 gold balloons at bottom */}
           <div className="hero-gold-balloon absolute bottom-[-10%] left-0 w-full flex gap-4 justify-center opacity-85 pointer-events-none">
             <svg viewBox="0 0 100 140" className="w-16 h-22 drop-shadow-2xl" style={{ transformOrigin: "50% 100% 0" }}>
               <defs>

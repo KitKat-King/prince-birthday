@@ -3,40 +3,39 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
-/**
- * Silky scroll used across the film. Respects reduced-motion and
- * leaves the native scroll position untouched so Framer's useScroll
- * and anchor links keep working.
- */
-export default function SmoothScroll({ children }) {
+export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-
     const lenis = new Lenis({
-      duration: 1.05,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.15,
-      wheelMultiplier: 0.9,
+      direction: "vertical",
+      gestureDirection: "vertical",
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
     });
 
-    let frame = 0;
-    const raf = (time) => {
+    function raf(time: number) {
       lenis.raf(time);
-      frame = requestAnimationFrame(raf);
-    };
-    frame = requestAnimationFrame(raf);
+      requestAnimationFrame(raf);
+    }
 
-    window.__lenis = lenis;
+    requestAnimationFrame(raf);
+
+    // Expose for other components
+    if (typeof window !== "undefined") {
+      (window as any).__lenis = lenis;
+    }
 
     return () => {
-      cancelAnimationFrame(frame);
       lenis.destroy();
-      delete window.__lenis;
+      if (typeof window !== "undefined") {
+        (window as any).__lenis = null;
+      }
     };
   }, []);
 
-  return children;
+  return <>{children}</>;
 }

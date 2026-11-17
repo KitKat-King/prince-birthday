@@ -64,7 +64,6 @@ export default function WishPage() {
 
           <div className="cake-stage relative flex items-center justify-center min-h-[400px] mb-[30px] ${blown ? "shake" : ""} animate-[cakeShake_0.8s_ease-out]">
             <div className="cake-halo absolute w-[min(340px,82vw)] aspect-[1] rounded-full border-[1px] border-dashed border-white/18 animate-[spin_34s_linear_infinite]" />
-            <div className="cake-halo::after" />
 
             <div className="cake relative w-[min(280px,74vw)] h-[292px] z-2">
               <div className="cake-tier tier-top absolute left-[50%] -translate-x-[50%] bottom-[154px] w-[56%] h-[62px] rounded-[12px]_12px_[8px]_[8px] bg-gradient-to-b from-[#3d2c52] via-[#261a36]_54% to-[#170f22] border border-white/10 shadow-[inset_0_-10px_20px_rgba(0,0,0,0.55),inset_0_2px_0_rgba(255,255,255,0.14),0_16px_30px_rgba(0,0,0,0.45)] overflow-hidden">
@@ -89,11 +88,11 @@ export default function WishPage() {
                 <div className="sprinkle absolute w-[6px] h-[2px] rounded-full bg-[var(--lilac)] left-[75%] top-[48%] rotate-[50deg]" />
               </div>
               <div className="cake-plate absolute left-[50%] bottom-[4px] -translate-x-[50%] w-[118%] h-[16px] rounded-full bg-gradient-to-b from-[#ded7ea] via-[#9b93ad]_46% to-[#4c4559] shadow-[0_14px_26px_rgba(0,0,0,0.6)]" />
-              <div className="cake-number absolute left-[50%] bottom-[36px] -translate-x-[50%] font-[Anton] text-[30px] tracking-[0.06em] text-[rgba(255,155,212,0.55)] shadow-[0_0_18px_rgba(255,155,212,0.5)]">16</div>
+              <div className="cake-number absolute left-[50%] bottom-[36px] -translate-x-[50%] font-[Anton] text-[30px] letter-spacing-[0.06em] text-[rgba(255,155,212,0.55)] shadow-[0_0_18px_rgba(255,155,212,0.5)]">16</div>
               <div className="cake-flash absolute inset-0 z-[3] pointer-events-none opacity-0 bg-[radial-gradient(circle_at_50%_46%,rgba(255,255,255,0.9),rgba(255,155,212,0.4)_34%,transparent_68%)] mix-blend-screen transition-opacity duration-300 ${blown ? "on" : ""}" />
-              <div className="cake-banner absolute left-[50%] top-0 -translate-x-[50%] z-40 flex flex-col items-center gap-1 px-[18px] py-[10px] rounded-[10px] text-center bg-[rgba(10,8,14,0.82)] border border-[rgba(203,183,255,0.35)] backdrop-blur-[10px]">
+              <div className="cake-banner absolute left-[50%] top-0 -translate-x-[50%] z-40 flex flex-col items-center gap-4 px-[18px] py-[10px] rounded-[10px] text-center bg-[rgba(10,8,14,0.82)] border border-[rgba(203,183,255,0.35)] backdrop-blur-[10px]">
                 <span className="mono text-[5.5px] text-lilac tracking-widest">MAKE A WISH</span>
-                <strong className="font-[Anton] text-[18px] md:text-26px tracking-[0.02em] text-white">BLOW THE CANDLES</strong>
+                <strong className="font-[Anton] text-[18px] md:text-26px letter-spacing-[0.02em] text-white">BLOW THE CANDLES</strong>
               </div>
             </div>
 
@@ -173,5 +172,14 @@ export default function WishPage() {
         </section>
       </NavShell>
     </div>
+  );
+}
+
+function Lily({ className = "", width = 28, height = 28 }) {
+  return (
+    <svg className={className} width={width} height={height} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8Z" />
+      <path d="M12 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
+    </svg>
   );
 }

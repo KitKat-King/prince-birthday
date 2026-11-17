@@ -33,34 +33,14 @@ export function SheetContent({ className, children, side = "right", ...props }) 
     <motion.div
       initial={{
         opacity: 0,
-        x:
-          origin === "translate-x-full"
-            ? "100%"
-            : origin === "-translate-x-full"
-            ? "-100%"
-            : "0%",
-        y:
-          origin === "translate-y-full"
-            ? "100%"
-            : origin === "-translate-y-full"
-            ? "-100%"
-            : "0%",
+        x: origin === "translate-x-full" ? "100%" : origin === "-translate-x-full" ? "-100%" : "0%",
+        y: origin === "translate-y-full" ? "100%" : origin === "-translate-y-full" ? "-100%" : "0%",
       }}
       animate={{ opacity: 1, x: 0, y: 0 }}
       exit={{
         opacity: 0,
-        x:
-          origin === "translate-x-full"
-            ? "100%"
-            : origin === "-translate-x-full"
-            ? "-100%"
-            : "0%",
-        y:
-          origin === "translate-y-full"
-            ? "100%"
-            : origin === "-translate-y-full"
-            ? "-100%"
-            : "0%",
+        x: origin === "translate-x-full" ? "100%" : origin === "-translate-x-full" ? "-100%" : "0%",
+        y: origin === "translate-y-full" ? "100%" : origin === "-translate-y-full" ? "-100%" : "0%",
       }}
       className={cn(
         "fixed z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg rounded-lg",
@@ -112,7 +92,7 @@ export function SheetClose({ className, ...props }) {
   return (
     <button
       className={cn(
-        "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 hover:focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+        "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 hover:focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none",
         className
       )}
       {...props}

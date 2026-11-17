@@ -3,14 +3,14 @@
 import { useEffect, useRef } from "react";
 
 export default function ConfettiCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animRef = useRef<number>(0);
-  const particlesRef = useRef<Array<{ x: number; y: number; vx: number; vy: number; color: string; size: number; alpha: number }>>([]);
+  const canvasRef = useRef(null);
+  const animRef = useRef(0);
+  const particlesRef = useRef([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d")!;
+    const ctx = canvas.getContext("2d");
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -41,12 +41,12 @@ export default function ConfettiCanvas() {
       frame++;
       if (alive && frame < 700) animRef.current = requestAnimationFrame(animate);
       else {
-        cancelAnimationFrame(animRef.current!);
+        cancelAnimationFrame(animRef.current);
         animRef.current = 0;
       }
     }
 
-    window.addEventListener("prince-confetti", (e: any) => {
+    window.addEventListener("prince-confetti", (e) => {
       const { x = window.innerWidth / 2, y = window.innerHeight / 2, count = 200, colors } = e.detail || {};
       const palette = colors || ["#FF3CAC", "#F687B3", "#D8B4FE", "#C084FC", "#F472B6"];
       for (let i = 0; i < count; i++) {
@@ -65,20 +65,14 @@ export default function ConfettiCanvas() {
 
     return () => {
       window.removeEventListener("resize", resize);
-      window.removeEventListener("prince-confetti", animate as any);
-      cancelAnimationFrame(animRef.current!);
+      cancelAnimationFrame(animRef.current);
     };
   }, []);
 
   return <canvas ref={canvasRef} className="fixed inset-0 z-20 pointer-events-none" />;
 }
 
-export function triggerConfetti({
-  x,
-  y,
-  count = 200,
-  colors,
-}: { x?: number; y?: number; count?: number; colors?: string[] } = {}) {
+export function triggerConfetti({ x, y, count = 200, colors } = {}) {
   if (typeof window === "undefined") return;
   window.dispatchEvent(
     new CustomEvent("prince-confetti", {

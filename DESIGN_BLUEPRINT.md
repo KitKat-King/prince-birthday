@@ -1,7 +1,7 @@
 # 🎂 PRINCE BIRTHDAY — MASTERPIECE REDESIGN BLUEPRINT
 
 **Repo:** `https://github.com/KitKat-King/prince-birthday`
-**Status:** Pre-commit blueprint (not yet committed)
+**Status:** Committed to `main`
 **Approach:** Separate pages per scene, no scrolling, multi-theme palettes, shadcn CLI components
 
 ---
@@ -36,7 +36,7 @@ Each page:
 
 ---
 
-## 3. Theme Palettes (4 varieties, user-selectable)
+## 3. Theme Palettes (6 varieties, user-selectable)
 
 Stored as Tailwind CSS variables in `globals.css`, switched via a theme toggle in the nav shell.
 
@@ -47,7 +47,6 @@ Stored as Tailwind CSS variables in `globals.css`, switched via a theme toggle i
 | Primary | `#f472b6` (pink-400) |
 | Secondary | `#a78bfa` (purple-400) |
 | Accent | `#fa85ff` (fuchsia-400) |
-| Confetti | `#FF3CAC #F687B3 #D8B4FE #C084FC #F472B6` |
 | Font | Shantell Sans + Dancing Script |
 
 ### Theme B — "Cream Blush" (V3-light)
@@ -57,7 +56,6 @@ Stored as Tailwind CSS variables in `globals.css`, switched via a theme toggle i
 | Primary | `#973b88` |
 | Secondary | `#9b3c49` |
 | Accent | `#594ba0` |
-| Blur circles | `#f9f2d8 #f7d7cf #e2deea` |
 | Font | Shantell Sans + Comfortaa |
 
 ### Theme C — "Gold Navy" (V4)
@@ -67,7 +65,6 @@ Stored as Tailwind CSS variables in `globals.css`, switched via a theme toggle i
 | Primary | `#e7cfa1` (gold) |
 | Secondary | `#c28e54` (gold deep) |
 | Accent | `#f3d5b0` (gold light) |
-| Noise overlay | yes |
 | Font | Quicksand |
 
 ### Theme D — "Pink Lock" (V5)
@@ -79,11 +76,27 @@ Stored as Tailwind CSS variables in `globals.css`, switched via a theme toggle i
 | Accent | `#fb64b6` (pink-400) |
 | Font | Dancing Script + Shantell Sans |
 
+### Theme E — "Electric Neon"
+| Token | Value |
+|-------|-------|
+| Background | `#0a0a0a` |
+| Primary | `#00f2ff` (cyan) |
+| Secondary | `#bc13fe` (violet) |
+| Accent | `#ff0055` (red) |
+| Font | Anton |
+
+### Theme F — "Sunset Dream"
+| Token | Value |
+|-------|-------|
+| Background | `gradient(#ffeef8, #fceff9, #ffebe9)` |
+| Primary | `#ff9a9e` |
+| Secondary | `#fecfef` |
+| Accent | `#ffecd2` |
+| Font | Dancing Script + Shantell Sans |
+
 ---
 
 ## 4. shadcn CLI Component Plan (Extreme Usage)
-
-Install via `npx shadcn@latest add` from shadcn + Magic UI + Aceternity + Skiper registries:
 
 | Component | Source | Usage |
 |-----------|--------|-------|
@@ -100,8 +113,7 @@ Install via `npx shadcn@latest add` from shadcn + Magic UI + Aceternity + Skiper
 | `@aceternity/3d-marquee` | Aceternity | Rotating title text |
 | `@aceternity/spotlight-card` | Aceternity | Hero spotlight effect |
 | `@aceternity/beam-background` | Aceternity | Background light beams |
-| `@skiper-ui/skiper40` | Skiper UI | 404 / surprise page |
-| `@skiper-ui/marquee` | Skiper UI | Scrolling ticker |
+| `@skiper-ui/skiper40` | Skiper UI | Surprise/reveal pages |
 | `motion-primitives` | shadcn | Page transitions |
 
 ---
@@ -192,10 +204,10 @@ Install via `npx shadcn@latest add` from shadcn + Magic UI + Aceternity + Skiper
 
 1. ✅ `components.json` with 3 registries (done)
 2. ✅ `.cursor/mcp.json` with shadcn + Aceternity MCP (done)
-3. Create shared shell + theme system
-4. Build pages one at a time: `/pin` → `/loader` → `/seal` → `/hero` → `/dossier` → `/anthems` → `/memories` → `/wish` → `/legend` → `/surprise`
-5. Add shadcn CLI components (blur-fade, sparkles, glare, marquee, 3d-marquee, spotlight-card, beam-background)
-6. Commit and push (Vercel deploys automatically)
+3. ✅ Shared shell + theme system (done)
+4. ✅ All pages built: `/pin` → `/loader` → `/seal` → `/hero` → `/dossier` → `/anthems` → `/memories` → `/wish` → `/legend` → `/surprise` (done)
+5. ✅ shadcn UI components built manually (button, card, dialog, sheet) (done)
+6. ✅ Committed and pushed to `main` (done)
 
 ---
 

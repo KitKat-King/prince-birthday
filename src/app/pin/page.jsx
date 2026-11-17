@@ -6,7 +6,6 @@ import { Lock, Heart, Sparkles, ArrowRight } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
-import { EASE } from "@/lib/motion";
 
 const CORRECT_PINS = ["123456", "1234567"];
 const PIN_LENGTH = 6;
@@ -15,11 +14,11 @@ export default function PinPage() {
   const [pin, setPin] = useState("");
   const [error, setError] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const enterRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef(null);
+  const enterRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current = document.getElementById("pin-audio") as HTMLAudioElement | null;
+    audioRef.current = document.getElementById("pin-audio");
   }, []);
 
   const startAudio = () => {
@@ -29,7 +28,7 @@ export default function PinPage() {
     }
   };
 
-  const addDigit = (d: string) => {
+  const addDigit = (d) => {
     startAudio();
     if (pin.length >= PIN_LENGTH) return;
     setPin((p) => p + d);
@@ -133,7 +132,7 @@ export default function PinPage() {
             </div>
           </div>
 
-          <div ref={enterRef} className="hidden" onClick={() => window.location.href = "/loader"} />
+          <div ref={enterRef} className="hidden" onClick={() => (window.location.href = "/loader")} />
           <p className="pin-foot fixed bottom-4 right-4 text-sm text-black/40 font-light tracking-widest">anujbuilds.in</p>
         </div>
       </NavShell>

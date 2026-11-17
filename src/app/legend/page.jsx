@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Copy, Share2, Sparkles } from "lucide-react";
+import { Copy, Share2, Sparkles, ArrowRight } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
@@ -10,7 +10,6 @@ import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 export default function LegendPage() {
   const [verified, setVerified] = useState(0);
   const [copied, setCopied] = useState(false);
-  const [replaying, setReplaying] = useState(false);
 
   return (
     <div className="page-wrap">
@@ -24,7 +23,7 @@ export default function LegendPage() {
             <div className="eyebrow flex justify-center mb-2">
               <span className="mono text-[6px] text-lilac tracking-widest">END CREDITS</span>
             </div>
-            <h1 className="finale-title font-[Anton] font-normal leading-[0.8] text-[clamp(52px,15vw,152px)] tracking-[0.01em] uppercase flex flex-col items-center text-white">
+            <h1 className="finale-title font-[Anton] font-normal leading-[0.8] text-[clamp(52px,15vw,152px)] letter-spacing-[0.01em] uppercase flex flex-col items-center text-white">
               <span className="legendary-word font-theme">
                 <span className="kinetic-inner bg-[linear-gradient(100deg,#fff_0%,#d6c6ff_30%,#ff9bd4_62%,#a5f2d3_100%)] bg-clip-text text-transparent">
                   STAY LEGENDARY
@@ -53,7 +52,7 @@ export default function LegendPage() {
                 <div className="pass-top flex items-flex-start justify-between gap-10 relative z-10">
                   <div className="pass-brand flex flex-col gap-[3px]">
                     <span className="pass-brand mono text-[5px] text-[#1d1429]/44 tracking-widest">ERA CUT AIRLINES</span>
-                    <strong className="font-[Anton] text-[17px] tracking-[0.06em] text-[#241733"]>PRINCE</strong>
+                    <strong className="font-[Anton] text-[17px] letter-spacing-[0.06em] text-[#241733]">PRINCE</strong>
                   </div>
                   <div className="pass-lily w-[26px] text-[#7a52c2]"><Sparkles size={26} strokeWidth={2} /></div>
                 </div>
@@ -65,19 +64,19 @@ export default function LegendPage() {
                 <div className="pass-body relative z-10 grid grid-cols-[repeat(4,minmax(0,1fr))] gap-[10px]_gap-[6px]">
                   <div className="pass-field flex flex-col gap-[2px] min-w-0">
                     <span className="pass-field mono text-[4.5px] text-[#1d1429]/42 tracking-widest">NAME</span>
-                    <b className="text-[11px] font-[800] tracking-[0.02em] whitespace-nowrap truncate">PRINCE</b>
+                    <b className="text-[11px] font-[800] letter-spacing-[0.02em] whitespace-nowrap truncate">PRINCE</b>
                   </div>
                   <div className="pass-field wide flex flex-col gap-[2px] grid-col-[span_2]">
                     <span className="pass-field mono text-[4.5px] text-[#1d1429]/42 tracking-widest">DESTINATION</span>
-                    <b className="text-[11px] font-[800] tracking-[0.02em] whitespace-nowrap truncate">CHAPTER 16</b>
+                    <b className="text-[11px] font-[800] letter-spacing-[0.02em] whitespace-nowrap truncate">CHAPTER 16</b>
                   </div>
                   <div className="pass-field flex flex-col gap-[2px]">
                     <span className="pass-field mono text-[4.5px] text-[#1d1429]/42 tracking-widest">DATE</span>
-                    <b className="text-[11px] font-[800] tracking-[0.02em] whitespace-nowrap truncate">18.11</b>
+                    <b className="text-[11px] font-[800] letter-spacing-[0.02em] whitespace-nowrap truncate">18.11</b>
                   </div>
                   <div className="pass-field flex flex-col gap-[2px]">
                     <span className="pass-field mono text-[4.5px] text-[#1d1429]/42 tracking-widest">ERA</span>
-                    <b className="text-[11px] font-[800] tracking-[0.02em] whitespace-nowrap truncate">LEGENDARY</b>
+                    <b className="text-[11px] font-[800] letter-spacing-[0.02em] whitespace-nowrap truncate">LEGENDARY</b>
                   </div>
                 </div>
                 <div className="pass-bottom relative z-10 flex items-center gap-[10px] mt-[12px] pt-[11px] border-t border-[#1d1429]/20">
@@ -93,8 +92,8 @@ export default function LegendPage() {
                   <div className="pass-qr-icon ml-auto text-[#1d1429]/40 shrink-0"><Share2 size={16} strokeWidth={2} /></div>
                 </div>
                 <div className="pass-barcode relative z-10 h-[26px] mt-[10px] bg-[repeating-linear-gradient(90deg,#241733_0_1px,transparent_1px_3px,#241733_3px_4px,transparent_4px_8px)] opacity-72" />
-                <div className="pass-code relative z-10 block mt-[5px] text-[5px] text-[#1d1429]/50 tracking-[0.22em"]>ERA-16-2026-PRINCE</div>
-                <div className={`pass-verified absolute right-[12px] bottom-[58px] z-30 inline-flex items-center gap-[4px] px-[5px] py-[9px] rounded-[4px] text-[10px] font-[900] tracking-[0.1em] bg-white/55 mix-blend-multiply ${verified >= 3 ? "border-green-500 text-green-700" : "border-[#b3402f] text-[#b3402f]"}`}>
+                <div className="pass-code relative z-10 block mt-[5px] text-[5px] text-[#1d1429]/50 letter-spacing-[0.22em]">ERA-16-2026-PRINCE</div>
+                <div className={`pass-verified absolute right-[12px] bottom-[58px] z-30 inline-flex items-center gap-[4px] px-[5px] py-[9px] rounded-[4px] text-[10px] font-[900] letter-spacing-[0.1em] bg-white/55 mix-blend-multiply ${verified >= 3 ? "border-green-500 text-green-700" : "border-[#b3402f] text-[#b3402f]"}`}>
                   <span>VERIFIED</span>
                   <Sparkles size={10} strokeWidth={2} />
                 </div>
@@ -106,8 +105,8 @@ export default function LegendPage() {
                     <Share2 size={12} strokeWidth={2} /> SHARE
                   </button>
                 </div>
+                <p className="pass-hint text-[5px] text-white/28 tracking-widest text-center mt-[2px]">Tap the pass three times to verify</p>
               </div>
-              <p className="pass-hint text-[5px] text-white/28 tracking-widest text-center mt-[2px]">Tap the pass three times to verify</p>
             </div>
           </div>
 
@@ -126,18 +125,21 @@ export default function LegendPage() {
               ].map((c, i) => (
                 <div key={i} className="credit bg-[#08070c] p-[14px]_[12px] min-h-[74px] flex flex-col gap-[5px]">
                   <span className="mono text-[5px] text-white/40 tracking-widest">{c.role}</span>
-                  <b className="text-[10.5px] font-[700] tracking-[0.02em] text-white leading-[1.35]">{c.name}</b>
+                  <b className="text-[10.5px] font-[700] letter-spacing-[0.02em] text-white leading-[1.35]">{c.name}</b>
                 </div>
               ))}
             </div>
             <div className="credits-thanks flex items-center gap-[12px] mt-[22px]">
-              <LilyCredits className="credits-lily w-[30px] text-lilac opacity-75 shrink-0" />
+              <svg className="credits-lily w-[30px] text-lilac opacity-75 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8Z" />
+                <path d="M12 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
+              </svg>
               <p className="mb-0 font-[Playfair_Display] font-italic text-[14px] leading-[1.4] text-white/60">Thank you for being part of Chapter 16.</p>
             </div>
           </div>
 
           <div className="post-credits relative z-10 flex flex-col items-center gap-[12px] mt-[44px] px-[clamp(20px,6vw,72px)]">
-            <button className="reel-btn inline-flex items-center gap-[7px] bg-transparent border border-white/10 rounded-full px-[9px] py-[14px] text-white/40 transition hover:border-white/26 hover:text-white" onClick={() => { triggerConfetti({ count: 150 }); setReplaying(true); setTimeout(() => setReplaying(false), 800); }}>
+            <button className="reel-btn inline-flex items-center gap-[7px] bg-transparent border border-white/10 rounded-full px-[9px] py-[14px] text-white/40 transition hover:border-white/26 hover:text-white" onClick={() => { triggerConfetti({ count: 150 }); }}>
               <Sparkles size={20} strokeWidth={2} className="animate-[spin_9s_linear_infinite]" />
               <span className="reel-btn mono text-[5.5px] tracking-widest">REPLAY FILM</span>
             </button>
@@ -146,30 +148,12 @@ export default function LegendPage() {
               <p className="mt-[2px] mb-[2px] font-[Playfair_Display] font-italic text-[15px] leading-[1.5] text-white/78">The best part is still ahead...</p>
               <span className="script font-[Playfair_Display] font-italic text-[12px] text-white/40">Stay tuned for Chapter 17</span>
             </div>
-            <button className="replay-btn inline-flex items-center gap-7 bg-white text-[#07070a] border-0 rounded-full px-[12px] py-[18px] font-mono text-[7px] tracking-[0.16em] transition hover:bg-lilac hover:-translate-y-[2px]" onClick={() => setReplaying(true)}>
-              <ArrowIcon size={20} strokeWidth={2} /> REPLAY
+            <button className="replay-btn inline-flex items-center gap-7 bg-white text-[#07070a] border-0 rounded-full px-[12px] py-[18px] font-mono text-[7px] letter-spacing-[0.16em] transition hover:bg-lilac hover:-translate-y-[2px]" onClick={() => window.location.href = "/pin"}>
+              <ArrowRight size={20} strokeWidth={2} /> REPLAY
             </button>
           </div>
         </section>
       </NavShell>
     </div>
-  );
-}
-
-function LilyCredits({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path d="M12 2c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8Z" />
-      <path d="M12 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
-    </svg>
-  );
-}
-
-function ArrowIcon({ size = 20, strokeWidth = 2 }: { size?: number; strokeWidth?: number }) {
-  return (
-    <svg size={size} strokeWidth={strokeWidth} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path d="M5 12h14" />
-      <path d="m12 5 7 7-7 7" />
-    </svg>
   );
 }

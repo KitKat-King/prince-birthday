@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Sun, Moon, Palette, ArrowLeft, ArrowRight, Music2, Volume2, VolumeX } from "lucide-react";
+import { Palette, ArrowLeft, ArrowRight, Volume2, VolumeX } from "lucide-react";
 
 const THEMES = [
   { id: "a", label: "Midnight Rose" },
@@ -13,7 +13,7 @@ const THEMES = [
   { id: "f", label: "Sunset Dream" },
 ];
 
-const PAGE_LABELS: Record<string, string> = {
+const PAGE_LABELS = {
   "/": "PIN · Unlock",
   "/loader": "Boot · Countdown",
   "/seal": "Wax · Seal",
@@ -26,11 +26,11 @@ const PAGE_LABELS: Record<string, string> = {
   "/surprise": "Gift · Finale",
 };
 
-export default function NavShell({ children }: { children: React.ReactNode }) {
+export default function NavShell({ children }) {
   const pathname = usePathname();
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("prince-theme") as string) || "a";
+      return localStorage.getItem("prince-theme") || "a";
     }
     return "a";
   });
@@ -75,11 +75,8 @@ export default function NavShell({ children }: { children: React.ReactNode }) {
               <button
                 key={t.id}
                 onClick={() => setTheme(t.id)}
-                className={`w-10 h-10 rounded-full border-2 cursor-pointer transition-transform hover:scale-110 ${
-                  theme === t.id ? "ring-2 ring-white" : "border-transparent"
-                } ${getThemeColor(t.id)}`}
+                className={`w-10 h-10 rounded-full border-2 cursor-pointer transition-transform hover:scale-110 ${theme === t.id ? "ring-2 ring-white" : "border-transparent"} ${getThemeColor(t.id)}`}
                 title={t.label}
-                aria-label={t.label}
               />
             ))}
           </div>
@@ -107,8 +104,8 @@ export default function NavShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-function getThemeColor(id: string) {
-  const colors: Record<string, string> = {
+function getThemeColor(id) {
+  const colors = {
     a: "bg-pink-400",
     b: "bg-purple-600",
     c: "bg-amber-400",
@@ -119,14 +116,14 @@ function getThemeColor(id: string) {
   return colors[id] || "bg-white";
 }
 
-function navigatePrev(path: string) {
-  const order: string[] = ["/", "/loader", "/seal", "/hero", "/dossier", "/anthems", "/memories", "/wish", "/legend", "/surprise"];
+function navigatePrev(path) {
+  const order = ["/", "/loader", "/seal", "/hero", "/dossier", "/anthems", "/memories", "/wish", "/legend", "/surprise"];
   const idx = order.indexOf(path);
   if (idx > 0) window.location.href = order[idx - 1];
 }
 
-function navigateNext(path: string) {
-  const order: string[] = ["/", "/loader", "/seal", "/hero", "/dossier", "/anthems", "/memories", "/wish", "/legend", "/surprise"];
+function navigateNext(path) {
+  const order = ["/", "/loader", "/seal", "/hero", "/dossier", "/anthems", "/memories", "/wish", "/legend", "/surprise"];
   const idx = order.indexOf(path);
   if (idx < order.length - 1) window.location.href = order[idx + 1];
 }

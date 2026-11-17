@@ -7,7 +7,6 @@ import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 import { PRINCE } from "@/lib/prince";
-import { EASE } from "@/lib/motion";
 
 const BOOT_LINES = [
   "ESTABLISHING SECURE LINK",

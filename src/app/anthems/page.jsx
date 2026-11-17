@@ -15,11 +15,11 @@ export default function AnthemsPage() {
   const [side, setSide] = useState("A");
   const [playing, setPlaying] = useState(false);
   const [trackIdx, setTrackIdx] = useState(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef(null);
   const [eq, setEq] = useState(0);
 
   useEffect(() => {
-    audioRef.current = document.getElementById("anthem-audio") as HTMLAudioElement | null;
+    audioRef.current = document.getElementById("anthem-audio");
     if (!playing || !audioRef.current) return;
     const raf = requestAnimationFrame(function loop() {
       setEq(0.3 + Math.random() * 0.7);
@@ -42,7 +42,7 @@ export default function AnthemsPage() {
     <div className="page-wrap">
       <ConfettiCanvas />
       <NavShell>
-        <section className="music relative min-h-screen p-[clamp(74px,12vw,150px)]_0 pt-[clamp(74px,12vw,150px)]" >
+        <section className="music relative min-h-screen p-[clamp(74px,12vw,150px)]_0 pt-[clamp(74px,12vw,150px)]">
           <div className="music-aura absolute left-[-22%] top-[22%] w-[56vmax] h-[56vmax] rounded-full bg-[radial-gradient(circle,_rgba(165,242,211,0.1),transparent_64%)] blur-[50px]" />
           <div className="music-stage grid grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] gap-[clamp(16px,3vw,26px)] items-start w-full max-w-[1180px] mx-auto px-4 md:px-6">
             <div className="cassette-zone flex flex-col gap-[14px] order-1">

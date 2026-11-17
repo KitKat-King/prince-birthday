@@ -17,12 +17,12 @@ export default function MemoriesPage() {
   const startRef = useRef(0);
   const offsetRef = useRef(0);
 
-  const onMouseDown = (e: React.MouseEvent) => {
+  const onMouseDown = (e) => {
     setDragging(true);
     startRef.current = e.clientX;
     offsetRef.current = offset;
   };
-  const onMouseMove = (e: MouseEvent) => {
+  const onMouseMove = (e) => {
     if (!dragging) return;
     const dx = e.clientX - startRef.current;
     setOffset(offsetRef.current + dx * 0.6);
@@ -161,5 +161,14 @@ export default function MemoriesPage() {
         </section>
       </NavShell>
     </div>
+  );
+}
+
+function Lily({ className = "", width = 24, height = 24 }) {
+  return (
+    <svg className={className} width={width} height={height} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2c-4.5 0-8 3.5-8 8s3.5 8 8 8 8-3.5 8-8-3.5-8-8-8Z" />
+      <path d="M12 16c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
+    </svg>
   );
 }
