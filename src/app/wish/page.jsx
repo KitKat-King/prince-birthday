@@ -123,8 +123,8 @@ export default function WishPage() {
                 onTouchCancel={stopHold}
               >
                 <svg className="blow-ring absolute inset-0 w-full h-full" viewBox="0 0 104 104">
-                  <circle className={`blow-track cx=52 cy=52 r=48 fill=none stroke=rgba(255,255,255,0.04) stroke-width=1.5`} />
-                  <circle className={`blow-progress cx=52 cy=52 r=48 fill=none stroke=var(--pink) stroke-width=2.5 stroke-linecap=round`} style={{ transform: "rotate(-90deg)", transformOrigin: "52px 52px", strokeDashoffset: 301 - (301 * progress) / 100 }} />
+                  <circle className="blow-track" cx={52} cy={52} r={48} fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth={1.5} />
+                  <circle className="blow-progress" cx={52} cy={52} r={48} fill="none" stroke="var(--pink)" strokeWidth={2.5} strokeLinecap="round" style={{ transform: "rotate(-90deg)", transformOrigin: "52px 52px", strokeDashoffset: 301 - (301 * progress) / 100 }} />
                 </svg>
                 <div className={`blow-inner relative z-10 flex flex-col items-center gap-[3px] w-[82%] h-[82%] rounded-full bg-[radial-gradient(circle_at_36%_28%,_#2b2140,#100c18_74%)] border border-white/14 justify-center transition duration-300 ${blown ? "bg-[radial-gradient(circle_at_36%_28%,_#3b2a52,#171021_74%)] border-[rgba(165,242,211,0.4)]" : ""}`}>
                   <svg className={`w-[24px] h-[24px] text-pink-400 ${blown ? "text-mint" : ""}`} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5L12 2z" /></svg>
