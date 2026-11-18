@@ -49,7 +49,7 @@ export function KineticLetters({ text = "", delay = 0, ...props }) {
   );
 }
 
-export function VelocityMarquee({ children, ...props }: any) {
+export function VelocityMarquee({ children, ...props }) {
   return (
     <motion.div
       className="marquee-track"
