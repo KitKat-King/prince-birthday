@@ -26,12 +26,13 @@ export default function WishPage() {
   const [wished, setWished] = useState(false);
   const raf = useRef(0);
   const progressRef = useRef(0);
-  const last = useRef(0);
+  const startAt = useRef(0);
+  const HOLD_MS = 1200;
 
   const startHold = useCallback(() => {
     if (blown) return;
     setHolding(true);
-    last.current = performance.now();
+    startAt.current = performance.now();
     raf.current = requestAnimationFrame(loop);
   }, [blown]);
 
@@ -39,13 +40,13 @@ export default function WishPage() {
     setHolding(false);
     cancelAnimationFrame(raf.current);
     raf.current = 0;
+    progressRef.current = 0;
+    setProgress(0);
   }, []);
 
   const loop = useCallback(() => {
-    const now = performance.now();
-    const dt = (now - last.current) / 16;
-    last.current = now;
-    progressRef.current = Math.min(1, progressRef.current + dt * 0.1);
+    const elapsed = performance.now() - startAt.current;
+    progressRef.current = Math.min(1, elapsed / HOLD_MS);
     setProgress(progressRef.current);
     if (progressRef.current >= 1 && !blown) {
       setBlown(true);
