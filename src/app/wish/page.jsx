@@ -139,7 +139,7 @@ export default function WishPage() {
               <div className="wish-ticket relative w-full max-w-[460px] p-[20px]_p_[20px]_pb-[16px] bg-gradient-to-br from-[#fdfbff] to-[#efe7fb] text-[#201530] rounded-[12px] shadow-[0_24px_46px_rgba(0,0,0,0.45)] border border-white/6 animate-in zoom-in duration-500">
                 <div className="ticket-edge absolute inset-0_0_auto_0 h-[12px] bg-[radial-gradient(circle_at_6px_-2px,_transparent_6px,#efe7fb_6.5px)] bg-[size:12px_12px] bg-repeat-x rounded-[12px]_12px_0_0 opacity-100" />
                 <p className="mono text-[5.5px] text-[#201530]/45 tracking-widest mb-4">YOUR BIRTHDAY WISH</p>
-                <strong className="block mt-[2px] mb-[14px] font-[Playfair_Display] font-italic text-[18px] md:text-24px leading-[1.3] tracking-tighter text-[#2b1c40]>
+                <strong className="block mt-[2px] mb-[14px] font-[Playfair_Display] font-italic text-[18px] md:text-24px leading-[1.3] tracking-tighter text-[#2b1c40]">
                   I wish Prince stays legendary forever.
                 </strong>
                 <div className="ticket-foot flex items-center justify-between gap-[10px] border-t border-[#201530]/18 pt-[12px]">
