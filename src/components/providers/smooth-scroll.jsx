@@ -32,7 +32,7 @@ export default function SmoothScroll({ children }) {
     return () => {
       lenis.destroy();
       if (typeof window !== "undefined") {
-        (window as any).__lenis = null;
+        (window).__lenis = null;
       }
     };
   }, []);

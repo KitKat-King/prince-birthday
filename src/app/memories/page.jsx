@@ -152,7 +152,7 @@ export default function MemoriesPage() {
             <div className="memory-note flex flex-col items-center gap-[8px] mt-[44px] text-center">
               <Lily className="note-lily w-[34px] text-[#7a52c2] opacity-80" />
               <p className="mb-0 text-[14px] leading-[1.5] text-[#241733]/80">Every frame is a page in your story.</p>
-              <p className="script font-[Playfair_Display] font-italic text-[12px] text-[#6d4fa8"]>Keep scrolling. Keep remembering.</p>
+              <p className="script font-[Playfair_Display] font-italic text-[12px] text-[#6d4fa8]">Keep scrolling. Keep remembering.</p>
               <div className="memory-note mono flex items-center gap-2 text-[5.5px] text-[#33234c]/40 tracking-widest">CHAPTER 04 · END</div>
             </div>
           </div>
