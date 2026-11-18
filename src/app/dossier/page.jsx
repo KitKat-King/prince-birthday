@@ -11,14 +11,14 @@ import { Lily } from "@/components/ui/motion-kit";
 const BORN = Date.UTC(2005, 10, 18);
 
 function useLived() {
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState(0);
   useEffect(() => {
     const update = () => setNow(Date.now());
     update();
     const timer = setInterval(update, 30000);
     return () => clearInterval(timer);
   }, []);
-  const ms = Math.max(0, now - BORN);
+  const ms = now ? Math.max(0, now - BORN) : 0;
   return {
     hours: Math.floor(ms / 3600000),
     days: Math.floor(ms / 86400000),
@@ -62,8 +62,8 @@ export default function DossierPage() {
             <div className="flip-wrap relative" style={{ transform: `perspective(1400px) rotateX(${pointerY * 0.1}deg) rotateY(${-pointerX * 0.1}deg)` }}>
               <div className="flip-tilt h-full" style={{ transform: `rotateX(${-pointerY * 0.05}deg) rotateY(${pointerX * 0.05}deg)` }}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   className="id-card relative inset-0 rounded-[26px] p-[22px] md:p-[26px] border border-white/16 overflow-hidden bg-gradient-to-br from-[#241c36] 60% to-[#120f1b] shadow-[0_30px_70px_rgba(0,0,0,0.55)] cursor-pointer flex flex-col"
                   style={{ transform: `rotateY(${flipped ? 180 : 0}deg)` }}
                   onClick={() => setFlipped(!flipped)}
