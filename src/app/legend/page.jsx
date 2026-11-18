@@ -185,9 +185,6 @@ export default function LegendPage() {
               <p className="mt-[2px] mb-[2px] font-[Playfair_Display] font-italic text-[15px] leading-[1.5] text-white/78">The best part is still ahead...</p>
               <span className="script font-[Playfair_Display] font-italic text-[12px] text-white/40">Stay tuned for Chapter 17</span>
             </div>
-            <button className="replay-btn inline-flex items-center gap-7 bg-white text-[#07070a] border-0 rounded-full px-[12px] py-[18px] font-mono text-[7px] tracking-[0.16em] transition hover:bg-lilac hover:-translate-y-[2px]" onClick={() => { resetProgress(); window.location.href = "/pin/"; }}>
-              <ArrowRight size={20} strokeWidth={2} /> REPLAY
-            </button>
           </div>
         </section>
         <NextChapter to="/surprise" label="The Gift" tone={{ a: "#ff2d78", b: "#ff9e58" }} />

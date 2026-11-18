@@ -73,6 +73,8 @@ export default function WishPage() {
             <div key={i} className="cake-spark absolute w-[2px] h-[8px] rounded-full bg-white/65 animate-[sparkFloat_5s_ease-in-out_infinite]" style={{ top: spark.top, left: spark.left, animationDelay: spark.delay }} />
           ))}
 
+          <div className="cake-title mono text-[7px] text-lilac/70 tracking-[0.2em] text-center mb-[2px]">MAKE A WISH · BLOW THE CANDLES</div>
+
           <div className={`cake-stage relative flex items-center justify-center min-h-[400px] mb-[30px] ${blown ? "shake" : ""} animate-[cakeShake_0.8s_ease-out]`}>
             <div className="cake-halo absolute w-[min(340px,82vw)] aspect-[1] rounded-full border-[1px] border-dashed border-white/18 animate-[spin_34s_linear_infinite]" />
 
@@ -101,10 +103,7 @@ export default function WishPage() {
               <div className="cake-plate absolute left-[50%] bottom-[4px] w-[118%] h-[16px] rounded-full bg-gradient-to-b from-[#ded7ea] via-[#9b93ad] 46% to-[#4c4559] shadow-[0_14px_26px_rgba(0,0,0,0.6)]" />
               <div className="cake-number absolute left-[50%] bottom-[36px] font-[Anton] text-[30px] tracking-[0.06em] text-[rgba(255,155,212,0.55)] shadow-[0_0_18px_rgba(255,155,212,0.5)]">16</div>
               <div className={`cake-flash absolute inset-0 z-[3] pointer-events-none opacity-0 bg-[radial-gradient(circle_at_50%_46%,rgba(255,255,255,0.9),rgba(255,155,212,0.4)_34%,transparent_68%)] mix-blend-screen transition-opacity duration-300 ${blown ? "on" : ""}`} />
-              <div className="cake-banner absolute left-[50%] top-0 z-40 flex flex-col items-center gap-4 px-[18px] py-[10px] rounded-[10px] text-center bg-[rgba(10,8,14,0.82)] border border-[rgba(203,183,255,0.35)] backdrop-blur-[10px]">
-                <span className="mono text-[5.5px] text-lilac tracking-widest">MAKE A WISH</span>
-                <strong className="font-[Anton] text-[18px] md:text-[26px] tracking-[0.02em] text-white">BLOW THE CANDLES</strong>
-              </div>
+
             </div>
 
             <div className={`candle-grid absolute left-[50%] bottom-[210px] w-[60%] grid grid-cols-[repeat(8,1fr)] justify-center row-gap-[2px] ${blown ? "blown" : ""}`}>
@@ -135,15 +134,14 @@ export default function WishPage() {
               >
                 <svg className="blow-ring absolute inset-0 w-full h-full" viewBox="0 0 104 104">
                   <circle className="blow-track" cx={52} cy={52} r={48} fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth={1.5} />
-                  <circle className="blow-progress" cx={52} cy={52} r={48} fill="none" stroke="var(--pink)" strokeWidth={2.5} strokeLinecap="round" style={{ transform: "rotate(-90deg)", transformOrigin: "52px 52px", strokeDashoffset: 301 - (301 * progress) / 100 }} />
+                  <circle className="blow-progress" cx={52} cy={52} r={48} fill="none" stroke="var(--pink)" strokeWidth={2.5} strokeLinecap="round" style={{ transform: "rotate(-90deg)", transformOrigin: "52px 52px", strokeDashoffset: 301 - 301 * progress }} />
                 </svg>
                 <div className={`blow-inner relative z-10 flex flex-col items-center gap-[3px] w-[82%] h-[82%] rounded-full bg-[radial-gradient(circle_at_36%_28%,_#2b2140,#100c18_74%)] border border-white/14 justify-center transition duration-300 ${blown ? "bg-[radial-gradient(circle_at_36%_28%,_#3b2a52,#171021_74%)] border-[rgba(165,242,211,0.4)]" : ""}`}>
                   <svg className={`w-[24px] h-[24px] text-pink-400 ${blown ? "text-mint" : ""}`} fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5L12 2z" /></svg>
-                  <b className="text-[7.5px] tracking-[0.1em] font-bold">{blown ? "WISH MADE" : "TAP & HOLD TO BLOW"}</b>
-                  <small className="text-[5.5px] text-white/40 tracking-widest">{blown ? "Candles out" : "Tap and hold to blow out 16 candles"}</small>
+                  <b className="blow-label font-[Anton] text-[22px] tracking-[0.06em] leading-none text-transparent bg-clip-text bg-gradient-to-r from-[#ff9bd4] via-[#cbb7ff] to-[#a5f2d3]">{blown ? "DONE" : "HOLD"}</b>
                 </div>
               </button>
-              <p className="blow-hint text-[5.5px] text-white/30 tracking-widest text-center">{blown ? "All candles blown — wish sent ✨" : "Tap and hold to blow out the candles"}</p>
+              <p className="blow-hint text-[5.5px] text-white/30 tracking-widest text-center">{blown ? "Wish sent ✨" : "Tap and hold"}</p>
             </div>
 
             {!wished && (
@@ -173,9 +171,6 @@ export default function WishPage() {
             )}
           </div>
 
-          <div className="cake-hint flex items-center gap-2 text-[5.5px] text-white/30 tracking-widest text-center mt-[8px]">
-            <span>Tap and hold the button to blow</span>
-          </div>
           <div className="cake-note flex items-center justify-center gap-[10px] mt-[30px]">
             <Lily className="cake-lily w-[28px] text-lilac opacity-65" />
             <p className="mb-0 text-[13px] leading-[1.5] text-white/60">Sixteen candles. <em className="text-lilac font-[Playfair_Display] font-italic">One wish.</em></p>
