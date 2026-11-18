@@ -101,7 +101,7 @@ export default function MemoriesPage() {
                 </div>
                 <div className="scratch-copy px-[14px] pt-[14px] pb-[4px]">
                   <div className="scratch-copy mono flex items-center gap-2 text-[5.5px] text-[#33234c]/50 tracking-widest">SCRATCH TO REVEAL</div>
-                  <h3 className="mt-[8px] mb-[8px] text-[19px] leading-[1.2] tracking-tighter text-[#241733"]>A Gift for Prince</h3>
+                  <h3 className="mt-[8px] mb-[8px] text-[19px] leading-[1.2] tracking-tighter text-[#241733]">A Gift for Prince</h3>
                   <p className="mb-[12px] text-[11.5px] leading-[1.6] text-[#2b1c40]/60">Scratch the silver to uncover your birthday message.</p>
                 </div>
               </div>

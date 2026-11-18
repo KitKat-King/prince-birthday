@@ -26,7 +26,7 @@ export default function SmoothScroll({ children }) {
 
     // Expose for other components
     if (typeof window !== "undefined") {
-      (window as any).__lenis = lenis;
+      (window).__lenis = lenis;
     }
 
     return () => {
