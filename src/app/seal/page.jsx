@@ -110,10 +110,10 @@ export default function SealPage() {
                     <div className="seal-lock text-[6px] text-white/40 mb-1">
                       <Sparkles size={14} strokeWidth={2} />
                     </div>
-                    <div className="seal-label">HOLD TO BREAK</div>
+                    <div className="seal-label">TAP &amp; HOLD TO BREAK</div>
                     <div className="seal-ticks">{Math.round(progress * 100)}%</div>
                   </button>
-                  <div className="seal-hint mt-1 text-[6px] text-white/30 tracking-widest">Press and hold for a moment to break the seal</div>
+                  <div className="seal-hint mt-1 text-[6px] text-white/30 tracking-widest">Tap and hold the seal to break it</div>
                 </div>
               </div>
 

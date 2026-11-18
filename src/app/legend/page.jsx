@@ -135,14 +135,14 @@ export default function LegendPage() {
                   <Sparkles size={10} strokeWidth={2} />
                 </div>
                 <div className="pass-actions flex gap-[8px] flex-wrap mt-[4px]">
-                  <button onClick={(e) => { e.stopPropagation(); copyPass(); }} className="flex items-center gap-2 border border-white/30 rounded-full px-[4px] py-[2] text-[5px] text-[#1d1429]/60 hover:bg-white/40 transition">
-                    <Copy size={12} strokeWidth={2} /> {copied ? "COPIED" : "COPY"}
+                  <button onClick={(e) => { e.stopPropagation(); copyPass(); }} className="flex items-center gap-2 border border-white/30 rounded-full px-[6px] py-[3px] text-[8px] text-[#1d1429]/80 hover:bg-white/40 transition">
+                    <Copy size={12} strokeWidth={2} /> {copied ? "COPIED" : "TAP TO COPY"}
                   </button>
-                  <button onClick={(e) => { e.stopPropagation(); sharePass(); }} className="flex items-center gap-2 border border-white/30 rounded-full px-[4px] py-[2] text-[5px] text-[#1d1429]/60 hover:bg-white/40 transition">
-                    <Share2 size={12} strokeWidth={2} /> SHARE
+                  <button onClick={(e) => { e.stopPropagation(); sharePass(); }} className="flex items-center gap-2 border border-white/30 rounded-full px-[6px] py-[3px] text-[8px] text-[#1d1429]/80 hover:bg-white/40 transition">
+                    <Share2 size={12} strokeWidth={2} /> TAP TO SHARE
                   </button>
                 </div>
-                <p className="pass-hint text-[5px] text-white/28 tracking-widest text-center mt-[2px]">Tap the pass three times to verify</p>
+                <p className="pass-hint text-[7px] text-white/40 tracking-widest text-center mt-[2px]">Tap the pass three times to verify</p>
               </div>
             </div>
           </div>

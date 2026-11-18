@@ -78,7 +78,7 @@ export default function PinPage() {
 
               <h2 className="pin-title text-[2rem] font-semibold mb-1">Unlock Your Surprise</h2>
               <p className="pin-sub text-sm mb-6">
-                {unlocked ? "Welcome in, Prince." : "Enter the secret code to begin"}
+                {unlocked ? "Welcome in, Prince." : "Tap the numbers to enter the secret code"}
               </p>
 
               <div className="pin-dots" aria-label="PIN entry">

@@ -2434,3 +2434,14 @@ img { display: block; max-width: 100%; }
   .back-redacted { margin-top: 10px; }
   .back-redacted .redacted-row { padding: 8px 0; }
 }
+
+/* ── Readable interaction hints (TAP / CLICK) ───────────────── */
+.seal-label { font-size: 10px !important; letter-spacing: 0.12em; }
+.seal-hint { font-size: 9px !important; letter-spacing: 0.06em; color: rgba(255,255,255,0.55) !important; }
+.blow-inner b { font-size: 9px !important; letter-spacing: 0.04em; }
+.blow-inner small { font-size: 7px !important; color: rgba(255,255,255,0.55) !important; }
+.blow-hint { font-size: 8px !important; letter-spacing: 0.04em; color: rgba(255,255,255,0.55) !important; }
+.cake-hint { font-size: 8px !important; letter-spacing: 0.04em; color: rgba(255,255,255,0.5) !important; }
+.id-flip-hint { font-size: 8px !important; letter-spacing: 0.1em; }
+.drag-hint { font-size: 8px !important; color: rgba(51, 35, 76, 0.6) !important; }
+.scratch-copy .mono { font-size: 8px !important; color: rgba(51, 35, 76, 0.7) !important; }

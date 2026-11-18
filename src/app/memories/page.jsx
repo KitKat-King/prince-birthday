@@ -112,7 +112,7 @@ export default function MemoriesPage() {
                     </div>
                     <div className="polaroid-foot flex items-center justify-between gap-6 px-[3px] py-[9px] pb-[11px]">
                       <span className="script font-[Playfair_Display] font-italic text-[17px] text-[#33234c]">{CAPTIONS[i]}</span>
-                      <span className="drag-hint text-[5px] text-[#33234c]/40 tracking-widest">{i === dismissed ? "swipe →" : "drag"}</span>
+                      <span className="drag-hint text-[5px] text-[#33234c]/40 tracking-widest">{i === dismissed ? "swipe →" : "next →"}</span>
                     </div>
                   </motion.div>
                   );
@@ -144,9 +144,9 @@ export default function MemoriesPage() {
                   <canvas className="scratch-canvas absolute inset-0 w-full h-full z-[2] cursor-grab touch-none" width="320" height="320" />
                 </div>
                 <div className="scratch-copy px-[14px] pt-[14px] pb-[4px]">
-                  <div className="scratch-copy mono flex items-center gap-2 text-[5.5px] text-[#33234c]/50 tracking-widest">SCRATCH TO REVEAL</div>
+                  <div className="scratch-copy mono flex items-center gap-2 text-[5.5px] text-[#33234c]/50 tracking-widest">TAP TO SCRATCH &amp; REVEAL</div>
                   <h3 className="mt-[8px] mb-[8px] text-[19px] leading-[1.2] tracking-tighter text-[#241733]">A Gift for Prince</h3>
-                  <p className="mb-[12px] text-[11.5px] leading-[1.6] text-[#2b1c40]/60">Scratch the silver to uncover your birthday message.</p>
+                  <p className="mb-[12px] text-[11.5px] leading-[1.6] text-[#2b1c40]/60">Tap and drag across the silver to uncover your birthday message.</p>
                 </div>
               </div>
             </div>
