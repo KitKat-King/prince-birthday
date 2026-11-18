@@ -16,7 +16,7 @@ export default function AnthemsPage() {
   return (
     <div className="page-wrap lyric-page">
       <iframe
-        src="/lyrics/index.html"
+        src="/lyrics/"
         title="Dooron Dooron — Night Glow Lyric Experience"
         className="lyric-frame-full"
         allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
