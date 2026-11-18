@@ -67,7 +67,7 @@ export default function WishPage() {
       <ConfettiCanvas />
       <NavShell>
         <section className="cake-chapter relative min-h-screen py-[clamp(74px,12vw,150px)] pt-[clamp(74px,12vw,150px)] overflow-hidden">
-          <div className="cake-aura absolute left-[50%] top-[44%] w-[120vmin] h-[120vmin] -translate-x-[50%] -translate-y-[50%] rounded-full bg-[radial-gradient(circle,_rgba(255,155,212,0.14),transparent_62%)] blur-[30px]" />
+          <div className="cake-aura absolute left-[50%] top-[44%] w-[120vmin] h-[120vmin] rounded-full bg-[radial-gradient(circle,_rgba(255,155,212,0.14),transparent_62%)] blur-[30px]" />
           <div className="cake-sparks absolute inset-0 pointer-events-none" />
           {SPARKS.map((spark, i) => (
             <div key={i} className="cake-spark absolute w-[2px] h-[8px] rounded-full bg-white/65 animate-[sparkFloat_5s_ease-in-out_infinite]" style={{ top: spark.top, left: spark.left, animationDelay: spark.delay }} />
@@ -77,7 +77,7 @@ export default function WishPage() {
             <div className="cake-halo absolute w-[min(340px,82vw)] aspect-[1] rounded-full border-[1px] border-dashed border-white/18 animate-[spin_34s_linear_infinite]" />
 
             <div className="cake relative w-[min(280px,74vw)] h-[292px] z-[2]">
-              <div className="cake-tier tier-top absolute left-[50%] -translate-x-[50%] bottom-[154px] w-[56%] h-[62px] rounded-[12px_12px_8px_8px] bg-gradient-to-b from-[#3d2c52] via-[#261a36] 54% to-[#170f22] border border-white/10 shadow-[inset_0_-10px_20px_rgba(0,0,0,0.55),inset_0_2px_0_rgba(255,255,255,0.14),0_16px_30px_rgba(0,0,0,0.45)] overflow-hidden">
+              <div className="cake-tier tier-top absolute left-[50%] bottom-[154px] w-[56%] h-[62px] rounded-[12px_12px_8px_8px] bg-gradient-to-b from-[#3d2c52] via-[#261a36] 54% to-[#170f22] border border-white/10 shadow-[inset_0_-10px_20px_rgba(0,0,0,0.55),inset_0_2px_0_rgba(255,255,255,0.14),0_16px_30px_rgba(0,0,0,0.45)] overflow-hidden">
                 <div className="tier-icing absolute inset-x-0 top-0 h-[20px] bg-gradient-to-b from-[#fdfaff] via-[#efe6ff] 48% to-[#d9c8f6] rounded-[12px_12px_46%_46%_12px_12px_42%_42%] shadow-[inset_0_-3px_6px_rgba(150,120,200,0.28)]" />
                 <div className="drip absolute w-[9px] h-[15px] rounded-[0_0_99px_99px] bg-gradient-to-b from-[#efe6ff] to-[#d9c8f6] shadow-[0_2px_3px_rgba(150,120,200,0.25)] left-[12%] top-[14px]" />
                 <div className="drip absolute w-[7px] h-[21px] rounded-[0_0_99px_99px] bg-gradient-to-b from-[#efe6ff] to-[#d9c8f6] shadow-[0_2px_3px_rgba(150,120,200,0.25)] left-[40%] top-[14px]" />
@@ -87,35 +87,35 @@ export default function WishPage() {
                 <div className="sprinkle absolute w-[6px] h-[2px] rounded-full bg-[var(--mint)] left-[48%] top-[58%] rotate-[-18deg]" />
                 <div className="sprinkle absolute w-[6px] h-[2px] rounded-full bg-[var(--lilac)] left-[70%] top-[40%] rotate-[46deg]" />
               </div>
-              <div className="cake-tier tier-mid absolute left-[50%] -translate-x-[50%] bottom-[88px] w-[78%] h-[68px] rounded-[12px_12px_8px_8px] bg-gradient-to-b from-[#3d2c52] via-[#261a36] to-[#170f22] border border-white/10 shadow-[inset_0_-10px_20px_rgba(0,0,0,0.55),inset_0_2px_0_rgba(255,255,255,0.14),0_16px_30px_rgba(0,0,0,0.45)] overflow-hidden">
+              <div className="cake-tier tier-mid absolute left-[50%] bottom-[88px] w-[78%] h-[68px] rounded-[12px_12px_8px_8px] bg-gradient-to-b from-[#3d2c52] via-[#261a36] to-[#170f22] border border-white/10 shadow-[inset_0_-10px_20px_rgba(0,0,0,0.55),inset_0_2px_0_rgba(255,255,255,0.14),0_16px_30px_rgba(0,0,0,0.45)] overflow-hidden">
                 <div className="tier-icing absolute inset-x-0 top-0 h-[24px] bg-gradient-to-b from-[#fdfaff] via-[#efe6ff] 48% to-[#d9c8f6] rounded-[12px_12px_46%_46%_12px_12px_42%_42%] shadow-[inset_0_-3px_6px_rgba(150,120,200,0.28)]" />
                 <div className="sprinkle absolute w-[6px] h-[2px] rounded-full bg-[var(--pink)] left-[30%] top-[50%]" />
                 <div className="sprinkle absolute w-[6px] h-[2px] rounded-full bg-[var(--lilac)] left-[60%] top-[45%] rotate-[30deg]" />
               </div>
-              <div className="cake-tier tier-bottom absolute left-[50%] -translate-x-[50%] bottom-[16px] w-[100%] h-[80px] rounded-[12px_12px_8px_8px] bg-gradient-to-b from-[#3d2c52] via-[#261a36] 54% to-[#170f22] border border-white/10 shadow-[inset_0_-10px_20px_rgba(0,0,0,0.55),inset_0_2px_0_rgba(255,255,255,0.14),0_16px_30px_rgba(0,0,0,0.45)] overflow-hidden">
+              <div className="cake-tier tier-bottom absolute left-[50%] bottom-[16px] w-[100%] h-[80px] rounded-[12px_12px_8px_8px] bg-gradient-to-b from-[#3d2c52] via-[#261a36] 54% to-[#170f22] border border-white/10 shadow-[inset_0_-10px_20px_rgba(0,0,0,0.55),inset_0_2px_0_rgba(255,255,255,0.14),0_16px_30px_rgba(0,0,0,0.45)] overflow-hidden">
                 <div className="tier-icing absolute inset-x-0 top-0 h-[24px] bg-gradient-to-b from-[#fdfaff] via-[#efe6ff] 48% to-[#d9c8f6] rounded-[12px_12px_46%_46%_12px_12px_42%_42%] shadow-[inset_0_-3px_6px_rgba(150,120,200,0.28)]" />
                 <div className="sprinkle absolute w-[6px] h-[2px] rounded-full bg-[var(--pink)] left-[15%] top-[55%]" />
                 <div className="sprinkle absolute w-[6px] h-[2px] rounded-full bg-[var(--mint)] left-[45%] top-[62%] rotate-[-20deg]" />
                 <div className="sprinkle absolute w-[6px] h-[2px] rounded-full bg-[var(--lilac)] left-[75%] top-[48%] rotate-[50deg]" />
               </div>
-              <div className="cake-plate absolute left-[50%] bottom-[4px] -translate-x-[50%] w-[118%] h-[16px] rounded-full bg-gradient-to-b from-[#ded7ea] via-[#9b93ad] 46% to-[#4c4559] shadow-[0_14px_26px_rgba(0,0,0,0.6)]" />
-              <div className="cake-number absolute left-[50%] bottom-[36px] -translate-x-[50%] font-[Anton] text-[30px] tracking-[0.06em] text-[rgba(255,155,212,0.55)] shadow-[0_0_18px_rgba(255,155,212,0.5)]">16</div>
+              <div className="cake-plate absolute left-[50%] bottom-[4px] w-[118%] h-[16px] rounded-full bg-gradient-to-b from-[#ded7ea] via-[#9b93ad] 46% to-[#4c4559] shadow-[0_14px_26px_rgba(0,0,0,0.6)]" />
+              <div className="cake-number absolute left-[50%] bottom-[36px] font-[Anton] text-[30px] tracking-[0.06em] text-[rgba(255,155,212,0.55)] shadow-[0_0_18px_rgba(255,155,212,0.5)]">16</div>
               <div className={`cake-flash absolute inset-0 z-[3] pointer-events-none opacity-0 bg-[radial-gradient(circle_at_50%_46%,rgba(255,255,255,0.9),rgba(255,155,212,0.4)_34%,transparent_68%)] mix-blend-screen transition-opacity duration-300 ${blown ? "on" : ""}`} />
-              <div className="cake-banner absolute left-[50%] top-0 -translate-x-[50%] z-40 flex flex-col items-center gap-4 px-[18px] py-[10px] rounded-[10px] text-center bg-[rgba(10,8,14,0.82)] border border-[rgba(203,183,255,0.35)] backdrop-blur-[10px]">
+              <div className="cake-banner absolute left-[50%] top-0 z-40 flex flex-col items-center gap-4 px-[18px] py-[10px] rounded-[10px] text-center bg-[rgba(10,8,14,0.82)] border border-[rgba(203,183,255,0.35)] backdrop-blur-[10px]">
                 <span className="mono text-[5.5px] text-lilac tracking-widest">MAKE A WISH</span>
                 <strong className="font-[Anton] text-[18px] md:text-[26px] tracking-[0.02em] text-white">BLOW THE CANDLES</strong>
               </div>
             </div>
 
-            <div className={`candle-grid absolute left-[50%] bottom-[210px] -translate-x-[50%] w-[60%] grid grid-cols-[repeat(8,1fr)] justify-center row-gap-[2px] ${blown ? "blown" : ""}`}>
+            <div className={`candle-grid absolute left-[50%] bottom-[210px] w-[60%] grid grid-cols-[repeat(8,1fr)] justify-center row-gap-[2px] ${blown ? "blown" : ""}`}>
               {[...Array(CANDLE_COUNT)].map((_, i) => (
                 <div key={i} className={`candle relative w-[5px] h-[23px] rounded-full bg-gradient-to-b from-[#ffe7f4] via-[#ff9bd4] 58% to-[#cbb7ff] shadow-[inset_0_0_3px_rgba(255,255,255,0.7)] ${i % 3 === 0 ? "bg-gradient-to-b from-[#eafff6] via-[#a5f2d3] 58% to-[#8fd8f2]" : ""} ${i % 3 === 1 ? "bg-gradient-to-b from-[#f7f2ff] via-[#cbb7ff] 58% to-[#a98ee0]" : ""}`}>
-                  <div className="wick absolute top-[-3px] left-[50%] w-[1px] h-[4px] bg-[#2a2020] -translate-x-[50%]" />
+                  <div className="wick absolute top-[-3px] left-[50%] w-[1px] h-[4px] bg-[#2a2020]" />
                   {!blown && (
-                    <div className="flame absolute top-[-16px] left-[50%] w-[7px] h-[13px] -translate-x-[50%] origin-[50%_100%] rounded-[50%_50%_46%_46%_62%_62%_38%_38%] bg-[radial-gradient(circle_at_50%_72%,#fff_0_18%,#ffdcaa_38%,#ffb36b_62%,rgba(255,155,212,0.6)_84%,transparent_92%)] blur-[0.4px] shadow-[0_0_14px_3px_rgba(255,178,112,0.5)] animate-[flicker_0.42s_ease-in-out_infinite_alternate]" />
+                    <div className="flame absolute top-[-16px] left-[50%] w-[7px] h-[13px] origin-[50%_100%] rounded-[50%_50%_46%_46%_62%_62%_38%_38%] bg-[radial-gradient(circle_at_50%_72%,#fff_0_18%,#ffdcaa_38%,#ffb36b_62%,rgba(255,155,212,0.6)_84%,transparent_92%)] blur-[0.4px] shadow-[0_0_14px_3px_rgba(255,178,112,0.5)] animate-[flicker_0.42s_ease-in-out_infinite_alternate]" />
                   )}
                   {blown && (
-                    <div className="smoke absolute top-[-18px] left-[50%] w-[6px] h-[6px] rounded-full bg-[rgba(220,214,235,0.55)] blur-[2px] -translate-x-[50%] opacity-100 animate-[smokeUp_1.8s_ease-out_forwards]" />
+                    <div className="smoke absolute top-[-18px] left-[50%] w-[6px] h-[6px] rounded-full bg-[rgba(220,214,235,0.55)] blur-[2px] opacity-100 animate-[smokeUp_1.8s_ease-out_forwards]" />
                   )}
                 </div>
               ))}
