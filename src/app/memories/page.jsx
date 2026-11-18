@@ -14,57 +14,96 @@ const TIMES = ["15:04", "15:12", "15:26", "15:38"];
 const CAPTIONS = ["Cloudy skies, bright mood", "Park royalty", "Stylish by the tree", "Golden hour energy"];
 
 export default function MemoriesPage() {
-  const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState(0);
-  const startRef = useRef(0);
-  const offsetRef = useRef(0);
+  const [dismissed, setDismissed] = useState(0);
+  const [drag, setDrag] = useState({ x: 0, y: 0 });
+  const swipingRef = useRef(false);
+  const startRef = useRef({ x: 0, y: 0 });
+  const dragRef = useRef({ x: 0, y: 0 });
+  const dismissedRef = useRef(0);
 
-  useEffect(() => { setProgress(7); }, []);
+  useEffect(() => { dismissedRef.current = dismissed; }, [dismissed]);
 
-  const onMouseDown = (e) => {
-    setDragging(true);
-    startRef.current = e.clientX;
-    offsetRef.current = offset;
+  const completeReel = () => {
+    setProgress(7);
+    triggerConfetti({ count: 90 });
   };
-  const onMouseMove = (e) => {
-    if (!dragging) return;
-    const dx = e.clientX - startRef.current;
-    setOffset(offsetRef.current + dx * 0.6);
-  };
-  const onMouseUp = () => setDragging(false);
 
   useEffect(() => {
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+    const move = (e) => {
+      if (!swipingRef.current) return;
+      const p = e.touches ? e.touches[0] : e;
+      dragRef.current = {
+        x: p.clientX - startRef.current.x,
+        y: (p.clientY - startRef.current.y) * 0.25,
+      };
+      setDrag({ ...dragRef.current });
+    };
+    const up = () => {
+      if (!swipingRef.current) return;
+      swipingRef.current = false;
+      const dx = dragRef.current.x;
+      dragRef.current = { x: 0, y: 0 };
+      setDrag({ x: 0, y: 0 });
+      if (Math.abs(dx) > 70 && dismissedRef.current < PHOTOS.length) {
+        const next = dismissedRef.current + 1;
+        dismissedRef.current = next;
+        setDismissed(next);
+        if (next >= PHOTOS.length) completeReel();
+      }
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
+    window.addEventListener("touchmove", move, { passive: true });
+    window.addEventListener("touchend", up);
     return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
+      window.removeEventListener("touchmove", move);
+      window.removeEventListener("touchend", up);
     };
   }, []);
+
+  const onDown = (e) => {
+    if (dismissedRef.current >= PHOTOS.length) return;
+    const p = e.touches ? e.touches[0] : e;
+    startRef.current = { x: p.clientX, y: p.clientY };
+    dragRef.current = { x: 0, y: 0 };
+    swipingRef.current = true;
+  };
+
+  const replay = () => {
+    dismissedRef.current = 0;
+    setDismissed(0);
+    setDrag({ x: 0, y: 0 });
+  };
 
   return (
     <div className="page-wrap">
       <ConfettiCanvas />
       <NavShell>
-        <section className="memories relative min-h-screen py-[clamp(74px,12vw,150px)] pt-[clamp(74px,12vw,150px)] overflow-hidden" onMouseDown={onMouseDown}>
+        <section className="memories relative min-h-screen py-[clamp(74px,12vw,150px)] pt-[clamp(74px,12vw,150px)] overflow-hidden">
           <div className="memories-aura absolute inset-0 pointer-events-none bg-[radial-gradient(rgba(60,34,96,0.14)_1px,transparent_1px)] bg-[size:18px_18px] opacity-4 mask-[radial-gradient(ellipse_at_50%_40%,_#000_0,transparent_78%)]" />
           <div className="memories-grid relative z-10 grid grid-cols-[minmax(0,1fr)_minmax(0,0.94fr)] gap-[22px] w-full max-w-[1180px] mx-auto px-4 md:px-6">
             <div className="stack-zone flex flex-col gap-[16px]">
-              <div className="stack relative h-[396px]" style={{ transform: `translateX(${offset}px)` }}>
-                {PHOTOS.map((src, i) => (
+              <div className="stack relative h-[396px]">
+                {PHOTOS.map((src, i) => {
+                  const isTop = i === dismissed;
+                  const gone = i < dismissed;
+                  if (gone) return null;
+                  return (
                   <motion.div
                     key={i}
-                    className={`polaroid absolute inset-x-0 top-0 w-full max-w-[320px] mx-auto rounded-[4px] bg-[#fffdf9] p-[11px] shadow-[0_18px_34px_rgba(52,28,84,0.22)] cursor-grab ${dragging ? "cursor-grabbing" : ""} will-change-transform touch-none ${i === PHOTOS.length - 1 ? "is-top" : ""}`}
+                    className={`polaroid absolute inset-x-0 top-0 w-full max-w-[320px] mx-auto rounded-[4px] bg-[#fffdf9] p-[11px] shadow-[0_18px_34px_rgba(52,28,84,0.22)] ${isTop ? "is-top cursor-grab touch-none" : "pointer-events-none"} ${swipingRef.current ? "cursor-grabbing" : ""}`}
                     style={{
                       zIndex: PHOTOS.length - i,
-                      transform: `rotate(${(i - (PHOTOS.length - 1)) * 2}deg) translateY(${i * 8}px)`,
+                      transform: isTop
+                        ? `rotate(${(i - (PHOTOS.length - 1)) * 2 + drag.x * 0.04}deg) translate(${drag.x}px, ${drag.y + i * 8}px)`
+                        : `rotate(${(i - (PHOTOS.length - 1)) * 2}deg) translateY(${i * 8}px)`,
                     }}
-                    onMouseDown={(e) => {
-                      e.stopPropagation();
-                      setDragging(true);
-                      startRef.current = e.clientX;
-                      offsetRef.current = offset;
-                    }}
+                    onPointerDown={isTop ? onDown : undefined}
+                    onTouchStart={isTop ? onDown : undefined}
                   >
                     <div className="polaroid-photo relative overflow-hidden rounded-[2px] aspect-[4/4.35] bg-[#ded6ee]">
                       <img src={src} alt={`Memory ${i + 1}`} className="w-full h-full object-cover" style={{ filter: "saturate(0.92) contrast(1.02)" }} />
@@ -73,15 +112,16 @@ export default function MemoriesPage() {
                     </div>
                     <div className="polaroid-foot flex items-center justify-between gap-6 px-[3px] py-[9px] pb-[11px]">
                       <span className="script font-[Playfair_Display] font-italic text-[17px] text-[#33234c]">{CAPTIONS[i]}</span>
-                      <span className="drag-hint text-[5px] text-[#33234c]/40 tracking-widest">drag</span>
+                      <span className="drag-hint text-[5px] text-[#33234c]/40 tracking-widest">{i === dismissed ? "swipe →" : "drag"}</span>
                     </div>
                   </motion.div>
-                ))}
-                <div className="stack-finished absolute inset-[22%_6%_auto] z-10 bg-[#fffdf9] rounded-[4px] p-[22px_18px] text-center shadow-[0_18px_34px_rgba(52,28,84,0.24)]">
+                  );
+                })}
+                <div className={`stack-finished absolute inset-[22%_6%_auto] z-10 bg-[#fffdf9] rounded-[4px] p-[22px_18px] text-center shadow-[0_18px_34px_rgba(52,28,84,0.24)] ${dismissed >= PHOTOS.length ? "" : "is-hidden"}`}>
                   <span className="stack-finished mono text-[6px] text-[#33234c]/50 tracking-widest">REEL COMPLETE</span>
                   <strong className="block mt-[6px] font-[Anton] text-[30px] text-[#2b1c40]">MEMORIES SAVED</strong>
-                  <p className="mt-[2px] mb-[14px] text-[11.5px] leading-[1.55] text-[#2b1c40]/60">Drag back through the stack to relive each moment.</p>
-                  <button className="mini-action inline-flex items-center gap-2 border border-[#2b1c40]/20 rounded-full px-[10px] py-[2] text-[6px] tracking-widest text-[#4b3570] hover:bg-[#241a33] hover:text-white transition mx-auto">
+                  <p className="mt-[2px] mb-[14px] text-[11.5px] leading-[1.55] text-[#2b1c40]/60">You made it through every moment. Replay to relive them.</p>
+                  <button className="mini-action inline-flex items-center gap-2 border border-[#2b1c40]/20 rounded-full px-[10px] py-[2px] text-[6px] tracking-widest text-[#4b3570] hover:bg-[#241a33] hover:text-white transition mx-auto" onClick={replay}>
                     <Sparkles size={14} strokeWidth={2} /> REPLAY
                   </button>
                 </div>

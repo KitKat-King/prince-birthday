@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { BadgeCheck, Crown, Fingerprint, Sparkles, Star } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
@@ -66,14 +65,8 @@ export default function DossierPage() {
           <div className="dossier-grid relative z-10 w-full max-w-[1180px] mx-auto gap-4 px-4 md:px-6 perspective-[1300px]">
             <div className="flip-wrap relative" style={{ transform: `perspective(1400px) rotateX(${pointerY * 0.1}deg) rotateY(${-pointerX * 0.1}deg)` }}>
               <div className="flip-tilt h-full" style={{ transform: `rotateX(${-pointerY * 0.05}deg) rotateY(${pointerX * 0.05}deg)` }}>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="id-card relative inset-0 rounded-[26px] p-[22px] md:p-[26px] border border-white/16 overflow-hidden bg-gradient-to-br from-[#241c36] 60% to-[#120f1b] shadow-[0_30px_70px_rgba(0,0,0,0.55)] cursor-pointer flex flex-col"
-                  style={{ transform: `rotateY(${flipped ? 180 : 0}deg)` }}
-                  onClick={() => setFlipped(!flipped)}
-                >
-                  {!flipped && (
+                <div className="flip-inner relative w-full" style={{ transform: `rotateY(${flipped ? 180 : 0}deg)` }}>
+                  <div className="id-card face-front rounded-[26px] p-[22px] md:p-[26px] border border-white/16 overflow-hidden bg-gradient-to-br from-[#241c36] 60% to-[#120f1b] shadow-[0_30px_70px_rgba(0,0,0,0.55)] cursor-pointer flex flex-col" onClick={() => setFlipped(!flipped)}>
                     <>
                       <div className="id-top relative z-10 flex justify-between gap-2 text-[7px] text-white/40">
                         <span>CLEARANCE</span>
@@ -130,9 +123,8 @@ export default function DossierPage() {
                         <span>TAP TO FLIP</span>
                       </div>
                     </>
-                  )}
-
-                  {flipped && (
+                  </div>
+                  <div className="id-card face-back rounded-[26px] p-[22px] md:p-[26px] border border-white/16 overflow-hidden bg-gradient-to-br from-[#241c36] 60% to-[#120f1b] shadow-[0_30px_70px_rgba(0,0,0,0.55)] cursor-pointer flex flex-col" onClick={() => setFlipped(!flipped)}>
                     <>
                       <div className="back-holes relative z-10 mt-[26px]">
                         <div className="mono text-[6.5px] text-white/40 tracking-widest mb-2">HOURS LIVED</div>
@@ -187,8 +179,8 @@ export default function DossierPage() {
                         VERIFIED<small>LVL-16</small>
                       </div>
                     </>
-                  )}
-                </motion.div>
+                  </div>
+                </div>
               </div>
             </div>
 

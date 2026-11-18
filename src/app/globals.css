@@ -2417,3 +2417,20 @@ img { display: block; max-width: 100%; }
 .mini-polaroid img { display: block; }
 .lily-panel-tape { box-shadow: 0 2px 6px rgba(0,0,0,.18); }
 .stamp small { letter-spacing: .12em; }
+
+/* ── Memory reel: hide completion card until all swiped ──────── */
+.stack-finished.is-hidden { opacity: 0; pointer-events: none; visibility: hidden; }
+.stack-finished { transition: opacity 0.35s ease, visibility 0.35s ease; }
+.polaroid.is-top { touch-action: none; }
+
+/* ── Dossier mobile fit: keep the flip card, drop the profile panel ── */
+@media (max-width: 700px) {
+  .dossier { padding-top: 62px; padding-bottom: 46px; }
+  .dossier-grid { grid-template-columns: minmax(0, 1fr); }
+  .dossier .lily-panel { display: none; }
+  .flip-inner { min-height: min(470px, 62svh); }
+  .id-card { border-radius: 20px; }
+  .id-traits { margin-top: 10px; }
+  .back-redacted { margin-top: 10px; }
+  .back-redacted .redacted-row { padding: 8px 0; }
+}
