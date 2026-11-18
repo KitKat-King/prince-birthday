@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Dooron Dooron — Aansh.ai Synced Lyric Experience</title>
+  
+  <!-- Google Fonts: Instrument Serif, Plus Jakarta Sans, Cinzel, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Instrument+Serif:ital,wght@0,400;1,400&family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:ital,wght@0,500;0,700;0,800;1,500;1,700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app-container" class="app-container">
+    <!-- 16:9 Widescreen Fixed-Aspect Stage (Strict Overflow Containment) -->
+    <main id="stage" class="stage" tabindex="0" role="region" aria-label="Lyric Video Player">
+      
+      <!-- 1920x1080 Hardware Accelerated Full Canvas -->
+      <canvas id="canvas" width="1920" height="1080"></canvas>
+
+      <!-- Instant Start Screen Overlay -->
+      <div id="start-overlay" class="start-overlay visible" aria-modal="true" role="dialog">
+        <!-- Prominent Mobile Orientation Banner -->
+        <div class="orientation-banner" id="orientation-banner">
+          <svg class="icon-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+            <path d="M16 16h5v5"></path>
+          </svg>
+          <span>Tap Fullscreen &amp; Rotate Screen to Landscape</span>
+        </div>
+
+        <div class="spotify-hero-card">
+          <div class="card-pill-row">
+            <span class="spotify-pill">
+              <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.49 17.306a.75.75 0 0 1-1.032.247c-2.825-1.726-6.38-2.117-10.567-1.16a.75.75 0 0 1-.334-1.462c4.582-1.047 8.528-.598 11.686 1.343a.75.75 0 0 1 .247 1.032zm1.465-3.26a.937.937 0 0 1-1.29.309c-3.233-1.987-8.163-2.563-11.988-1.402a.938.938 0 0 1-.55-1.792c4.372-1.328 9.805-.688 13.52 1.595a.938.938 0 0 1 .308 1.29zm.126-3.41c-3.877-2.302-10.276-2.514-13.987-1.388a1.125 1.125 0 1 1-.65-2.155c4.264-1.295 11.332-1.045 15.787 1.6a1.125 1.125 0 0 1-1.15 1.943z"/>
+              </svg>
+              AANSH.AI · LYRIC SYNC ENGINE
+            </span>
+            <span class="mode-pill">16:9 WIDESCREEN</span>
+          </div>
+
+          <div class="card-meta">
+            <h1 class="card-title">Dooron Dooron</h1>
+            <p class="card-subtitle">Paresh Pahuja <span class="bullet">·</span> Harleen Sethi</p>
+          </div>
+
+          <!-- Pulsing Glass Play Orb -->
+          <div class="play-orb-container">
+            <div class="pulse-aura aura-1"></div>
+            <div class="pulse-aura aura-2"></div>
+            <button id="btn-start" class="play-orb-btn" aria-label="Play Experience">
+              <svg class="play-triangle" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="6 3 20 12 6 21 6 3"></polygon>
+              </svg>
+            </button>
+          </div>
+
+          <!-- High-Visibility Dual Action Buttons -->
+          <div class="hero-actions-row">
+            <button id="btn-start-action" class="shadcn-btn shadcn-btn-primary" aria-label="Play Experience">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="6 3 20 12 6 21 6 3"></polygon>
+              </svg>
+              <span>Play Experience</span>
+            </button>
+            <button id="btn-hero-fullscreen" class="shadcn-btn shadcn-btn-outline" aria-label="Enter Fullscreen">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <polyline points="9 21 3 21 3 15"></polyline>
+                <line x1="21" y1="3" x2="14" y2="10"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+              </svg>
+              <span>Tap for Fullscreen</span>
+            </button>
+          </div>
+
+          <p class="card-hint">TAP FULLSCREEN THEN ROTATE SCREEN <span class="bullet">·</span> <kbd>SPACE</kbd> TO PLAY</p>
+        </div>
+      </div>
+
+      <!-- Floating Liquid-Glass Controls Island -->
+      <nav id="controls" class="controls-bar hidden" aria-label="Playback Controls">
+        <button id="btn-play-pause" class="ctrl-btn" title="Play / Pause (Space)" aria-label="Play or Pause">
+          <svg id="icon-pause" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+          </svg>
+          <svg id="icon-play" class="icon hidden" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6 3 20 12 6 21 6 3"></polygon>
+          </svg>
+        </button>
+
+        <span id="time-current" class="time-readout">00:00</span>
+
+        <!-- Waveform Slider Track -->
+        <div id="scrubber-container" class="scrubber-wrap" role="slider" aria-label="Timeline Scrubber" aria-valuemin="0" aria-valuemax="189" aria-valuenow="0">
+          <div class="scrubber-track">
+            <canvas id="waveform-canvas" width="600" height="26" class="waveform-canvas"></canvas>
+            <div id="section-markers" class="section-markers"></div>
+            <div id="scrubber-progress" class="scrubber-fill"></div>
+            <div id="scrubber-thumb" class="scrubber-thumb"></div>
+          </div>
+          
+          <div id="scrubber-tooltip" class="floating-tooltip hidden">
+            <span id="tooltip-time" class="tooltip-time">00:00</span>
+            <span id="tooltip-badge" class="tooltip-badge">Intro</span>
+          </div>
+        </div>
+
+        <span id="time-total" class="time-readout">03:09</span>
+
+        <!-- Volume Popover -->
+        <div class="vol-wrap">
+          <button id="btn-volume" class="ctrl-btn" title="Mute / Volume (M)" aria-label="Toggle Mute">
+            <svg id="icon-volume-high" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+            <svg id="icon-volume-muted" class="icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+          </button>
+          
+          <div id="volume-popover" class="vol-popover hidden">
+            <input id="volume-slider" type="range" min="0" max="1" step="0.05" value="1" class="vol-slider" aria-label="Volume">
+          </div>
+        </div>
+
+        <!-- Lyrics Modal Toggle -->
+        <button id="btn-lyrics-toggle" class="ctrl-btn" title="View All Lyrics" aria-label="Open Lyrics Sheet">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </button>
+
+        <!-- Fullscreen Button -->
+        <button id="btn-fullscreen" class="ctrl-btn" title="Toggle Fullscreen (F)" aria-label="Toggle Fullscreen">
+          <svg id="icon-fs-enter" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <polyline points="9 21 3 21 3 15"></polyline>
+            <line x1="21" y1="3" x2="14" y2="10"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+          <svg id="icon-fs-exit" class="icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+        </button>
+      </nav>
+
+      <!-- In-Stage Synced Lyrics Modal (Contained within Stage, Zero Scroll Shift) -->
+      <div id="lyrics-modal" class="lyrics-modal hidden" aria-modal="true" role="dialog" aria-label="Full Lyrics Sheet">
+        <div class="modal-card">
+          <div class="modal-header">
+            <div>
+              <h2 class="modal-title">Dooron Dooron</h2>
+              <p class="modal-subtitle">Paresh Pahuja ft. Harleen Sethi · Synced Word Map</p>
+            </div>
+            <button id="btn-close-modal" class="ctrl-btn" aria-label="Close Lyrics">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+          </div>
+          
+          <div id="lyrics-scroll-box" class="modal-scroll-body">
+            <ul id="lyrics-list" class="lyrics-ul"></ul>
+          </div>
+          
+          <div class="modal-footer">
+            <span class="modal-badge">AANSH.AI 16:9 ENGINE</span>
+            <span class="modal-hint">CLICK ANY LINE TO JUMP</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <video id="bg-video" src="video.mp4" playsinline muted preload="auto" style="display:none;"></video>
+  <audio id="audio" src="song.mp3" preload="auto"></audio>
+  <script src="app.js"></script>
+</body>
+</html>

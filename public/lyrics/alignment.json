@@ -1,0 +1,823 @@
+{
+  "title": "Dooron Dooron",
+  "artists": "Paresh Pahuja ft. Harleen Sethi",
+  "total_lines": 22,
+  "lines": [
+    {
+      "line_number": 1,
+      "text": "Dooron dooron main vekhan tainu soneyo",
+      "start": 16.36,
+      "end": 22.72,
+      "words": [
+        {
+          "word": "Dooron",
+          "start": 16.36,
+          "end": 16.68
+        },
+        {
+          "word": "dooron",
+          "start": 16.68,
+          "end": 17.34
+        },
+        {
+          "word": "main",
+          "start": 17.34,
+          "end": 18.3
+        },
+        {
+          "word": "vekhan",
+          "start": 18.4,
+          "end": 19.52
+        },
+        {
+          "word": "tainu",
+          "start": 19.52,
+          "end": 20.42
+        },
+        {
+          "word": "soneyo",
+          "start": 20.44,
+          "end": 22.72
+        }
+      ]
+    },
+    {
+      "line_number": 2,
+      "text": "Kahaan tu, kahaan main",
+      "start": 23.58,
+      "end": 29.82,
+      "words": [
+        {
+          "word": "Kahaan",
+          "start": 23.58,
+          "end": 24.62
+        },
+        {
+          "word": "tu,",
+          "start": 24.62,
+          "end": 26.54
+        },
+        {
+          "word": "kahaan",
+          "start": 26.88,
+          "end": 27.48
+        },
+        {
+          "word": "main",
+          "start": 27.48,
+          "end": 29.82
+        }
+      ]
+    },
+    {
+      "line_number": 3,
+      "text": "Dooron dooron main vekhan tainu soneyo",
+      "start": 30.02,
+      "end": 37.86,
+      "words": [
+        {
+          "word": "Dooron",
+          "start": 30.02,
+          "end": 31.66
+        },
+        {
+          "word": "dooron",
+          "start": 31.66,
+          "end": 32.46
+        },
+        {
+          "word": "main",
+          "start": 32.46,
+          "end": 33.28
+        },
+        {
+          "word": "vekhan",
+          "start": 33.28,
+          "end": 34.68
+        },
+        {
+          "word": "tainu",
+          "start": 34.68,
+          "end": 35.9
+        },
+        {
+          "word": "soneyo",
+          "start": 35.9,
+          "end": 37.86
+        }
+      ]
+    },
+    {
+      "line_number": 4,
+      "text": "Kahaan tu, kahaan main",
+      "start": 37.86,
+      "end": 43.8,
+      "words": [
+        {
+          "word": "Kahaan",
+          "start": 37.86,
+          "end": 39.8
+        },
+        {
+          "word": "tu,",
+          "start": 39.8,
+          "end": 42.04
+        },
+        {
+          "word": "kahaan",
+          "start": 42.04,
+          "end": 43.26
+        },
+        {
+          "word": "main",
+          "start": 43.26,
+          "end": 43.8
+        }
+      ]
+    },
+    {
+      "line_number": 5,
+      "text": "Ki main karaan ke main aavan nazar tainu",
+      "start": 46.56,
+      "end": 50.18,
+      "words": [
+        {
+          "word": "Ki",
+          "start": 46.56,
+          "end": 46.56
+        },
+        {
+          "word": "main",
+          "start": 46.56,
+          "end": 46.98
+        },
+        {
+          "word": "karaan",
+          "start": 46.98,
+          "end": 48.14
+        },
+        {
+          "word": "ke",
+          "start": 48.14,
+          "end": 48.14
+        },
+        {
+          "word": "main",
+          "start": 48.14,
+          "end": 48.14
+        },
+        {
+          "word": "aavan",
+          "start": 48.14,
+          "end": 48.96
+        },
+        {
+          "word": "nazar",
+          "start": 48.96,
+          "end": 49.38
+        },
+        {
+          "word": "tainu",
+          "start": 49.38,
+          "end": 50.18
+        }
+      ]
+    },
+    {
+      "line_number": 6,
+      "text": "Laayak tere kivein hovaan tu dass mainu?",
+      "start": 50.18,
+      "end": 54.22,
+      "words": [
+        {
+          "word": "Laayak",
+          "start": 50.18,
+          "end": 50.72
+        },
+        {
+          "word": "tere",
+          "start": 50.72,
+          "end": 51.06
+        },
+        {
+          "word": "kivein",
+          "start": 51.06,
+          "end": 52.36
+        },
+        {
+          "word": "hovaan",
+          "start": 52.36,
+          "end": 52.94
+        },
+        {
+          "word": "tu",
+          "start": 52.94,
+          "end": 52.98
+        },
+        {
+          "word": "dass",
+          "start": 52.98,
+          "end": 53.3
+        },
+        {
+          "word": "mainu?",
+          "start": 53.3,
+          "end": 54.22
+        }
+      ]
+    },
+    {
+      "line_number": 7,
+      "text": "Kol tere mainu, aan de soni",
+      "start": 54.34,
+      "end": 57.56,
+      "words": [
+        {
+          "word": "Kol",
+          "start": 54.34,
+          "end": 54.34
+        },
+        {
+          "word": "tere",
+          "start": 54.34,
+          "end": 55.0
+        },
+        {
+          "word": "mainu,",
+          "start": 55.0,
+          "end": 55.96
+        },
+        {
+          "word": "aan",
+          "start": 55.98,
+          "end": 56.16
+        },
+        {
+          "word": "de",
+          "start": 56.16,
+          "end": 56.5
+        },
+        {
+          "word": "soni",
+          "start": 56.5,
+          "end": 57.56
+        }
+      ]
+    },
+    {
+      "line_number": 8,
+      "text": "Karaan main kitne jatan, o soni",
+      "start": 57.56,
+      "end": 61.54,
+      "words": [
+        {
+          "word": "Karaan",
+          "start": 57.56,
+          "end": 58.6
+        },
+        {
+          "word": "main",
+          "start": 58.6,
+          "end": 58.66
+        },
+        {
+          "word": "kitne",
+          "start": 58.66,
+          "end": 59.28
+        },
+        {
+          "word": "jatan,",
+          "start": 59.28,
+          "end": 60.14
+        },
+        {
+          "word": "o",
+          "start": 60.52,
+          "end": 60.58
+        },
+        {
+          "word": "soni",
+          "start": 60.58,
+          "end": 61.54
+        }
+      ]
+    },
+    {
+      "line_number": 9,
+      "text": "Dooron dooron main vekhan tainu soneyo",
+      "start": 61.54,
+      "end": 68.42,
+      "words": [
+        {
+          "word": "Dooron",
+          "start": 61.54,
+          "end": 62.14
+        },
+        {
+          "word": "dooron",
+          "start": 62.14,
+          "end": 62.84
+        },
+        {
+          "word": "main",
+          "start": 62.84,
+          "end": 63.72
+        },
+        {
+          "word": "vekhan",
+          "start": 63.8,
+          "end": 64.98
+        },
+        {
+          "word": "tainu",
+          "start": 64.98,
+          "end": 65.8
+        },
+        {
+          "word": "soneyo",
+          "start": 65.8,
+          "end": 68.42
+        }
+      ]
+    },
+    {
+      "line_number": 10,
+      "text": "Kahaan tu, kahaan main",
+      "start": 68.42,
+      "end": 78.26,
+      "words": [
+        {
+          "word": "Kahaan",
+          "start": 68.42,
+          "end": 71.02
+        },
+        {
+          "word": "tu,",
+          "start": 71.02,
+          "end": 71.92
+        },
+        {
+          "word": "kahaan",
+          "start": 71.94,
+          "end": 73.34
+        },
+        {
+          "word": "main",
+          "start": 78.26,
+          "end": 78.26
+        }
+      ]
+    },
+    {
+      "line_number": 11,
+      "text": "Sochun ke milni te bolanga ki",
+      "start": 78.26,
+      "end": 106.66,
+      "words": [
+        {
+          "word": "Sochun",
+          "start": 78.26,
+          "end": 78.26
+        },
+        {
+          "word": "ke",
+          "start": 78.26,
+          "end": 78.84
+        },
+        {
+          "word": "milni",
+          "start": 78.84,
+          "end": 78.84
+        },
+        {
+          "word": "te",
+          "start": 78.84,
+          "end": 78.92
+        },
+        {
+          "word": "bolanga",
+          "start": 103.94,
+          "end": 105.76
+        },
+        {
+          "word": "ki",
+          "start": 105.76,
+          "end": 106.66
+        }
+      ]
+    },
+    {
+      "line_number": 12,
+      "text": "Teri ta galaan ch shayari",
+      "start": 107.0,
+      "end": 121.64,
+      "words": [
+        {
+          "word": "Teri",
+          "start": 107.0,
+          "end": 107.58
+        },
+        {
+          "word": "ta",
+          "start": 107.58,
+          "end": 107.88
+        },
+        {
+          "word": "galaan",
+          "start": 107.88,
+          "end": 108.88
+        },
+        {
+          "word": "ch",
+          "start": 108.88,
+          "end": 109.5
+        },
+        {
+          "word": "shayari",
+          "start": 120.48,
+          "end": 121.64
+        }
+      ]
+    },
+    {
+      "line_number": 13,
+      "text": "Vekhegi mainu te sochegi kya tu?",
+      "start": 122.1,
+      "end": 125.94,
+      "words": [
+        {
+          "word": "Vekhegi",
+          "start": 122.1,
+          "end": 123.08
+        },
+        {
+          "word": "mainu",
+          "start": 123.08,
+          "end": 123.72
+        },
+        {
+          "word": "te",
+          "start": 123.72,
+          "end": 123.96
+        },
+        {
+          "word": "sochegi",
+          "start": 123.96,
+          "end": 125.0
+        },
+        {
+          "word": "kya",
+          "start": 125.0,
+          "end": 125.28
+        },
+        {
+          "word": "tu?",
+          "start": 125.28,
+          "end": 125.94
+        }
+      ]
+    },
+    {
+      "line_number": 14,
+      "text": "Mitti da banda main, tu ta pari",
+      "start": 126.18,
+      "end": 129.54,
+      "words": [
+        {
+          "word": "Mitti",
+          "start": 126.18,
+          "end": 126.52
+        },
+        {
+          "word": "da",
+          "start": 126.52,
+          "end": 126.82
+        },
+        {
+          "word": "banda",
+          "start": 126.82,
+          "end": 127.28
+        },
+        {
+          "word": "main,",
+          "start": 127.28,
+          "end": 127.88
+        },
+        {
+          "word": "tu",
+          "start": 128.08,
+          "end": 128.12
+        },
+        {
+          "word": "ta",
+          "start": 128.12,
+          "end": 128.6
+        },
+        {
+          "word": "pari",
+          "start": 128.6,
+          "end": 129.54
+        }
+      ]
+    },
+    {
+      "line_number": 15,
+      "text": "Ishqe di galiyaan ch khoya ae dil ve",
+      "start": 129.54,
+      "end": 133.36,
+      "words": [
+        {
+          "word": "Ishqe",
+          "start": 129.54,
+          "end": 130.4
+        },
+        {
+          "word": "di",
+          "start": 130.4,
+          "end": 130.7
+        },
+        {
+          "word": "galiyaan",
+          "start": 130.7,
+          "end": 131.44
+        },
+        {
+          "word": "ch",
+          "start": 131.44,
+          "end": 131.88
+        },
+        {
+          "word": "khoya",
+          "start": 131.88,
+          "end": 132.08
+        },
+        {
+          "word": "ae",
+          "start": 132.08,
+          "end": 132.58
+        },
+        {
+          "word": "dil",
+          "start": 132.58,
+          "end": 132.86
+        },
+        {
+          "word": "ve",
+          "start": 132.86,
+          "end": 133.36
+        }
+      ]
+    },
+    {
+      "line_number": 16,
+      "text": "Aas lagaaye ki jaaye tu mil ve",
+      "start": 133.36,
+      "end": 137.24,
+      "words": [
+        {
+          "word": "Aas",
+          "start": 133.36,
+          "end": 133.94
+        },
+        {
+          "word": "lagaaye",
+          "start": 133.94,
+          "end": 135.1
+        },
+        {
+          "word": "ki",
+          "start": 135.1,
+          "end": 135.38
+        },
+        {
+          "word": "jaaye",
+          "start": 135.38,
+          "end": 136.06
+        },
+        {
+          "word": "tu",
+          "start": 136.06,
+          "end": 136.38
+        },
+        {
+          "word": "mil",
+          "start": 136.38,
+          "end": 136.56
+        },
+        {
+          "word": "ve",
+          "start": 136.56,
+          "end": 137.24
+        }
+      ]
+    },
+    {
+      "line_number": 17,
+      "text": "Kol tere mainu, aan de soni",
+      "start": 137.24,
+      "end": 141.06,
+      "words": [
+        {
+          "word": "Kol",
+          "start": 137.24,
+          "end": 137.66
+        },
+        {
+          "word": "tere",
+          "start": 137.66,
+          "end": 138.46
+        },
+        {
+          "word": "mainu,",
+          "start": 138.46,
+          "end": 139.28
+        },
+        {
+          "word": "aan",
+          "start": 139.28,
+          "end": 139.52
+        },
+        {
+          "word": "de",
+          "start": 139.52,
+          "end": 139.96
+        },
+        {
+          "word": "soni",
+          "start": 139.96,
+          "end": 141.06
+        }
+      ]
+    },
+    {
+      "line_number": 18,
+      "text": "Karaan main kitne jatan, o soni",
+      "start": 141.06,
+      "end": 144.88,
+      "words": [
+        {
+          "word": "Karaan",
+          "start": 141.06,
+          "end": 141.96
+        },
+        {
+          "word": "main",
+          "start": 141.96,
+          "end": 142.04
+        },
+        {
+          "word": "kitne",
+          "start": 142.04,
+          "end": 142.6
+        },
+        {
+          "word": "jatan,",
+          "start": 142.6,
+          "end": 143.18
+        },
+        {
+          "word": "o",
+          "start": 143.9,
+          "end": 143.9
+        },
+        {
+          "word": "soni",
+          "start": 143.9,
+          "end": 144.88
+        }
+      ]
+    },
+    {
+      "line_number": 19,
+      "text": "Dooron dooron main vekhan tainu soneyo",
+      "start": 144.88,
+      "end": 152.34,
+      "words": [
+        {
+          "word": "Dooron",
+          "start": 144.88,
+          "end": 145.56
+        },
+        {
+          "word": "dooron",
+          "start": 145.56,
+          "end": 146.36
+        },
+        {
+          "word": "main",
+          "start": 146.36,
+          "end": 147.52
+        },
+        {
+          "word": "vekhan",
+          "start": 147.52,
+          "end": 148.38
+        },
+        {
+          "word": "tainu",
+          "start": 148.38,
+          "end": 149.28
+        },
+        {
+          "word": "soneyo",
+          "start": 150.08,
+          "end": 152.34
+        }
+      ]
+    },
+    {
+      "line_number": 20,
+      "text": "Kahaan tu, kahaan main",
+      "start": 152.34,
+      "end": 158.62,
+      "words": [
+        {
+          "word": "Kahaan",
+          "start": 152.34,
+          "end": 153.46
+        },
+        {
+          "word": "tu,",
+          "start": 153.46,
+          "end": 155.3
+        },
+        {
+          "word": "kahaan",
+          "start": 155.8,
+          "end": 156.74
+        },
+        {
+          "word": "main",
+          "start": 156.74,
+          "end": 158.62
+        }
+      ]
+    },
+    {
+      "line_number": 21,
+      "text": "Dooron dooron main vekhan tainu soneyo",
+      "start": 158.62,
+      "end": 166.66,
+      "words": [
+        {
+          "word": "Dooron",
+          "start": 158.62,
+          "end": 161.3
+        },
+        {
+          "word": "dooron",
+          "start": 161.3,
+          "end": 161.56
+        },
+        {
+          "word": "main",
+          "start": 161.56,
+          "end": 162.86
+        },
+        {
+          "word": "vekhan",
+          "start": 162.86,
+          "end": 163.54
+        },
+        {
+          "word": "tainu",
+          "start": 163.54,
+          "end": 164.62
+        },
+        {
+          "word": "soneyo",
+          "start": 164.62,
+          "end": 166.66
+        }
+      ]
+    },
+    {
+      "line_number": 22,
+      "text": "Kahaan tu, kahaan main",
+      "start": 166.66,
+      "end": 172.64,
+      "words": [
+        {
+          "word": "Kahaan",
+          "start": 166.66,
+          "end": 168.58
+        },
+        {
+          "word": "tu,",
+          "start": 168.58,
+          "end": 170.78
+        },
+        {
+          "word": "kahaan",
+          "start": 170.78,
+          "end": 172.02
+        },
+        {
+          "word": "main",
+          "start": 172.02,
+          "end": 172.64
+        }
+      ]
+    }
+  ]
+}

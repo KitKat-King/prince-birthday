@@ -2445,3 +2445,10 @@ img { display: block; max-width: 100%; }
 .id-flip-hint { font-size: 8px !important; letter-spacing: 0.1em; }
 .drag-hint { font-size: 8px !important; color: rgba(51, 35, 76, 0.6) !important; }
 .scratch-copy .mono { font-size: 8px !important; color: rgba(51, 35, 76, 0.7) !important; }
+
+/* ── Night Glow lyric experience (full-screen engine embed) ──── */
+.lyric-page { height: 100svh; overflow: hidden; background: #02040a; }
+.lyric-frame-full {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; display: block; background: #02040a; z-index: 1;
+}
