@@ -42,7 +42,7 @@ export default function AnthemsPage() {
     <div className="page-wrap">
       <ConfettiCanvas />
       <NavShell>
-        <section className="music relative min-h-screen p-[clamp(74px,12vw,150px)]_0 pt-[clamp(74px,12vw,150px)]">
+        <section className="music relative min-h-screen py-[clamp(74px,12vw,150px)] pt-[clamp(74px,12vw,150px)]">
           <div className="music-aura absolute left-[-22%] top-[22%] w-[56vmax] h-[56vmax] rounded-full bg-[radial-gradient(circle,_rgba(165,242,211,0.1),transparent_64%)] blur-[50px]" />
           <div className="music-stage grid grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] gap-[clamp(16px,3vw,26px)] items-start w-full max-w-[1180px] mx-auto px-4 md:px-6">
             <div className="cassette-zone flex flex-col gap-[14px] order-1">
@@ -107,7 +107,7 @@ export default function AnthemsPage() {
                   <div className={`signal w-[5px] h-[5px] rounded-full bg-white/30 ${playing ? "bg-mint shadow-[0_0_8px_var(--tw-shadow-color)] animate-[pulseDot_1.4s_infinite]" : ""}`} />
                   <span>NOW PLAYING</span>
                 </div>
-                <h2 className="player-title mt-[8px] mb-[2px] font-[Anton] text-[26px] md:text-40px leading-[0.9] text-white">{track.title}</h2>
+                <h2 className="player-title mt-[8px] mb-[2px] font-[Anton] text-[26px] md:text-[40px] leading-[0.9] text-white">{track.title}</h2>
                 <p className="player-sub mb-[14px] text-[6px] text-lilac tracking-widest">{track.artist}</p>
                 <div className="equalizer flex items-end gap-[3px] h-[26px] mb-[16px]">
                   {[1,2,3,4,5,6,7,8].map((i) => (

@@ -5,62 +5,94 @@ import { usePathname } from "next/navigation";
 import { Palette, ArrowLeft, ArrowRight, Volume2, VolumeX } from "lucide-react";
 
 const THEMES = [
-  { id: "a", label: "Midnight Rose" },
-  { id: "b", label: "Cream Blush" },
-  { id: "c", label: "Gold Navy" },
-  { id: "d", label: "Pink Lock" },
-  { id: "e", label: "Electric Neon" },
-  { id: "f", label: "Sunset Dream" },
+  { id: "a", label: "Midnight Rose", color: "bg-pink-400" },
+  { id: "b", label: "Cream Blush", color: "bg-[#f7e9d7]" },
+  { id: "c", label: "Gold Navy", color: "bg-amber-400" },
+  { id: "d", label: "Pink Lock", color: "bg-rose-500" },
+  { id: "e", label: "Electric Neon", color: "bg-cyan-400" },
+  { id: "f", label: "Sunset Dream", color: "bg-[#ff9a9e]" },
 ];
 
-const PAGE_LABELS = {
-  "/": "PIN · Unlock",
-  "/loader": "Boot · Countdown",
-  "/seal": "Wax · Seal",
-  "/hero": "Era · Title",
-  "/dossier": "ID · Card",
-  "/anthems": "Mixtape · Music",
-  "/memories": "Reel · Photos",
-  "/wish": "Candle · Wish",
-  "/legend": "Credits · Pass",
-  "/surprise": "Gift · Finale",
-};
+const PAGES = [
+  { path: "/pin", label: "PIN · Unlock" },
+  { path: "/loader", label: "Boot · Countdown" },
+  { path: "/seal", label: "Wax · Seal" },
+  { path: "/hero", label: "Era · Title" },
+  { path: "/dossier", label: "ID · Card" },
+  { path: "/anthems", label: "Mixtape · Music" },
+  { path: "/memories", label: "Reel · Photos" },
+  { path: "/wish", label: "Candle · Wish" },
+  { path: "/legend", label: "Credits · Pass" },
+  { path: "/surprise", label: "Gift · Finale" },
+];
+
+function normalizePath(pathname) {
+  if (!pathname) return "/pin";
+  const clean = pathname.replace(/\/+$/, "");
+  return clean === "" ? "/pin" : clean;
+}
 
 export default function NavShell({ children }) {
-  const pathname = usePathname();
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("prince-theme") || "a";
-    }
-    return "a";
-  });
+  const pathname = normalizePath(usePathname());
+  const [theme, setTheme] = useState("a");
+  const [themeReady, setThemeReady] = useState(false);
   const [audioOn, setAudioOn] = useState(false);
   const [showTheme, setShowTheme] = useState(false);
 
   useEffect(() => {
+    const stored = localStorage.getItem("prince-theme");
+    if (stored && THEMES.some((t) => t.id === stored)) setTheme(stored);
+    setThemeReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!themeReady) return;
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("prince-theme", theme);
-  }, [theme]);
+  }, [theme, themeReady]);
 
-  const pageLabel = PAGE_LABELS[pathname] || pathname;
+  useEffect(() => {
+    const audio = document.getElementById("site-audio");
+    if (audio) audio.volume = 0.35;
+  }, []);
+
+  useEffect(() => {
+    const audio = document.getElementById("site-audio");
+    if (!audio) return;
+    if (audioOn) {
+      audio.play().catch(() => setAudioOn(false));
+    } else {
+      audio.pause();
+    }
+  }, [audioOn]);
+
+  const pageIndex = PAGES.findIndex((p) => p.path === pathname);
+  const current = PAGES[pageIndex] || { label: pathname };
+  const prev = pageIndex > 0 ? PAGES[pageIndex - 1].path : null;
+  const next = pageIndex > -1 && pageIndex < PAGES.length - 1 ? PAGES[pageIndex + 1].path : null;
+  const activeTheme = THEMES.find((t) => t.id === theme) || THEMES[0];
 
   return (
     <>
       <nav className="nav-top">
         <div className="theme-label">PRINCE · CHAPTER 16</div>
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4">
           <button
             onClick={() => setShowTheme((s) => !s)}
-            className="flex items-center gap-4 p-2 rounded-full hover:bg-white/10 transition"
+            className="flex items-center gap-2 p-2 rounded-full hover:bg-white/10 transition"
             title="Pick a theme"
+            aria-label="Pick a theme"
           >
             <Palette size={16} strokeWidth={2} />
-            <span className="text-[10px] font-semibold tracking-widest opacity-70">{theme.toUpperCase()}</span>
+            <span className="text-[10px] font-semibold tracking-widest opacity-70 hidden sm:inline">
+              {activeTheme.label.toUpperCase()}
+            </span>
           </button>
           <button
             onClick={() => setAudioOn((a) => !a)}
-            className="flex items-center gap-4 p-2 rounded-full hover:bg-white/10 transition"
+            className="flex items-center p-2 rounded-full hover:bg-white/10 transition"
             title={audioOn ? "Mute" : "Unmute"}
+            aria-label={audioOn ? "Mute" : "Unmute"}
           >
             {audioOn ? <Volume2 size={16} strokeWidth={2} /> : <VolumeX size={16} strokeWidth={2} />}
           </button>
@@ -68,31 +100,37 @@ export default function NavShell({ children }) {
       </nav>
 
       {showTheme && (
-        <div className="absolute top-20 left-4 z-[70] bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="theme-panel">
           <p className="text-[10px] text-white/60 font-semibold tracking-widest mb-3 uppercase">Choose a palette</p>
-          <div className="flex gap-3">
+          <div className="theme-panel-grid">
             {THEMES.map((t) => (
               <button
                 key={t.id}
-                onClick={() => setTheme(t.id)}
-                className={`w-10 h-10 rounded-full border-2 cursor-pointer transition-transform hover:scale-110 ${theme === t.id ? "ring-2 ring-white" : "border-transparent"} ${getThemeColor(t.id)}`}
+                onClick={() => {
+                  setTheme(t.id);
+                  setShowTheme(false);
+                }}
+                className={`theme-swatch ${theme === t.id ? "is-active" : ""}`}
                 title={t.label}
-              />
+              >
+                <span className={`w-6 h-6 rounded-full border-2 border-white/40 ${t.color}`} />
+                <span>{t.label}</span>
+              </button>
             ))}
           </div>
         </div>
       )}
 
       <nav className="nav-bottom">
-        <div className="page-indicator">{pageLabel}</div>
-        <div className="flex items-center gap-4">
-          {pathname !== "/" && (
-            <button className="nav-btn" onClick={() => navigatePrev(pathname)}>
+        <div className="page-indicator">{current.label}</div>
+        <div className="flex items-center gap-2">
+          {prev && (
+            <button className="nav-btn" onClick={() => (window.location.href = `${prev}/`)}>
               <ArrowLeft size={14} strokeWidth={2} /> Prev
             </button>
           )}
-          {pathname !== "/legend" && (
-            <button className="nav-btn" onClick={() => navigateNext(pathname)}>
+          {next && (
+            <button className="nav-btn" onClick={() => (window.location.href = `${next}/`)}>
               Next <ArrowRight size={14} strokeWidth={2} />
             </button>
           )}
@@ -102,28 +140,4 @@ export default function NavShell({ children }) {
       {children}
     </>
   );
-}
-
-function getThemeColor(id) {
-  const colors = {
-    a: "bg-pink-400",
-    b: "bg-purple-600",
-    c: "bg-amber-400",
-    d: "bg-rose-500",
-    e: "bg-cyan-400",
-    f: "bg-rose-300",
-  };
-  return colors[id] || "bg-white";
-}
-
-function navigatePrev(path) {
-  const order = ["/", "/loader", "/seal", "/hero", "/dossier", "/anthems", "/memories", "/wish", "/legend", "/surprise"];
-  const idx = order.indexOf(path);
-  if (idx > 0) window.location.href = order[idx - 1];
-}
-
-function navigateNext(path) {
-  const order = ["/", "/loader", "/seal", "/hero", "/dossier", "/anthems", "/memories", "/wish", "/legend", "/surprise"];
-  const idx = order.indexOf(path);
-  if (idx < order.length - 1) window.location.href = order[idx + 1];
 }

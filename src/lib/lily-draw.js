@@ -1,4 +1,4 @@
-export function drawLily(ctx: any, x: number, y: number, size: number) {
+export function drawLily(ctx, x, y, size) {
   if (!ctx) return;
   ctx.save();
   ctx.translate(x, y);

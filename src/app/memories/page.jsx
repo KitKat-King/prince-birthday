@@ -42,7 +42,7 @@ export default function MemoriesPage() {
     <div className="page-wrap">
       <ConfettiCanvas />
       <NavShell>
-        <section className="memories relative min-h-screen p-[clamp(74px,12vw,150px)]_0 pt-[clamp(74px,12vw,150px)] overflow-hidden" onMouseDown={onMouseDown}>
+        <section className="memories relative min-h-screen py-[clamp(74px,12vw,150px)] pt-[clamp(74px,12vw,150px)] overflow-hidden" onMouseDown={onMouseDown}>
           <div className="memories-aura absolute inset-0 pointer-events-none bg-[radial-gradient(rgba(60,34,96,0.14)_1px,transparent_1px)] bg-[size:18px_18px] opacity-4 mask-[radial-gradient(ellipse_at_50%_40%,_#000_0,transparent_78%)]" />
           <div className="memories-grid relative z-10 grid grid-cols-[minmax(0,1fr)_minmax(0,0.94fr)] gap-[22px] w-full max-w-[1180px] mx-auto px-4 md:px-6">
             <div className="stack-zone flex flex-col gap-[16px]">
@@ -50,7 +50,7 @@ export default function MemoriesPage() {
                 {PHOTOS.map((src, i) => (
                   <motion.div
                     key={i}
-                    className={`polaroid absolute inset-0_0_auto_0 w-full max-w-[320px] mx-auto rounded-[4px] bg-[#fffdf9] p-[11px]_p_[11px]_0 shadow-[0_18px_34px_rgba(52,28,84,0.22)] cursor-grab ${dragging ? "cursor-grabbing" : ""} will-change-transform touch-none ${i === PHOTOS.length - 1 ? "is-top" : ""}`}
+                    className={`polaroid absolute inset-x-0 top-0 w-full max-w-[320px] mx-auto rounded-[4px] bg-[#fffdf9] p-[11px] shadow-[0_18px_34px_rgba(52,28,84,0.22)] cursor-grab ${dragging ? "cursor-grabbing" : ""} will-change-transform touch-none ${i === PHOTOS.length - 1 ? "is-top" : ""}`}
                     style={{
                       zIndex: PHOTOS.length - i,
                       transform: `rotate(${(i - (PHOTOS.length - 1)) * 2}deg) translateY(${i * 8}px)`,
@@ -67,13 +67,13 @@ export default function MemoriesPage() {
                       <div className="develop absolute inset-0 pointer-events-none bg-[linear-gradient(120deg,rgba(255,255,255,0.42),transparent_48%)]" />
                       <span className="polaroid-time absolute right-[6px] bottom-[5px] text-[5.5px] text-white/90 tracking-widest bg-[#0c0814]/50 px-[2px] py-[2px] rounded-[2px]">{TIMES[i]}</span>
                     </div>
-                    <div className="polaroid-foot flex items-center justify-between gap-6 px-[3px] py-[9px]_pb-[11px]">
+                    <div className="polaroid-foot flex items-center justify-between gap-6 px-[3px] py-[9px] pb-[11px]">
                       <span className="script font-[Playfair_Display] font-italic text-[17px] text-[#33234c]">{CAPTIONS[i]}</span>
                       <span className="drag-hint text-[5px] text-[#33234c]/40 tracking-widest">drag</span>
                     </div>
                   </motion.div>
                 ))}
-                <div className="stack-finished absolute inset-[22%_6%_auto] z-10 bg-[#fffdf9] rounded-[4px] p-[22px]_[18px] text-center shadow-[0_18px_34px_rgba(52,28,84,0.24)]">
+                <div className="stack-finished absolute inset-[22%_6%_auto] z-10 bg-[#fffdf9] rounded-[4px] p-[22px_18px] text-center shadow-[0_18px_34px_rgba(52,28,84,0.24)]">
                   <span className="stack-finished mono text-[6px] text-[#33234c]/50 tracking-widest">REEL COMPLETE</span>
                   <strong className="block mt-[6px] font-[Anton] text-[30px] text-[#2b1c40]">MEMORIES SAVED</strong>
                   <p className="mt-[2px] mb-[14px] text-[11.5px] leading-[1.55] text-[#2b1c40]/60">Drag back through the stack to relive each moment.</p>
@@ -97,7 +97,7 @@ export default function MemoriesPage() {
                 <div className="scratch-stage relative rounded-[12px] overflow-hidden aspect-[1] bg-[#e7e1f4]">
                   <img src="/images/cover.webp" alt="Scratch reveal" className="w-full h-full object-cover" />
                   <div className="scratch-glow absolute inset-0 pointer-events-none z-1 bg-[radial-gradient(circle_at_50%_40%,_rgba(255,155,212,0.18),transparent_62%)]" />
-                  <canvas className="scratch-canvas absolute inset-0 w-full h-full z-2 cursor-grab touch-none" width="320" height="320" />
+                  <canvas className="scratch-canvas absolute inset-0 w-full h-full z-[2] cursor-grab touch-none" width="320" height="320" />
                 </div>
                 <div className="scratch-copy px-[14px] pt-[14px] pb-[4px]">
                   <div className="scratch-copy mono flex items-center gap-2 text-[5.5px] text-[#33234c]/50 tracking-widest">SCRATCH TO REVEAL</div>
@@ -138,10 +138,10 @@ export default function MemoriesPage() {
                 <div key={proj.id} className="projector flex flex-col rounded-[16px] overflow-hidden bg-[#fffdf9] shadow-[0_18px_34px_rgba(52,28,84,0.16)] border border-[#33234c]/8">
                   <div className={`projector-gate relative overflow-hidden bg-[#191223] grid place-items-center min-h-[196px] ${proj.id === "intro" ? "aspect-[4/3.1]" : "aspect-[4/3.1]"}`}>
                     <img src={proj.src} alt={proj.title} className="w-full h-full object-cover" />
-                    <div className="gate-leak absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_24%_20%,_rgba(255,155,212,0.32),transparent_54%)]_linear-gradient(180deg,_transparent_55%,rgba(17,12,24,0.7)) mix-blend-screen" />
+                    <div className="gate-leak absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_24%_20%,_rgba(255,155,212,0.32),transparent_54%)] bg-[linear-gradient(180deg,_transparent_55%,rgba(17,12,24,0.7)) mix-blend-screen" />
                     <div className="gate-reel absolute left-[10px] top-[9px] text-[5.5px] text-white/85 tracking-widest bg-[#0c0814]/50 px-[3px] py-[2px] rounded-[2px]">ROLL {proj.id.toUpperCase()}</div>
                   </div>
-                  <div className="projector-meta px-[14px] py-[15px]_pb-[16px]">
+                  <div className="projector-meta px-[14px] py-[15px] pb-[16px]">
                     <span className="projector-meta mono text-[5.5px] text-[#7a52c2] tracking-widest">PROJECTOR · {proj.id.toUpperCase()}</span>
                     <h3 className="mt-[6px] mb-[5px] text-[15px] leading-[1.28] tracking-tighter text-[#241733]">{proj.title}</h3>
                     <p className="mb-0 text-[11px] leading-[1.55] text-[#2b1c40]/60">A moving memory from Chapter 16.</p>
@@ -152,7 +152,7 @@ export default function MemoriesPage() {
             <div className="memory-note flex flex-col items-center gap-[8px] mt-[44px] text-center">
               <Lily className="note-lily w-[34px] text-[#7a52c2] opacity-80" />
               <p className="mb-0 text-[14px] leading-[1.5] text-[#241733]/80">Every frame is a page in your story.</p>
-              <p className="script font-[Playfair_Display] font-italic text-[12px] text-[#6d4fa8]">Keep scrolling. Keep remembering.</p>
+              <p className="script font-[Playfair_Display] font-italic text-[12px] text-[#6d4fa8]">Keep remembering.</p>
               <div className="memory-note mono flex items-center gap-2 text-[5.5px] text-[#33234c]/40 tracking-widest">CHAPTER 04 · END</div>
             </div>
           </div>

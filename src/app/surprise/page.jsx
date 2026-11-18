@@ -24,21 +24,21 @@ export default function SurprisePage() {
 
   const replayAll = () => {
     setOpened(false);
-    setTimeout(() => { window.location.href = "/pin"; }, 900);
+    setTimeout(() => { window.location.href = "/pin/"; }, 900);
   };
 
   return (
     <div className="page-wrap">
       <ConfettiCanvas />
       <NavShell>
-        <section className="surprise relative min-h-screen p-[clamp(74px,12vw,150px)]_0 pt-[clamp(74px,12vw,150px)]_0 flex items-center justify-center overflow-hidden">
+        <section className="surprise relative min-h-screen py-[clamp(74px,12vw,150px)] pt-[clamp(74px,12vw,150px)] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(203,183,255,0.15),transparent_60%)]" />
           <audio id="surprise-audio" loop preload="none">
             <source src="/audio/bg.mp3" type="audio/mpeg" />
           </audio>
 
           <div className="relative z-10 flex flex-col items-center max-w-[560px] w-full px-4 md:px-6">
-            <h2 className="text-[32px] md:text-5xl font-[Anton] font-normal text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-fuchsia-400 drop-shadow-[0_0_30px_rgba(236,72,153,0.25)] mb-6 letter-spacing-[0.02em]">
+            <h2 className="text-[32px] md:text-5xl font-[Anton] font-normal text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-fuchsia-400 drop-shadow-[0_0_30px_rgba(236,72,153,0.25)] mb-6 tracking-[0.02em]">
               One Last Thing…
             </h2>
 

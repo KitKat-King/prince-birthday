@@ -116,7 +116,7 @@ export default function HeroPage() {
           </motion.div>
 
           <div className="scroll-cue absolute bottom-[74px] left-[20px] z-20 flex flex-col gap-2 text-[6.5px] tracking-widest text-white/40 font-mono">
-            <span>SCROLL TO OPEN THE FILM</span>
+            <span>ONE PAGE · ONE MEMORY</span>
             <motion.span animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
               <ArrowDown size={16} />
             </motion.span>

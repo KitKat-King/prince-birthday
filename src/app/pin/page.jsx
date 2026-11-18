@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { Lock, Heart, Sparkles, ArrowRight } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
+import { Lock, Sparkles, ArrowRight } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
@@ -13,45 +12,51 @@ const PIN_LENGTH = 6;
 export default function PinPage() {
   const [pin, setPin] = useState("");
   const [error, setError] = useState(false);
-  const [audioStarted, setAudioStarted] = useState(false);
-  const audioRef = useRef(null);
-  const enterRef = useRef(null);
+  const [unlocked, setUnlocked] = useState(false);
+  const busy = useRef(false);
 
-  useEffect(() => {
-    audioRef.current = document.getElementById("pin-audio");
+  const startAudio = useCallback(() => {
+    const audio = document.getElementById("site-audio");
+    if (audio && audio.paused) audio.play().catch(() => {});
   }, []);
 
-  const startAudio = () => {
-    if (!audioStarted && audioRef.current) {
-      setAudioStarted(true);
-      audioRef.current.play().catch(() => {});
-    }
-  };
+  const unlock = useCallback(() => {
+    setUnlocked(true);
+    triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2, count: 300 });
+    setTimeout(() => {
+      window.location.href = "/loader/";
+    }, 900);
+  }, []);
 
-  const addDigit = (d) => {
+  const fail = useCallback(() => {
+    setError(true);
+    setPin("");
+    setTimeout(() => setError(false), 900);
+  }, []);
+
+  const addDigit = (digit) => {
+    if (busy.current || unlocked) return;
     startAudio();
     if (pin.length >= PIN_LENGTH) return;
-    setPin((p) => p + d);
-    if (pin.length + 1 === PIN_LENGTH) setTimeout(() => checkPin(), 300);
+    const next = pin + digit;
+    setPin(next);
+    if (CORRECT_PINS.includes(next)) {
+      busy.current = true;
+      setTimeout(unlock, 250);
+    } else if (next.length >= PIN_LENGTH) {
+      busy.current = true;
+      setTimeout(() => {
+        fail();
+        busy.current = false;
+      }, 250);
+    }
   };
 
   const removeDigit = () => {
+    if (busy.current || unlocked) return;
     startAudio();
     setPin((p) => p.slice(0, -1));
     setError(false);
-  };
-
-  const checkPin = () => {
-    if (CORRECT_PINS.includes(pin)) {
-      triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2, count: 300 });
-      setTimeout(() => {
-        if (enterRef.current) enterRef.current.click();
-      }, 700);
-    } else {
-      setError(true);
-      setPin("");
-      setTimeout(() => setError(false), 900);
-    }
   };
 
   return (
@@ -63,9 +68,6 @@ export default function PinPage() {
           <div className="pin-blob pin-blob-2" aria-hidden="true" />
           <div className="pin-blob pin-blob-3" aria-hidden="true" />
           <canvas id="pin-confetti" className="pin-confetti" aria-hidden="true" />
-          <audio id="pin-audio" loop preload="none">
-            <source src="/audio/bg.mp3" type="audio/mpeg" />
-          </audio>
           <div className="pin-bunting pin-bunting-top" aria-hidden="true" />
           <div className="pin-bunting pin-bunting-bottom" aria-hidden="true" />
 
@@ -73,67 +75,56 @@ export default function PinPage() {
             <div className="pin-glass" />
             <div className="relative z-10 flex flex-col items-center">
               <div className="pin-bear-wrap relative mb-6">
-                <img src="/gifs/gift.gif" alt="Cute Bear" className="pin-bear" aria-hidden="true" />
+                <img src="/gifs/gift.gif" alt="Birthday gift" className="pin-bear" />
                 <div className="pin-lock-badge">
                   <Lock size={16} strokeWidth={2.2} />
                 </div>
               </div>
 
-              <h2 className="pin-title font-theme text-[2rem] font-semibold text-rose-600 mb-1">
-                Unlock Your Surprise
-              </h2>
-              <p className="pin-sub text-sm text-rose-400/80 mb-6">Enter the secret code to begin</p>
+              <h2 className="pin-title text-[2rem] font-semibold mb-1">Unlock Your Surprise</h2>
+              <p className="pin-sub text-sm mb-6">
+                {unlocked ? "Welcome in, Prince." : "Enter the secret code to begin"}
+              </p>
 
-              <div className="pin-dots flex gap-3 justify-center mb-6">
+              <div className="pin-dots" aria-label="PIN entry">
                 {[0, 1, 2, 3, 4, 5].map((i) => (
                   <div
                     key={i}
-                    className={`w-6 h-6 rounded-full bg-white/60 border border-pink-100 shadow-inner ${
-                      i < pin.length ? "bg-rose-500 border-pink-300 shadow-[0_0_12px_rgba(246,51,154,0.6)]" : ""
-                    } ${error ? "animate-shake" : ""}`}
-                    aria-label={`Digit ${i + 1}`}
+                    className={`pin-dot ${i < pin.length ? "filled" : ""} ${error ? "error" : ""}`}
+                    aria-label={`Digit ${i + 1}${i < pin.length ? " filled" : " empty"}`}
                   />
                 ))}
               </div>
 
-              <div className="pin-keypad grid grid-cols-3 gap-4 max-w-[240px] mx-auto mb-4">
+              <div className="pin-keypad">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
                   <button
                     key={n}
-                    className="pin-key w-14 h-14 rounded-full bg-white/70 border border-pink-50/80 text-rose-500 text-[21px] font-semibold hover:bg-pink-50 transition-all shadow-sm will-change-transform active:scale-95"
+                    className="pin-key"
                     onClick={() => addDigit(String(n))}
-                    onMouseDown={startAudio}
+                    aria-label={`Digit ${n}`}
                   >
                     {n}
                   </button>
                 ))}
-                <div className="pin-key w-14 h-14" />
-                <button
-                  className="pin-key w-14 h-14 rounded-full bg-white/70 text-rose-500 text-[21px] font-semibold hover:bg-pink-100 transition-all shadow-sm will-change-transform active:scale-95"
-                  onClick={() => addDigit("0")}
-                  onMouseDown={startAudio}
-                >
+                <div className="pin-key pin-key-empty" aria-hidden="true" />
+                <button className="pin-key" onClick={() => addDigit("0")} aria-label="Digit 0">
                   0
                 </button>
-                <button
-                  className="pin-key w-14 h-14 rounded-full bg-white/70 text-rose-400 hover:bg-pink-100 transition-all shadow-sm will-change-transform active:scale-95"
-                  onClick={removeDigit}
-                  onMouseDown={startAudio}
-                >
+                <button className="pin-key pin-key-delete" onClick={removeDigit} aria-label="Delete last digit">
                   <ArrowRight size={20} strokeWidth={2} rotate={180} />
                 </button>
               </div>
 
               {error && (
-                <p className="pin-error mt-3 text-sm text-rose-600 flex items-center justify-center gap-2 animate-shake">
+                <p className="pin-error mt-3 text-sm flex items-center justify-center gap-2">
                   <Sparkles size={14} strokeWidth={2} /> Wrong code — try again
                 </p>
               )}
             </div>
           </div>
 
-          <div ref={enterRef} className="hidden" onClick={() => (window.location.href = "/loader")} />
-          <p className="pin-foot fixed bottom-4 right-4 text-sm text-black/40 font-light tracking-widest">anujbuilds.in</p>
+          <p className="pin-foot">MADE WITH LOVE · 18.11</p>
         </div>
       </NavShell>
     </div>

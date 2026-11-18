@@ -1,6 +1,6 @@
 export const SFX_ENABLED = true;
 
-export function sfx(name: string) {
+export function sfx(name) {
   if (!SFX_ENABLED || typeof window === "undefined") return;
   try {
     const AudioContext =
@@ -12,7 +12,7 @@ export function sfx(name: string) {
     osc.connect(gain);
     gain.connect(ctx.destination);
     const now = ctx.currentTime;
-    const freqMap: Record<string, number> = {
+    const freqMap = {
       click: 800,
       pop: 600,
       blow: 400,

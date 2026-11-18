@@ -31,8 +31,9 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="a" suppressHydrationWarning>
       <body>
+        <audio id="site-audio" src="/audio/bg.mp3" loop preload="none" />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

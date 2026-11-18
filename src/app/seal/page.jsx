@@ -42,7 +42,7 @@ export default function SealPage() {
       cancelAnimationFrame(raf.current);
       raf.current = 0;
       triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2, count: 250 });
-      setTimeout(() => { window.location.href = "/hero"; }, 900);
+      setTimeout(() => { window.location.href = "/hero/"; }, 900);
     } else {
       raf.current = requestAnimationFrame(loop);
     }
@@ -81,13 +81,13 @@ export default function SealPage() {
                 <span className="mono text-[6px] text-lilac tracking-widest">PRESS AND HOLD</span>
               </div>
               <h1 className="unlock-name mb-2 leading-[0.8]">
-                <span className="font-[Anton] text-[76px] md:text-168px text-transparent bg-gradient-to-b from-white via-dcd5ec to-9b90b6 drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">
+                <span className="font-[Anton] text-[76px] md:text-[168px] text-transparent bg-gradient-to-b from-white via-[#dcd5ec] to-[#9b90b6] drop-shadow-[0_4px_0_rgba(0,0,0,0.5)]">
                   PRINCE
                 </span>
               </h1>
               <div className="unlock-sub flex items-baseline justify-center gap-3 mb-8">
                 <span className="mono text-[7px] text-white/40 tracking-widest">HOLD TO BREAK</span>
-                <strong className="font-[Anton] text-[28px] md:text-44px text-lilac leading-[1]">{progress}</strong>
+                <strong className="font-[Anton] text-[28px] md:text-[44px] text-lilac leading-[1]">{progress}</strong>
               </div>
 
               <div className="seal-wrap flex flex-col items-center gap-4">

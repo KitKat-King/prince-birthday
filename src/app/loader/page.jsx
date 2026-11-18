@@ -31,9 +31,14 @@ export default function LoaderPage() {
   useEffect(() => {
     if (done) {
       triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 3, count: 150 });
-      setTimeout(() => { window.location.href = "/seal"; }, 900);
+      setTimeout(() => { window.location.href = "/seal/"; }, 900);
     }
   }, [done]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDone(true), 4200);
+    return () => clearTimeout(timer);
+  }, []);
 
   const ready = now > 0;
   const diff = ready ? Math.max(0, target - now) : 0;
@@ -100,14 +105,14 @@ export default function LoaderPage() {
                   ))}
                 </div>
                 <button
-                  className="skip-btn absolute right-[18px] bottom-[18px] z-3 flex items-center gap-2 bg-transparent border border-white/20 rounded-full px-[13px] py-[9px] text-[6.5px] tracking-widest text-white/40 hover:bg-white hover:text-black transition"
+                  className="skip-btn absolute right-[18px] bottom-[18px] z-[3] flex items-center gap-2 bg-transparent border border-white/20 rounded-full px-[13px] py-[9px] text-[6.5px] tracking-widest text-white/40 hover:bg-white hover:text-black transition"
                   onClick={() => setDone(true)}
                 >
                   <ArrowRight size={14} strokeWidth={2} /> SKIP
                 </button>
               </div>
 
-              <div className="loader-sparks absolute inset-0 z-1 pointer-events-none" />
+              <div className="loader-sparks absolute inset-0 z-[1] pointer-events-none" />
             </div>
           </div>
 
