@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Mic, MicOff } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
+import NextChapter from "@/components/shell/NextChapter";
 
 const TRACKS = [
   { title: "Bairan", artist: "Original Mood Line", mood: "wistful" },
@@ -143,6 +144,7 @@ export default function AnthemsPage() {
             <div className="mono flex items-center justify-end gap-[4px] text-[5.5px] text-white/40 tracking-widest">CHAPTER 03 · ANTHEMS</div>
           </div>
         </section>
+        <NextChapter to="/memories" label="The Reel" tone={{ a: "#ffd166", b: "#ff5d8f" }} />
       </NavShell>
     </div>
   );

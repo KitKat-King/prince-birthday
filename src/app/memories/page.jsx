@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
+import NextChapter from "@/components/shell/NextChapter";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 
-const PHOTOS = ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg", "/images/4.jpg"];
-const TIMES = ["14:02", "15:30", "16:45", "18:00"];
-const CAPTIONS = ["First laugh", "Cake moment", "Best friends", "Golden hour"];
+const PHOTOS = ["/images/lyric-1.webp", "/images/lyric-2.webp", "/images/lyric-3.webp", "/images/lyric-4.webp"];
+const TIMES = ["15:04", "15:12", "15:26", "15:38"];
+const CAPTIONS = ["Cloudy skies, bright mood", "Park royalty", "Stylish by the tree", "Golden hour energy"];
 
 export default function MemoriesPage() {
   const [dragging, setDragging] = useState(false);
@@ -95,7 +96,7 @@ export default function MemoriesPage() {
             <div className="relative flex items-end">
               <div className="scratch-shell w-full max-w-[320px] mx-auto">
                 <div className="scratch-stage relative rounded-[12px] overflow-hidden aspect-[1] bg-[#e7e1f4]">
-                  <img src="/images/cover.webp" alt="Scratch reveal" className="w-full h-full object-cover" />
+                  <img src="/images/scrapbook.webp" alt="Scratch reveal" className="w-full h-full object-cover" />
                   <div className="scratch-glow absolute inset-0 pointer-events-none z-1 bg-[radial-gradient(circle_at_50%_40%,_rgba(255,155,212,0.18),transparent_62%)]" />
                   <canvas className="scratch-canvas absolute inset-0 w-full h-full z-[2] cursor-grab touch-none" width="320" height="320" />
                 </div>
@@ -157,6 +158,7 @@ export default function MemoriesPage() {
             </div>
           </div>
         </section>
+        <NextChapter to="/wish" label="The Candle" tone={{ a: "#22d3ee", b: "#3ddc97" }} />
       </NavShell>
     </div>
   );

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
+import NextChapter from "@/components/shell/NextChapter";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 
 const CANDLE_COUNT = 16;
@@ -178,6 +179,7 @@ export default function WishPage() {
             <p className="mb-0 text-[13px] leading-[1.5] text-white/60">Sixteen candles. <em className="text-lilac font-[Playfair_Display] font-italic">One wish.</em></p>
           </div>
         </section>
+        <NextChapter to="/legend" label="Credits" tone={{ a: "#3ddc97", b: "#ffd166" }} />
       </NavShell>
     </div>
   );

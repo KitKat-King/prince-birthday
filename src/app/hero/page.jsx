@@ -6,6 +6,7 @@ import confetti from "canvas-confetti";
 import { ArrowDown, Crown, Sparkles, Star } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
+import NextChapter from "@/components/shell/NextChapter";
 import { KineticLetters, Lily, VelocityMarquee } from "@/components/ui/motion-kit";
 import { EASE } from "@/lib/motion";
 
@@ -126,6 +127,7 @@ export default function HeroPage() {
             <VelocityMarquee>PRINCE'S DAY ✦ STAY LEGENDARY ✦ CHAPTER 16 ✦ IT'S YOUR ERA ✦</VelocityMarquee>
           </div>
         </section>
+        <NextChapter to="/dossier" label="The Dossier" tone={{ a: "#ff2d78", b: "#a855f7" }} />
       </NavShell>
     </div>
   );

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Copy, Share2, Sparkles, ArrowRight } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
+import NextChapter from "@/components/shell/NextChapter";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 
 export default function LegendPage() {
@@ -70,6 +71,12 @@ export default function LegendPage() {
               <p className="tribute-close mt-[12px] font-[Playfair_Display] font-italic text-[17px] text-lilac">— Your Best Friend</p>
               <div className="tribute-sign mt-[20px] mb-[4px] font-[Playfair_Display] font-italic text-[22px] text-white">With all my love,</div>
               <span className="tribute-date text-[5.5px] text-white/40 tracking-widest">18.11.2026</span>
+              <div className="tribute-photo mt-[16px] w-[88px] rotate-[-5deg] rounded-[4px] bg-[#fffdf9] p-[5px] pb-[12px] shadow-[0_12px_22px_rgba(0,0,0,0.35)]">
+                <div className="overflow-hidden rounded-[2px] aspect-[3/3.4] bg-[#efe7fb]">
+                  <img src="/images/birthday-lily.webp" alt="Birthday lily collage" className="w-full h-full object-cover" />
+                </div>
+                <span className="block mt-[4px] text-center script font-[Playfair_Display] italic text-[9px] text-[#33234c]">chapter 16</span>
+              </div>
             </div>
 
             <div className="pass-wrap flex flex-col gap-[12px]">
@@ -178,6 +185,7 @@ export default function LegendPage() {
             </button>
           </div>
         </section>
+        <NextChapter to="/surprise" label="The Gift" tone={{ a: "#ff2d78", b: "#ff9e58" }} />
       </NavShell>
     </div>
   );

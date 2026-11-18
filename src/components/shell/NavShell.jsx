@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Palette, ArrowLeft, ArrowRight, Volume2, VolumeX } from "lucide-react";
+import { Palette, Volume2, VolumeX } from "lucide-react";
 
 const THEMES = [
   { id: "a", label: "Midnight Rose", color: "bg-pink-400" },
@@ -68,8 +68,6 @@ export default function NavShell({ children }) {
 
   const pageIndex = PAGES.findIndex((p) => p.path === pathname);
   const current = PAGES[pageIndex] || { label: pathname };
-  const prev = pageIndex > 0 ? PAGES[pageIndex - 1].path : null;
-  const next = pageIndex > -1 && pageIndex < PAGES.length - 1 ? PAGES[pageIndex + 1].path : null;
   const activeTheme = THEMES.find((t) => t.id === theme) || THEMES[0];
 
   return (
@@ -123,18 +121,6 @@ export default function NavShell({ children }) {
 
       <nav className="nav-bottom">
         <div className="page-indicator">{current.label}</div>
-        <div className="flex items-center gap-2">
-          {prev && (
-            <button className="nav-btn" onClick={() => (window.location.href = `${prev}/`)}>
-              <ArrowLeft size={14} strokeWidth={2} /> Prev
-            </button>
-          )}
-          {next && (
-            <button className="nav-btn" onClick={() => (window.location.href = `${next}/`)}>
-              Next <ArrowRight size={14} strokeWidth={2} />
-            </button>
-          )}
-        </div>
       </nav>
 
       {children}

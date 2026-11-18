@@ -2338,3 +2338,82 @@ img { display: block; max-width: 100%; }
   .replay-btn { padding: 11px 16px; font-size: 6.5px; }
   .pass-actions { margin-top: 2px !important; }
 }
+
+/* ═════════════════════════════════════════════════════════════
+   ERA POP · COLOR OVERHAUL (appended layer — later rules win)
+   ═════════════════════════════════════════════════════════════ */
+
+/* Richer, more colorful theme backgrounds */
+:root {
+  --theme-a-bg: linear-gradient(145deg, #3a0f31 0%, #12060f 48%, #241040 100%);
+  --theme-b-bg: linear-gradient(145deg, #4c1d95 0%, #7e22ce 48%, #db2777 100%);
+  --theme-c-bg: linear-gradient(150deg, #0b1340 0%, #05093d 52%, #1c1030 100%);
+  --theme-d-bg: linear-gradient(150deg, #2a0505 0%, #1a0411 52%, #2d0a20 100%);
+  --theme-e-bg: linear-gradient(150deg, #050510 0%, #0a0a1a 52%, #12041c 100%);
+  --theme-f-bg: linear-gradient(150deg, #2a0a12 0%, #571c1c 55%, #8a3b12 100%);
+}
+
+/* Per-theme surfaces + pops */
+[data-theme="a"] { --surface:#17101f; --surface-2:#251a35; --ink:#fdf4ff; --pop:#22d3ee; --glow:rgba(244,114,182,.34); }
+[data-theme="b"] { --surface:#2a1145; --surface-2:#3b1a63; --ink:#fff5ff; --pop:#ffd166; --glow:rgba(217,70,239,.34); }
+[data-theme="c"] { --surface:#0d1342; --surface-2:#161d55; --ink:#fdf6e3; --pop:#ffd166; --glow:rgba(231,207,161,.30); }
+[data-theme="d"] { --surface:#2c0716; --surface-2:#3f0b1f; --ink:#fff0f5; --pop:#fb64b6; --glow:rgba(255,35,87,.34); }
+[data-theme="e"] { --surface:#0d0d18; --surface-2:#171731; --ink:#eaffff; --pop:#ccff00; --glow:rgba(0,242,255,.30); }
+[data-theme="f"] { --surface:#3a0f18; --surface-2:#4d1a20; --ink:#fff3ea; --pop:#3ddc97; --glow:rgba(255,122,89,.32); }
+
+.page-wrap { background: var(--bg, #07070a); color: var(--ink, #fff); }
+
+/* Chapters follow the active palette */
+.dossier { background: radial-gradient(circle at 86% 4%, var(--glow) 0, transparent 42rem), var(--surface); }
+.music { background: radial-gradient(circle at 12% 0%, var(--glow) 0, transparent 40rem), var(--surface); }
+.cake-chapter { background: radial-gradient(circle at 50% 8%, var(--glow) 0, transparent 44rem), var(--surface); }
+.finale { background: radial-gradient(circle at 50% 0%, var(--glow) 0, transparent 46rem), var(--surface); }
+.id-card { background: linear-gradient(150deg, var(--surface-2) 0%, var(--surface) 62%); }
+.lily-panel { background: linear-gradient(150deg, var(--surface-2), var(--surface) 66%); }
+
+/* Bottom bar: chapter label only */
+.nav-bottom { justify-content: center; }
+
+/* ── Next chapter ticket ────────────────────────────────────── */
+.next-chapter-row {
+  position: absolute; left: 0; right: 0; z-index: 30;
+  bottom: clamp(62px, 9vw, 92px);
+  display: flex; justify-content: center; pointer-events: none;
+}
+.next-chapter {
+  pointer-events: auto;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 12px 10px 18px; border-radius: 999px;
+  background: linear-gradient(100deg, var(--nc-a, var(--primary)), var(--nc-b, var(--secondary)));
+  color: #fff; font-family: var(--display); font-size: 13px; letter-spacing: .06em; text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,.28);
+  box-shadow: 0 12px 28px rgba(0,0,0,.38);
+  transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
+}
+.next-chapter:hover { transform: translateY(-2px) scale(1.02); filter: saturate(1.12); box-shadow: 0 16px 34px rgba(0,0,0,.45); }
+.next-chapter-tag { font-family: var(--mono); font-size: 7px; letter-spacing: .18em; opacity: .85; }
+.next-chapter-arrow { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.22); }
+@media (max-width: 620px) {
+  .next-chapter-row { bottom: 76px; }
+  .next-chapter { font-size: 11px; padding: 8px 10px 8px 14px; gap: 8px; }
+  .next-chapter-tag { display: none; }
+  .next-chapter-arrow { width: 22px; height: 22px; }
+}
+
+/* ── Dossier extras ─────────────────────────────────────────── */
+.trait-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; border-radius: 999px;
+  font-family: var(--mono); font-size: 6px; letter-spacing: .14em;
+  border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.05);
+}
+.trait-chip.is-pink { color: #ff9bd4; border-color: rgba(255,155,212,.45); background: rgba(255,155,212,.1); }
+.trait-chip.is-violet { color: #d6c6ff; border-color: rgba(203,183,255,.45); background: rgba(203,183,255,.1); }
+.trait-chip.is-gold { color: #ffe3a3; border-color: rgba(255,209,102,.45); background: rgba(255,209,102,.1); }
+.back-stats { border: 1px dashed rgba(255,255,255,.16); border-radius: 12px; padding: 10px 8px; background: rgba(255,255,255,.03); }
+.back-stat { display: flex; flex-direction: column; gap: 3px; align-items: center; text-align: center; }
+.profile-rows { border-top: 1px dashed rgba(255,255,255,.16); }
+.profile-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,.1); }
+.mini-polaroid img { display: block; }
+.lily-panel-tape { box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+.stamp small { letter-spacing: .12em; }
