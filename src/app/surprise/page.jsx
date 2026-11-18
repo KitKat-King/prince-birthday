@@ -6,6 +6,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
+import { resetProgress } from "@/lib/progress";
 
 export default function SurprisePage() {
   const [opened, setOpened] = useState(false);
@@ -24,7 +25,7 @@ export default function SurprisePage() {
 
   const replayAll = () => {
     setOpened(false);
-    setTimeout(() => { window.location.href = "/pin/"; }, 900);
+    setTimeout(() => { resetProgress(); window.location.href = "/pin/"; }, 900);
   };
 
   return (

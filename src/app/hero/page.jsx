@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import confetti from "canvas-confetti";
 import { ArrowDown, Crown, Sparkles, Star } from "lucide-react";
@@ -9,9 +9,11 @@ import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import NextChapter from "@/components/shell/NextChapter";
 import { KineticLetters, Lily, VelocityMarquee } from "@/components/ui/motion-kit";
 import { EASE } from "@/lib/motion";
+import { setProgress } from "@/lib/progress";
 
 export default function HeroPage() {
   const ref = useRef(null);
+  useEffect(() => { setProgress(4); }, []);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const numY = useTransform(scrollYProgress, [0, 1], [0, -140]);
   const numRotate = useTransform(scrollYProgress, [0, 1], [-8, 12]);

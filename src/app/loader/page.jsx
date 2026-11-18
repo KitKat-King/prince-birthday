@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
+import { setProgress } from "@/lib/progress";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 import { PRINCE } from "@/lib/prince";
 
@@ -31,7 +32,7 @@ export default function LoaderPage() {
   useEffect(() => {
     if (done) {
       triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 3, count: 150 });
-      setTimeout(() => { window.location.href = "/seal/"; }, 900);
+      setTimeout(() => { setProgress(2); window.location.href = "/seal/"; }, 900);
     }
   }, [done]);
 

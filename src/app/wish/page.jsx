@@ -7,6 +7,7 @@ import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import NextChapter from "@/components/shell/NextChapter";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
+import { setProgress as setChapterProgress } from "@/lib/progress";
 
 const CANDLE_COUNT = 16;
 
@@ -48,6 +49,7 @@ export default function WishPage() {
     setProgress(progressRef.current);
     if (progressRef.current >= 1 && !blown) {
       setBlown(true);
+      setChapterProgress(8);
       cancelAnimationFrame(raf.current);
       raf.current = 0;
       triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2, count: 300 });

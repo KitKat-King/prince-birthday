@@ -7,6 +7,7 @@ import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import NextChapter from "@/components/shell/NextChapter";
 import { Lily } from "@/components/ui/motion-kit";
+import { setProgress } from "@/lib/progress";
 
 const BORN = Date.UTC(2005, 10, 18);
 
@@ -44,6 +45,10 @@ export default function DossierPage() {
   const [pointerX, setPointerX] = useState(0);
   const [pointerY, setPointerY] = useState(0);
   const { hours, days, minutes } = useLived();
+
+  useEffect(() => {
+    if (flipped) setProgress(5);
+  }, [flipped]);
 
   return (
     <div className="page-wrap">

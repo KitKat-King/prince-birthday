@@ -7,6 +7,7 @@ import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import NextChapter from "@/components/shell/NextChapter";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
+import { setProgress } from "@/lib/progress";
 
 const PHOTOS = ["/images/lyric-1.webp", "/images/lyric-2.webp", "/images/lyric-3.webp", "/images/lyric-4.webp"];
 const TIMES = ["15:04", "15:12", "15:26", "15:38"];
@@ -17,6 +18,8 @@ export default function MemoriesPage() {
   const [offset, setOffset] = useState(0);
   const startRef = useRef(0);
   const offsetRef = useRef(0);
+
+  useEffect(() => { setProgress(7); }, []);
 
   const onMouseDown = (e) => {
     setDragging(true);

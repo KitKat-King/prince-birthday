@@ -6,6 +6,7 @@ import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Mic, MicOff } fro
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import NextChapter from "@/components/shell/NextChapter";
+import { setProgress } from "@/lib/progress";
 
 const TRACKS = [
   { title: "Bairan", artist: "Original Mood Line", mood: "wistful" },
@@ -18,6 +19,8 @@ export default function AnthemsPage() {
   const [trackIdx, setTrackIdx] = useState(0);
   const audioRef = useRef(null);
   const [eq, setEq] = useState(0);
+
+  useEffect(() => { setProgress(6); }, []);
 
   useEffect(() => {
     audioRef.current = document.getElementById("anthem-audio");

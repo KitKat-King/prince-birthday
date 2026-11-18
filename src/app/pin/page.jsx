@@ -5,6 +5,7 @@ import { Lock, Sparkles, ArrowRight } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
+import { setProgress } from "@/lib/progress";
 
 const CORRECT_PINS = ["123456", "1234567"];
 const PIN_LENGTH = 6;
@@ -18,6 +19,7 @@ export default function PinPage() {
   const unlock = useCallback(() => {
     setUnlocked(true);
     triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2, count: 300 });
+    setProgress(1);
     setTimeout(() => {
       window.location.href = "/loader/";
     }, 900);

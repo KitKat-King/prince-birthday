@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
+import { setProgress } from "@/lib/progress";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
 import { Lily } from "@/components/ui/motion-kit";
 
@@ -42,7 +43,7 @@ export default function SealPage() {
       cancelAnimationFrame(raf.current);
       raf.current = 0;
       triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2, count: 250 });
-      setTimeout(() => { window.location.href = "/hero/"; }, 900);
+      setTimeout(() => { setProgress(3); window.location.href = "/hero/"; }, 900);
     } else {
       raf.current = requestAnimationFrame(loop);
     }

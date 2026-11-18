@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Copy, Share2, Sparkles, ArrowRight } from "lucide-react";
 import NavShell from "@/components/shell/NavShell";
 import ConfettiCanvas from "@/components/shell/ConfettiCanvas";
 import NextChapter from "@/components/shell/NextChapter";
 import { triggerConfetti } from "@/components/shell/ConfettiCanvas";
+import { setProgress, resetProgress } from "@/lib/progress";
 
 export default function LegendPage() {
   const [verified, setVerified] = useState(0);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (verified >= 3) setProgress(9);
+  }, [verified]);
 
   const copyPass = async () => {
     const text = "PRINCE · CHAPTER 16 · ERA-16-2026-PRINCE · 18.11.2026";
@@ -171,7 +176,7 @@ export default function LegendPage() {
           </div>
 
           <div className="post-credits relative z-10 flex flex-col items-center gap-[12px] mt-[44px] px-[clamp(20px,6vw,72px)]">
-            <button className="reel-btn inline-flex items-center gap-[7px] bg-transparent border border-white/10 rounded-full px-[9px] py-[14px] text-white/40 transition hover:border-white/26 hover:text-white" onClick={() => { triggerConfetti({ count: 150 }); setTimeout(() => { window.location.href = "/pin/"; }, 500); }}>
+            <button className="reel-btn inline-flex items-center gap-[7px] bg-transparent border border-white/10 rounded-full px-[9px] py-[14px] text-white/40 transition hover:border-white/26 hover:text-white" onClick={() => { triggerConfetti({ count: 150 }); setTimeout(() => { resetProgress(); window.location.href = "/pin/"; }, 500); }}>
               <Sparkles size={20} strokeWidth={2} className="animate-[spin_9s_linear_infinite]" />
               <span className="reel-btn mono text-[5.5px] tracking-widest">REPLAY FILM</span>
             </button>
@@ -180,7 +185,7 @@ export default function LegendPage() {
               <p className="mt-[2px] mb-[2px] font-[Playfair_Display] font-italic text-[15px] leading-[1.5] text-white/78">The best part is still ahead...</p>
               <span className="script font-[Playfair_Display] font-italic text-[12px] text-white/40">Stay tuned for Chapter 17</span>
             </div>
-            <button className="replay-btn inline-flex items-center gap-7 bg-white text-[#07070a] border-0 rounded-full px-[12px] py-[18px] font-mono text-[7px] tracking-[0.16em] transition hover:bg-lilac hover:-translate-y-[2px]" onClick={() => window.location.href = "/pin/"}>
+            <button className="replay-btn inline-flex items-center gap-7 bg-white text-[#07070a] border-0 rounded-full px-[12px] py-[18px] font-mono text-[7px] tracking-[0.16em] transition hover:bg-lilac hover:-translate-y-[2px]" onClick={() => { resetProgress(); window.location.href = "/pin/"; }}>
               <ArrowRight size={20} strokeWidth={2} /> REPLAY
             </button>
           </div>
