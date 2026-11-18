@@ -43,6 +43,7 @@ export default function AnthemsPage() {
       <ConfettiCanvas />
       <NavShell>
         <section className="music relative min-h-screen py-[clamp(74px,12vw,150px)] pt-[clamp(74px,12vw,150px)]">
+          <audio id="anthem-audio" src="/audio/bg.mp3" loop preload="none" />
           <div className="music-aura absolute left-[-22%] top-[22%] w-[56vmax] h-[56vmax] rounded-full bg-[radial-gradient(circle,_rgba(165,242,211,0.1),transparent_64%)] blur-[50px]" />
           <div className="music-stage grid grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] gap-[clamp(16px,3vw,26px)] items-start w-full max-w-[1180px] mx-auto px-4 md:px-6">
             <div className="cassette-zone flex flex-col gap-[14px] order-1">

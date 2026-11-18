@@ -2277,3 +2277,64 @@ img { display: block; max-width: 100%; }
   .film-grain { display: none; }
   .hero-ghost-num, .hero-orbit, .cake-halo, .drifting-lily { opacity: 0.4; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   ONE-SCENE-PER-PAGE: mobile fit (no page scrolling)
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+  html, body { height: 100%; overflow: hidden; }
+  .page-wrap { height: 100svh; overflow: hidden; }
+  .nav-bottom { padding: 10px 12px; }
+  .nav-btn { padding: 7px 12px; font-size: 10px; }
+
+  /* Mixtape — keep the deck, drop the secondary panels */
+  .music { padding-top: 66px; padding-bottom: 48px; }
+  .music .cassette-zone,
+  .music .lyric-frame,
+  .music .music-footnote { display: none; }
+  .music-stage { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .player { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 12px; }
+  .player-vinyl-zone { max-width: 168px; margin: 0 auto; }
+  .player-title { font-size: 27px; margin-top: 4px; }
+  .player-sub { margin-bottom: 8px; }
+  .player-progress { margin-top: 6px; }
+  .player-controls { justify-content: center; }
+
+  /* Memories — keep the polaroid deck */
+  .memories { padding-top: 64px; padding-bottom: 44px; }
+  .memories .scratch-shell,
+  .memories .filmstrip-wrap,
+  .memories .strip-head,
+  .memories .projector-row,
+  .memories .memory-note { display: none; }
+  .memories-grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .stack { height: 430px; }
+  .polaroid { max-width: 300px; }
+  .stack-meta { max-width: 300px; }
+
+  /* Cake — keep cake + wish ticket + blow control */
+  .cake-chapter { padding-top: 62px; padding-bottom: 42px; }
+  .cake-stage { min-height: 286px; margin-bottom: 10px; }
+  .cake { transform: scale(0.84); transform-origin: center bottom; }
+  .cake-note, .cake-hint { display: none; }
+  .wish-controls { gap: 12px; }
+  .blow-wrap button, .blow-wrap > .wish-controls { width: 88px; height: 88px; }
+  .wish-ticket { padding: 13px 14px 11px; }
+  .wish-ticket strong { font-size: 16px !important; margin-bottom: 9px !important; }
+  .ticket-foot { padding-top: 9px; }
+
+  /* Credits — keep title + boarding pass + replay */
+  .finale { padding-top: 60px; padding-bottom: 34px; }
+  .finale-title { font-size: clamp(40px, 13vw, 72px); }
+  .finale-sub { margin-top: 10px; }
+  .finale-content { grid-template-columns: minmax(0, 1fr); margin-top: 18px; padding: 0 16px; }
+  .finale .tribute,
+  .finale .credits,
+  .finale .deleted-scene,
+  .finale .reel-btn { display: none; }
+  .pass-wrap { gap: 8px; }
+  .birthday-pass { padding: 14px 13px 10px; }
+  .finale .post-credits { margin-top: 12px; gap: 8px; }
+  .replay-btn { padding: 11px 16px; font-size: 6.5px; }
+  .pass-actions { margin-top: 2px !important; }
+}

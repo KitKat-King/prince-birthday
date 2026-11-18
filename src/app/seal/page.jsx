@@ -35,7 +35,7 @@ export default function SealPage() {
     const now = performance.now();
     const dt = (now - last.current) / 16;
     last.current = now;
-    progressRef.current = Math.min(1, progressRef.current + dt * 0.08);
+    progressRef.current = Math.min(1, progressRef.current + dt * 0.012);
     setProgress(progressRef.current);
     if (progressRef.current >= 1 && !done) {
       setDone(true);
@@ -87,14 +87,14 @@ export default function SealPage() {
               </h1>
               <div className="unlock-sub flex items-baseline justify-center gap-3 mb-8">
                 <span className="mono text-[7px] text-white/40 tracking-widest">HOLD TO BREAK</span>
-                <strong className="font-[Anton] text-[28px] md:text-[44px] text-lilac leading-[1]">{progress}</strong>
+                <strong className="font-[Anton] text-[28px] md:text-[44px] text-lilac leading-[1]">{Math.round(progress * 100)}%</strong>
               </div>
 
               <div className="seal-wrap flex flex-col items-center gap-4">
                 <div className="seal relative" style={{ width: "clamp(160px, 40vw, 196px)", aspectRatio: 1 }}>
                   <svg className="seal-ring w-full h-full" viewBox="0 0 140 140">
                     <circle className="seal-track" cx="70" cy="70" r="65" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="2.5" />
-                    <circle className={`seal-progress ${warm ? "warm" : ""}`} cx="70" cy="70" r="65" fill="none" stroke="var(--lilac)" strokeWidth="3" strokeLinecap="round" style={{ strokeDashoffset: 408 - (408 * progress) / 100, transform: "rotate(-90deg)", transformOrigin: "70px 70px" }} />
+                    <circle className={`seal-progress ${warm ? "warm" : ""}`} cx="70" cy="70" r="65" fill="none" stroke="var(--lilac)" strokeWidth="3" strokeLinecap="round" style={{ strokeDashoffset: 408 - 408 * progress, transform: "rotate(-90deg)", transformOrigin: "70px 70px" }} />
                   </svg>
                   <button
                     className="seal-button"
@@ -112,7 +112,7 @@ export default function SealPage() {
                     <div className="seal-label">HOLD TO BREAK</div>
                     <div className="seal-ticks">{Math.round(progress * 100)}%</div>
                   </button>
-                  <div className="seal-hint mt-1 text-[6px] text-white/30 tracking-widest">Press and hold (~1.4s) or tap "instead"</div>
+                  <div className="seal-hint mt-1 text-[6px] text-white/30 tracking-widest">Press and hold for a moment to break the seal</div>
                 </div>
               </div>
 

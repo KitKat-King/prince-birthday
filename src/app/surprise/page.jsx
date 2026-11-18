@@ -89,7 +89,6 @@ export default function SurprisePage() {
             )}
           </div>
 
-          <p className="pin-foot fixed bottom-4 right-4 text-sm text-black/40 font-light tracking-widest">anujbuilds.in</p>
         </section>
       </NavShell>
     </div>

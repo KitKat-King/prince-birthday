@@ -15,11 +15,6 @@ export default function PinPage() {
   const [unlocked, setUnlocked] = useState(false);
   const busy = useRef(false);
 
-  const startAudio = useCallback(() => {
-    const audio = document.getElementById("site-audio");
-    if (audio && audio.paused) audio.play().catch(() => {});
-  }, []);
-
   const unlock = useCallback(() => {
     setUnlocked(true);
     triggerConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2, count: 300 });
@@ -36,7 +31,6 @@ export default function PinPage() {
 
   const addDigit = (digit) => {
     if (busy.current || unlocked) return;
-    startAudio();
     if (pin.length >= PIN_LENGTH) return;
     const next = pin + digit;
     setPin(next);
@@ -54,7 +48,6 @@ export default function PinPage() {
 
   const removeDigit = () => {
     if (busy.current || unlocked) return;
-    startAudio();
     setPin((p) => p.slice(0, -1));
     setError(false);
   };
@@ -124,7 +117,6 @@ export default function PinPage() {
             </div>
           </div>
 
-          <p className="pin-foot">MADE WITH LOVE · 18.11</p>
         </div>
       </NavShell>
     </div>

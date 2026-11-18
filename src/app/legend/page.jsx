@@ -11,6 +11,31 @@ export default function LegendPage() {
   const [verified, setVerified] = useState(0);
   const [copied, setCopied] = useState(false);
 
+  const copyPass = async () => {
+    const text = "PRINCE · CHAPTER 16 · ERA-16-2026-PRINCE · 18.11.2026";
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+    }
+  };
+
+  const sharePass = async () => {
+    const data = {
+      title: "Prince — Chapter 16",
+      text: "Prince — Chapter 16 · It's your era. 18.11.2026",
+      url: window.location.origin,
+    };
+    try {
+      if (navigator.share) await navigator.share(data);
+      else await copyPass();
+    } catch {
+      /* user dismissed the share sheet */
+    }
+  };
+
   return (
     <div className="page-wrap">
       <ConfettiCanvas />
@@ -48,7 +73,7 @@ export default function LegendPage() {
             </div>
 
             <div className="pass-wrap flex flex-col gap-[12px]">
-              <div className="birthday-pass relative overflow-hidden rounded-[16px] bg-gradient-to-br from-[#fdfbff] via-[#f0e9fc] 52% to-[#e2d7f6] text-[#1d1429] p-[18px_18px_14px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] cursor-pointer group" onClick={() => setVerified((v) => (v + 1) % 3)}>
+              <div className="birthday-pass relative overflow-hidden rounded-[16px] bg-gradient-to-br from-[#fdfbff] via-[#f0e9fc] 52% to-[#e2d7f6] text-[#1d1429] p-[18px_18px_14px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] cursor-pointer group" onClick={() => setVerified((v) => (v + 1) % 4)}>
                 <div className="pass-top flex items-flex-start justify-between gap-10 relative z-10">
                   <div className="pass-brand flex flex-col gap-[3px]">
                     <span className="pass-brand mono text-[5px] text-[#1d1429]/44 tracking-widest">ERA CUT AIRLINES</span>
@@ -98,10 +123,10 @@ export default function LegendPage() {
                   <Sparkles size={10} strokeWidth={2} />
                 </div>
                 <div className="pass-actions flex gap-[8px] flex-wrap mt-[4px]">
-                  <button className="flex items-center gap-2 border border-white/30 rounded-full px-[4px] py-[2] text-[5px] text-[#1d1429]/60 hover:bg-white/40 transition">
-                    <Copy size={12} strokeWidth={2} /> COPY
+                  <button onClick={(e) => { e.stopPropagation(); copyPass(); }} className="flex items-center gap-2 border border-white/30 rounded-full px-[4px] py-[2] text-[5px] text-[#1d1429]/60 hover:bg-white/40 transition">
+                    <Copy size={12} strokeWidth={2} /> {copied ? "COPIED" : "COPY"}
                   </button>
-                  <button className="flex items-center gap-2 border border-white/30 rounded-full px-[4px] py-[2] text-[5px] text-[#1d1429]/60 hover:bg-white/40 transition">
+                  <button onClick={(e) => { e.stopPropagation(); sharePass(); }} className="flex items-center gap-2 border border-white/30 rounded-full px-[4px] py-[2] text-[5px] text-[#1d1429]/60 hover:bg-white/40 transition">
                     <Share2 size={12} strokeWidth={2} /> SHARE
                   </button>
                 </div>
@@ -139,7 +164,7 @@ export default function LegendPage() {
           </div>
 
           <div className="post-credits relative z-10 flex flex-col items-center gap-[12px] mt-[44px] px-[clamp(20px,6vw,72px)]">
-            <button className="reel-btn inline-flex items-center gap-[7px] bg-transparent border border-white/10 rounded-full px-[9px] py-[14px] text-white/40 transition hover:border-white/26 hover:text-white" onClick={() => { triggerConfetti({ count: 150 }); }}>
+            <button className="reel-btn inline-flex items-center gap-[7px] bg-transparent border border-white/10 rounded-full px-[9px] py-[14px] text-white/40 transition hover:border-white/26 hover:text-white" onClick={() => { triggerConfetti({ count: 150 }); setTimeout(() => { window.location.href = "/pin/"; }, 500); }}>
               <Sparkles size={20} strokeWidth={2} className="animate-[spin_9s_linear_infinite]" />
               <span className="reel-btn mono text-[5.5px] tracking-widest">REPLAY FILM</span>
             </button>
